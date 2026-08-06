@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>زمانک | فروشگاه تخصصی ساعت مچی</title>
+  <meta name="description" content="زمانک، فروشگاه آنلاین تخصصی ساعت مچی. خرید انواع ساعت مردانه، زنانه، هوشمند، لوکس و اسپرت با بهترین قیمت و ضمانت اصالت کالا.">
+  
+  <!-- Bootstrap 5 RTL -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- استایل سفارشی -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- === نوار بالایی === -->
+<div class="top-bar">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-none d-md-flex align-items-center gap-3">
+        <a href="tel:02112345678"><i class="bi bi-telephone"></i> ۰۲۱-۱۲۳۴۵۶۷۸</a>
+        <span class="text-muted-50">|</span>
+        <a href="#"><i class="bi bi-envelope"></i> info@zamank.ir</a>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <a href="pages/faq.html"><i class="bi bi-question-circle"></i> پرسش‌های متداول</a>
+        <span class="text-muted-50">|</span>
+        <a href="pages/blog.html"><i class="bi bi-journal-text"></i> وبلاگ</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- === هدر اصلی === -->
+<header class="main-header">
+  <div class="container py-3">
+    <div class="row align-items-center g-3">
+      <!-- لوگو -->
+      <div class="col-lg-3 col-4">
+        <a href="index.html" class="header-logo">
+          <i class="bi bi-clock-history"></i> زمانک
+        </a>
+      </div>
+      <!-- جستجو -->
+      <div class="col-lg-6 col-6">
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="جستجو..." oninput="liveSearch(this)">
+          <button><i class="bi bi-search"></i></button>
+          <div id="search-suggestions" class="dropdown-menu w-100 show d-none" style="position:absolute; top:100%; right:0; border-radius:12px; box-shadow:0 8px 30px rgba(108,92,231,0.12); padding:8px;"></div>
+        </div>
+      </div>
+      <!-- آیکون‌ها -->
+      <div class="col-lg-3 col-2">
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <a href="pages/auth-login.html" class="header-icon">
+            <i class="bi bi-person"></i>
+          </a>
+          <a href="pages/profile-favorites.html" class="header-icon d-none d-sm-flex">
+            <i class="bi bi-heart"></i>
+            <span class="badge-count" id="fav-count" style="display:none">0</span>
+          </a>
+          <a href="pages/cart.html" class="header-icon d-none d-sm-flex">
+            <i class="bi bi-bag"></i>
+            <span class="badge-count" id="cart-count" style="display:none">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- نوار دسته‌بندی با مگا منو -->
+  <nav class="category-nav d-none d-lg-block">
+    <div class="container">
+      <ul>
+        <li><a href="index.html"><i class="bi bi-house"></i> خانه</a></li>
+        
+        <!-- مگا منو 4 ستونه -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-smartwatch"></i> ساعت مردانه
+          </a>
+          <div class="dropdown-menu mega-menu mega-menu-4col">
+            <div class="row g-3">
+              <div class="col-3">
+                <h6>برندهای محبوب</h6>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> کاسیو</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> سیتیزن</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> سیکو</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> اورینت</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> تیسوت</a>
+              </div>
+              <div class="col-3">
+                <h6>بر اساس نوع</h6>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> دیجیتال</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> آنالوگ</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> کرونوگراف</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> عقربه‌ای</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> اسپرت</a>
+              </div>
+              <div class="col-3">
+                <h6>بر اساس قیمت</h6>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> زیر ۵۰۰ هزار</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ۵۰۰ تا ۲ میلیون</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ۲ تا ۵ میلیون</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ۵ تا ۱۰ میلیون</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> بالای ۱۰ میلیون</a>
+              </div>
+              <div class="col-3">
+                <a href="pages/search.html" class="mega-menu-img">
+                  <div>
+                    <i class="bi bi-tags" style="font-size:48px;"></i>
+                    <h5 class="mt-3">تخفیف‌های ویژه</h5>
+                    <p class="text-white-50">تا ۵۰٪ تخفیف</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+        
+        <!-- مگا منو 3 ستونه -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-heart"></i> ساعت زنانه
+          </a>
+          <div class="dropdown-menu mega-menu mega-menu-3col">
+            <div class="row g-3">
+              <div class="col-4">
+                <h6>برندهای زنانه</h6>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> مایکل کورس</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> فسیل</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> اسکاگن</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> دنیل ولینگتون</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> انیکس</a>
+              </div>
+              <div class="col-4">
+                <h6>استایل</h6>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> لوکس و شیک</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> روزمره</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ورزشی</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> کلاسیک</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> مجلسی</a>
+              </div>
+              <div class="col-4">
+                <a href="pages/search.html" class="mega-menu-img" style="background:linear-gradient(135deg,#FF6B6B,#6C5CE7);">
+                  <div>
+                    <i class="bi bi-gem" style="font-size:48px;"></i>
+                    <h5 class="mt-3">کالکشن لوکس زنانه</h5>
+                    <p class="text-white-50">بهترین برندهای جهانی</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+        
+        <!-- مگا منو 5 ستونه -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-grid"></i> همه برندها
+          </a>
+          <div class="dropdown-menu mega-menu mega-menu-5col">
+            <div class="row g-3">
+              <div class="col-2">
+                <h6>A - C</h6>
+                <a href="pages/search.html" class="mega-item d-block">Apple</a>
+                <a href="pages/search.html" class="mega-item d-block">Armani</a>
+                <a href="pages/search.html" class="mega-item d-block">Casio</a>
+                <a href="pages/search.html" class="mega-item d-block">Citizen</a>
+              </div>
+              <div class="col-2">
+                <h6>D - F</h6>
+                <a href="pages/search.html" class="mega-item d-block">Daniel Wellington</a>
+                <a href="pages/search.html" class="mega-item d-block">Diesel</a>
+                <a href="pages/search.html" class="mega-item d-block">Fossil</a>
+              </div>
+              <div class="col-2">
+                <h6>G - M</h6>
+                <a href="pages/search.html" class="mega-item d-block">G-Shock</a>
+                <a href="pages/search.html" class="mega-item d-block">Guess</a>
+                <a href="pages/search.html" class="mega-item d-block">Michael Kors</a>
+              </div>
+              <div class="col-2">
+                <h6>O - S</h6>
+                <a href="pages/search.html" class="mega-item d-block">Orient</a>
+                <a href="pages/search.html" class="mega-item d-block">Rolex</a>
+                <a href="pages/search.html" class="mega-item d-block">Seiko</a>
+                <a href="pages/search.html" class="mega-item d-block">Skagen</a>
+              </div>
+              <div class="col-2">
+                <h6>T - Z</h6>
+                <a href="pages/search.html" class="mega-item d-block">Tissot</a>
+                <a href="pages/search.html" class="mega-item d-block">Tommy Hilfiger</a>
+                <a href="pages/search.html" class="mega-item d-block">Versace</a>
+              </div>
+              <div class="col-2">
+                <a href="pages/search.html" class="mega-menu-img">
+                  <div>
+                    <i class="bi bi-stars" style="font-size:36px;"></i>
+                    <h6 class="text-white mt-2">برندهای جدید</h6>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+        
+        <!-- مگا منو 2 ستونه -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="bi bi-smartwatch"></i> ساعت هوشمند
+          </a>
+          <div class="dropdown-menu mega-menu mega-menu-2col">
+            <div class="row g-3">
+              <div class="col-6">
+                <h6>برندهای هوشمند</h6>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-apple"></i> اپل واچ</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-samsung"></i> سامسونگ گالکسی واچ</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-smartwatch"></i> هواوی واچ</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-smartwatch"></i> شیائومی</a>
+                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-smartwatch"></i> آمیزفیت</a>
+              </div>
+              <div class="col-6">
+                <a href="pages/search.html" class="mega-menu-img" style="background:linear-gradient(135deg,#00CEC9,#6C5CE7);">
+                  <div>
+                    <i class="bi bi-smartwatch" style="font-size:48px;"></i>
+                    <h5 class="mt-3">ساعت‌های هوشمند</h5>
+                    <p class="text-white-50">تکنولوژی روی مچ شما</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+        
+        <li><a href="pages/amazing.html"><i class="bi bi-fire"></i> شگفت‌انگیزها</a></li>
+        <li><a href="pages/compare.html"><i class="bi bi-bar-chart"></i> مقایسه</a></li>
+        <li><a href="pages/blog.html"><i class="bi bi-journal"></i> مجله زمانک</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- === منوی موبایل === -->
+<div id="mobile-menu" class="mobile-menu d-lg-none" aria-hidden="true">
+  <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+  <div class="mobile-menu-panel" role="dialog" aria-label="منوی اصلی">
+    <div class="mobile-menu-header">
+      <a href="index.html" class="header-logo">
+        <i class="bi bi-clock-history"></i> زمانک
+      </a>
+      <button type="button" class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="بستن منو">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <nav class="mobile-menu-nav">
+      <a href="index.html" class="mobile-menu-link"><i class="bi bi-house"></i> خانه</a>
+
+      <div class="mobile-menu-group">
+        <button type="button" class="mobile-menu-link mobile-menu-toggle" onclick="toggleMobileSubmenu(this)">
+          <span><i class="bi bi-smartwatch"></i> ساعت مردانه</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="mobile-submenu">
+          <a href="pages/search.html">کاسیو</a>
+          <a href="pages/search.html">سیتیزن</a>
+          <a href="pages/search.html">سیکو</a>
+          <a href="pages/search.html">اورینت</a>
+          <a href="pages/search.html">تیسوت</a>
+          <a href="pages/search.html">دیجیتال</a>
+          <a href="pages/search.html">آنالوگ</a>
+          <a href="pages/search.html">کرونوگراف</a>
+        </div>
+      </div>
+
+      <div class="mobile-menu-group">
+        <button type="button" class="mobile-menu-link mobile-menu-toggle" onclick="toggleMobileSubmenu(this)">
+          <span><i class="bi bi-heart"></i> ساعت زنانه</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="mobile-submenu">
+          <a href="pages/search.html">مایکل کورس</a>
+          <a href="pages/search.html">فسیل</a>
+          <a href="pages/search.html">اسکاگن</a>
+          <a href="pages/search.html">دنیل ولینگتون</a>
+          <a href="pages/search.html">لوکس و شیک</a>
+          <a href="pages/search.html">روزمره</a>
+          <a href="pages/search.html">مجلسی</a>
+        </div>
+      </div>
+
+      <div class="mobile-menu-group">
+        <button type="button" class="mobile-menu-link mobile-menu-toggle" onclick="toggleMobileSubmenu(this)">
+          <span><i class="bi bi-grid"></i> همه برندها</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="mobile-submenu">
+          <a href="pages/search.html">Apple</a>
+          <a href="pages/search.html">Casio</a>
+          <a href="pages/search.html">Citizen</a>
+          <a href="pages/search.html">Seiko</a>
+          <a href="pages/search.html">Rolex</a>
+          <a href="pages/search.html">Tissot</a>
+          <a href="pages/search.html">Fossil</a>
+          <a href="pages/search.html">G-Shock</a>
+        </div>
+      </div>
+
+      <div class="mobile-menu-group">
+        <button type="button" class="mobile-menu-link mobile-menu-toggle" onclick="toggleMobileSubmenu(this)">
+          <span><i class="bi bi-smartwatch"></i> ساعت هوشمند</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="mobile-submenu">
+          <a href="pages/search.html">اپل واچ</a>
+          <a href="pages/search.html">سامسونگ گالکسی واچ</a>
+          <a href="pages/search.html">هواوی واچ</a>
+          <a href="pages/search.html">شیائومی</a>
+          <a href="pages/search.html">آمیزفیت</a>
+        </div>
+      </div>
+
+      <a href="pages/amazing.html" class="mobile-menu-link"><i class="bi bi-fire"></i> شگفت‌انگیزها</a>
+      <a href="pages/compare.html" class="mobile-menu-link"><i class="bi bi-bar-chart"></i> مقایسه</a>
+      <a href="pages/blog.html" class="mobile-menu-link"><i class="bi bi-journal"></i> مجله زمانک</a>
+      <a href="pages/faq.html" class="mobile-menu-link"><i class="bi bi-question-circle"></i> پرسش‌های متداول</a>
+      <a href="pages/auth-login.html" class="mobile-menu-link"><i class="bi bi-person"></i> ورود / ثبت‌نام</a>
+    </nav>
+  </div>
+</div>
+
+<!-- === اسلایدر اصلی === -->
+<section class="py-4">
+  <div class="container">
+    <div id="mainCarousel" class="carousel slide main-slider" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="slide-1">
+            <div class="row">
+              <div class="col-md-7">
+                <span class="badge bg-light text-primary-custom mb-2 px-3 py-2">کالکشن جدید</span>
+                <h2>ساعت‌های لوکس مردانه<br>با تخفیف ویژه تابستان</h2>
+                <p>مجموعه‌ای از بهترین برندهای جهانی با ضمانت اصالت کالا</p>
+              </div>
+              <div class="col-md-5">
+                <div class="slide-img"><img src="images/hero/hero-mens-luxury.jpg" alt="ساعت مردانه لوکس"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="slide-2">
+            <div class="row">
+              <div class="col-md-7">
+                <span class="badge bg-light text-dark mb-2 px-3 py-2">ساعت هوشمند</span>
+                <h2>تکنولوژی آینده<br>روی مچ شما</h2>
+                <p>جدیدترین ساعت‌های هوشمند با امکانات پیشرفته</p>
+              </div>
+              <div class="col-md-5">
+                <div class="slide-img"><img src="images/hero/hero-smartwatch.jpg" alt="ساعت هوشمند"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="slide-3">
+            <div class="row">
+              <div class="col-md-7">
+                <span class="badge bg-light text-cta mb-2 px-3 py-2">پیشنهاد ویژه</span>
+                <h2>ساعت‌های زنانه<br>با طراحی منحصر به فرد</h2>
+                <p>شیک‌ترین ساعت‌های زنانه برای استایل خاص شما</p>
+              </div>
+              <div class="col-md-5">
+                <div class="slide-img"><img src="images/hero/hero-womens-elegant.jpg" alt="ساعت زنانه"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- === بنرهای تبلیغاتی === -->
+<section class="pb-4">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <a href="pages/search.html" class="banner-box banner-1 d-block">
+          <i class="bi bi-magic-line banner-icon"></i>
+          <div style="position:relative;z-index:2;">
+            <h4>تخفیف اعضای ویژه</h4>
+            <p>تا ۳۰٪ تخفیف اضافی برای کاربران عضو</p>
+            <button class="btn">عضویت</button>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="pages/search.html" class="banner-box banner-2 d-block">
+          <i class="bi bi-truck banner-icon"></i>
+          <div style="position:relative;z-index:2;">
+            <h4>ارسال رایگان</h4>
+            <p>برای سفارش‌های بالای ۵۰۰ هزار تومان</p>
+            <button class="btn">مشاهده</button>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="pages/search.html" class="banner-box banner-3 d-block">
+          <i class="bi bi-shield-check banner-icon"></i>
+          <div style="position:relative;z-index:2;">
+            <h4>ضمانت اصالت</h4>
+            <p>تمام محصولات اورجینال و گارانتی‌دار</p>
+            <button class="btn">اطلاعات بیشتر</button>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === شگفت‌انگیزها === -->
+<section class="pb-4">
+  <div class="container">
+    <div class="row g-3">
+      <!-- باکس شگفت‌انگیز -->
+      <div class="col-lg-3 col-md-4">
+        <div class="amazing-box">
+          <i class="bi bi-lightning-charge amazing-icon"></i>
+          <h4>شگفت‌انگیزهای روز</h4>
+          <p>فرصت محدود!</p>
+          <div class="countdown-timer" id="amazing-timer" data-hours="8" data-minutes="0" data-seconds="0">
+            <div class="timer-box"><span id="timer-hours">08</span><small class="d-block fs-6">ساعت</small></div>
+            <div class="timer-box"><span id="timer-minutes">00</span><small class="d-block fs-6">دقیقه</small></div>
+            <div class="timer-box"><span id="timer-seconds">00</span><small class="d-block fs-6">ثانیه</small></div>
+          </div>
+          <a href="pages/amazing.html" class="btn btn-light mt-3 btn-sm">مشاهده همه</a>
+        </div>
+      </div>
+      
+      <!-- محصولات شگفت‌انگیز -->
+      <div class="col-lg-9 col-md-8">
+          <div class="row g-3">
+              <div class="col-lg-4 col-6">
+                  <div class="product-card">
+                      <span class="product-badge discount">۲۵٪</span>
+                      <div class="product-actions">
+                          <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                          <button><i class="bi bi-arrow-left-right"></i></button>
+                      </div>
+                      <div class="product-img">
+                          <img src="images/products/watch-mens-gshock-black.jpg" alt="ساعت کاسیو" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                      </div>
+                      <div class="product-info">
+                          <div class="product-brand">کاسیو</div>
+                          <h6 class="product-title"><a href="pages/product.html">ساعت مچی کاسیو مدل G-Shock GA-1000 مردانه</a></h6>
+                          <div class="product-rating">
+                              <span class="stars">★★★★★</span>
+                              <span>(۴۲ نظر)</span>
+                          </div>
+                          <div class="product-price-row">
+                              <div>
+                                  <div class="product-old-price">۲,۸۰۰,۰۰۰</div>
+                                  <div class="product-price">۲,۱۰۰,۰۰۰ <small>تومان</small></div>
+                              </div>
+                              <button class="btn-add-to-cart" onclick="addToCart(1, 'ساعت کاسیو G-Shock')">
+                                  <i class="bi bi-bag-plus"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                  <div class="product-card">
+                      <span class="product-badge discount">۴۰٪</span>
+                      <div class="product-actions">
+                          <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                          <button><i class="bi bi-arrow-left-right"></i></button>
+                      </div>
+                      <div class="product-img">
+                          <img src="images/products/watch-smartwatch-series.jpg" alt="اپل واچ" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                      </div>
+                      <div class="product-info">
+                          <div class="product-brand">اپل</div>
+                          <h6 class="product-title"><a href="pages/product.html">ساعت هوشمند اپل واچ سری ۹ نسخه ۴۵ میلی‌متری</a></h6>
+                          <div class="product-rating">
+                              <span class="stars">★★★★★</span>
+                              <span>(۸۹ نظر)</span>
+                          </div>
+                          <div class="product-price-row">
+                              <div>
+                                  <div class="product-old-price">۱۸,۰۰۰,۰۰۰</div>
+                                  <div class="product-price">۱۰,۸۰۰,۰۰۰ <small>تومان</small></div>
+                              </div>
+                              <button class="btn-add-to-cart" onclick="addToCart(2, 'اپل واچ سری ۹')">
+                                  <i class="bi bi-bag-plus"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-lg-4 col-6">
+                  <div class="product-card">
+                      <span class="product-badge discount">۱۵٪</span>
+                      <div class="product-actions">
+                          <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                          <button><i class="bi bi-arrow-left-right"></i></button>
+                      </div>
+                      <div class="product-img">
+                          <img src="images/products/watch-mens-tissot-silver.jpg" alt="ساعت تیسوت" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                      </div>
+                      <div class="product-info">
+                          <div class="product-brand">تیسوت</div>
+                          <h6 class="product-title"><a href="pages/product.html">ساعت مچی تیسوت مدل PRX 40mm مردانه</a></h6>
+                          <div class="product-rating">
+                              <span class="stars">★★★★★</span>
+                              <span>(۲۸ نظر)</span>
+                          </div>
+                          <div class="product-price-row">
+                              <div>
+                                  <div class="product-old-price">۵,۵۰۰,۰۰۰</div>
+                                  <div class="product-price">۴,۶۷۵,۰۰۰ <small>تومان</small></div>
+                              </div>
+                              <button class="btn-add-to-cart" onclick="addToCart(3, 'ساعت تیسوت PRX')">
+                                  <i class="bi bi-bag-plus"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === دسته‌بندی محبوب === -->
+<section class="py-4">
+  <div class="container">
+    <div class="section-title">
+      <h3>دسته‌بندی محبوب</h3>
+      <a href="pages/search.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm" style="transition:all .3s;">
+          <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);">
+            <i class="bi bi-person-circle text-white" style="font-size:36px;"></i>
+          </div>
+          <h6 class="mb-0">ساعت مردانه</h6>
+          <small class="text-muted-custom">۱۲۰+ محصول</small>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
+          <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#FF6B6B,#ee5253);">
+            <i class="bi bi-heart text-white" style="font-size:36px;"></i>
+          </div>
+          <h6 class="mb-0">ساعت زنانه</h6>
+          <small class="text-muted-custom">۸۵+ محصول</small>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
+          <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#00CEC9,#00b3af);">
+            <i class="bi bi-smartwatch text-white" style="font-size:36px;"></i>
+          </div>
+          <h6 class="mb-0">هوشمند</h6>
+          <small class="text-muted-custom">۴۵+ محصول</small>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
+          <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#fdcb6e,#e17055);">
+            <i class="bi bi-gem text-white" style="font-size:36px;"></i>
+          </div>
+          <h6 class="mb-0">لوکس</h6>
+          <small class="text-muted-custom">۳۰+ محصول</small>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
+          <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#a29bfe,#6C5CE7);">
+            <i class="bi bi-bicycle text-white" style="font-size:36px;"></i>
+          </div>
+          <h6 class="mb-0">اسپرت</h6>
+          <small class="text-muted-custom">۶۵+ محصول</small>
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
+          <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#2D3436,#636e72);">
+            <i class="bi bi-stars text-white" style="font-size:36px;"></i>
+          </div>
+          <h6 class="mb-0">کلاسیک</h6>
+          <small class="text-muted-custom">۵۰+ محصول</small>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === محصولات پرفروش === -->
+<section class="py-4">
+  <div class="container">
+    <div class="section-title">
+      <h3>پرفروش‌ترین ساعت‌ها</h3>
+      <a href="pages/search.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
+    </div>
+    <div class="row g-3">
+      <!-- محصول 1 -->
+      <div class="col-lg-3 col-md-4 col-6">
+        <div class="product-card">
+          <span class="product-badge new">جدید</span>
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-mens-seiko-silver.jpg" alt="ساعت" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">سیکو</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی سیکو مدل Presage Automatic مردانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۶۴ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div>
+                <div class="product-price">۷,۸۵۰,۰۰۰ <small>تومان</small></div>
+              </div>
+              <button class="btn-add-to-cart" onclick="addToCart(4, 'ساعت سیکو Presage')">
+                <i class="bi bi-bag-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- محصول 2 -->
+      <div class="col-lg-3 col-md-4 col-6">
+        <div class="product-card">
+          <span class="product-badge discount">۲۰٪</span>
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-mens-orient-blue.jpg" alt="ساعت" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">اورینت</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی اورینت مدل Mako II Automatic مردانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۵۱ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div>
+                <div class="product-old-price">۴,۲۰۰,۰۰۰</div>
+                <div class="product-price">۳,۳۶۰,۰۰۰ <small>تومان</small></div>
+              </div>
+              <button class="btn-add-to-cart" onclick="addToCart(5, 'ساعت اورینت Mako')">
+                <i class="bi bi-bag-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- محصول 3 -->
+      <div class="col-lg-3 col-md-4 col-6">
+        <div class="product-card">
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-mens-gshock-side.jpg" alt="ساعت" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">فسیل</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی فسیل مدل Gen 6.E مدل زنانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۳۷ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div>
+                <div class="product-price">۵,۹۰۰,۰۰۰ <small>تومان</small></div>
+              </div>
+              <button class="btn-add-to-cart" onclick="addToCart(6, 'ساعت فسیل Gen 6')">
+                <i class="bi bi-bag-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- محصول 4 -->
+      <div class="col-lg-3 col-md-4 col-6">
+        <div class="product-card">
+          <span class="product-badge discount">۳۰٪</span>
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-womens-rose-gold.jpg" alt="ساعت" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">سیتیزن</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی سیتیزن مدل Eco-Drive مردانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۴۳ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div>
+                <div class="product-old-price">۶,۸۰۰,۰۰۰</div>
+                <div class="product-price">۴,۷۶۰,۰۰۰ <small>تومان</small></div>
+              </div>
+              <button class="btn-add-to-cart" onclick="addToCart(7, 'ساعت سیتیزن Eco-Drive')">
+                <i class="bi bi-bag-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === بنر بزرگ وسط صفحه === -->
+<section class="py-4">
+  <div class="container">
+    <div class="banner-box banner-1 position-relative" style="min-height:220px;">
+      <i class="bi bi-magic-line banner-icon"></i>
+      <div class="row w-100 align-items-center position-relative" style="z-index:2;">
+        <div class="col-md-8">
+          <h4 class="mb-2">جشنواره فروش پاییزه زمانک</h4>
+          <p class="mb-3">با خرید بالای ۲ میلیون تومان، یک ساعت مچی هدیه بگیرید!</p>
+          <a href="pages/amazing.html" class="btn btn-light">مشاهده جشنواره <i class="bi bi-arrow-left"></i></a>
+        </div>
+        <div class="col-md-4 text-center d-none d-md-block">
+          <i class="bi bi-gift" style="font-size:100px;opacity:0.5;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === محصولات جدید === -->
+<section class="py-4">
+  <div class="container">
+    <div class="section-title">
+      <h3>جدیدترین محصولات</h3>
+      <a href="pages/search.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
+    </div>
+    <div class="row g-3">
+      <div class="col-lg-2 col-md-4 col-6">
+        <div class="product-card">
+          <span class="product-badge new">جدید</span>
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-womens-michael-kors.jpg" alt="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">مایکل کورس</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی مایکل کورس مدل MKGO زنانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۲۲ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div class="product-price">۸,۲۰۰,۰۰۰ <small>ت</small></div>
+              <button class="btn-add-to-cart" onclick="addToCart(8, 'ساعت مایکل کورس')"><i class="bi bi-bag-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-2 col-md-4 col-6">
+        <div class="product-card">
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-mens-chronograph.jpg" alt="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">گس</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی گس مدل Rigor مردانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۱۸ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div class="product-price">۳,۴۵۰,۰۰۰ <small>ت</small></div>
+              <button class="btn-add-to-cart" onclick="addToCart(9, 'ساعت گس')"><i class="bi bi-bag-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-2 col-md-4 col-6">
+        <div class="product-card">
+          <span class="product-badge discount">۱۰٪</span>
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-womens-rose-gold.jpg" alt="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">دنیل ولینگتون</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی دنیل ولینگتون مدل Petite زنانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۳۱ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div>
+                <div class="product-old-price">۳,۸۰۰,۰۰۰</div>
+                <div class="product-price">۳,۴۲۰,۰۰۰ <small>ت</small></div>
+              </div>
+              <button class="btn-add-to-cart" onclick="addToCart(10, 'ساعت دنیل ولینگتون')"><i class="bi bi-bag-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-2 col-md-4 col-6">
+        <div class="product-card">
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-mens-diver-black.jpg" alt="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">تامی هیلفیگر</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت مچی تامی هیلفیگر مدل 1791285 مردانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۲۶ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div class="product-price">۴,۹۰۰,۰۰۰ <small>ت</small></div>
+              <button class="btn-add-to-cart" onclick="addToCart(11, 'ساعت تامی هیلفیگر')"><i class="bi bi-bag-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-2 col-md-4 col-6">
+        <div class="product-card">
+          <span class="product-badge new">جدید</span>
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-mens-gold-dress.jpg" alt="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">هواوی</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت هوشمند هواوی واچ GT 4 مردانه</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۴۴ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div class="product-price">۶,۵۰۰,۰۰۰ <small>ت</small></div>
+              <button class="btn-add-to-cart" onclick="addToCart(12, 'ساعت هواوی GT 4')"><i class="bi bi-bag-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-2 col-md-4 col-6">
+        <div class="product-card">
+          <span class="product-badge discount">۱۸٪</span>
+          <div class="product-actions">
+            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+            <button><i class="bi bi-arrow-left-right"></i></button>
+          </div>
+          <div class="product-img">
+            <img src="images/products/watch-mens-luxury-leather.jpg" alt="" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="product-info">
+            <div class="product-brand">شیائومی</div>
+            <h6 class="product-title"><a href="pages/product.html">ساعت هوشمند شیائومی مدل Watch S3</a></h6>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span>(۶۷ نظر)</span>
+            </div>
+            <div class="product-price-row">
+              <div>
+                <div class="product-old-price">۲,۵۰۰,۰۰۰</div>
+                <div class="product-price">۲,۰۵۰,۰۰۰ <small>ت</small></div>
+              </div>
+              <button class="btn-add-to-cart" onclick="addToCart(13, 'ساعت شیائومی S3')"><i class="bi bi-bag-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === برندهای محبوب === -->
+<section class="py-4">
+  <div class="container">
+    <div class="section-title">
+      <h3>برندهای محبوب</h3>
+    </div>
+    <div class="row g-3 align-items-center">
+      <div class="col-4 col-md-2">
+        <div class="bg-white rounded-3 p-4 text-center shadow-sm" style="height:90px;display:flex;align-items:center;justify-content:center;">
+          <span class="fw-bold fs-5 text-primary-custom">CASIO</span>
+        </div>
+      </div>
+      <div class="col-4 col-md-2">
+        <div class="bg-white rounded-3 p-4 text-center shadow-sm" style="height:90px;display:flex;align-items:center;justify-content:center;">
+          <span class="fw-bold fs-5 text-primary-custom">SEIKO</span>
+        </div>
+      </div>
+      <div class="col-4 col-md-2">
+        <div class="bg-white rounded-3 p-4 text-center shadow-sm" style="height:90px;display:flex;align-items:center;justify-content:center;">
+          <span class="fw-bold fs-5 text-primary-custom">TISSOT</span>
+        </div>
+      </div>
+      <div class="col-4 col-md-2">
+        <div class="bg-white rounded-3 p-4 text-center shadow-sm" style="height:90px;display:flex;align-items:center;justify-content:center;">
+          <span class="fw-bold fs-5 text-primary-custom">FOSSIL</span>
+        </div>
+      </div>
+      <div class="col-4 col-md-2">
+        <div class="bg-white rounded-3 p-4 text-center shadow-sm" style="height:90px;display:flex;align-items:center;justify-content:center;">
+          <span class="fw-bold fs-5 text-primary-custom">CITIZEN</span>
+        </div>
+      </div>
+      <div class="col-4 col-md-2">
+        <div class="bg-white rounded-3 p-4 text-center shadow-sm" style="height:90px;display:flex;align-items:center;justify-content:center;">
+          <span class="fw-bold fs-5 text-primary-custom">ORIENT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === آخرین مقالات وبلاگ === -->
+<section class="py-4">
+  <div class="container">
+    <div class="section-title">
+      <h3>آخرین مقالات مجله زمانک</h3>
+      <a href="pages/blog.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="content-box h-100">
+          <div class="rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#6C5CE7,#00CEC9);">
+            <i class="bi bi-clock-history text-white" style="font-size:64px;"></i>
+          </div>
+          <span class="badge bg-soft text-primary-custom mb-2">راهنمای خرید</span>
+          <h6>چگونه ساعت مچی مناسب استایل خود انتخاب کنیم؟</h6>
+          <p class="text-muted-custom small">انتخاب ساعت مناسب می‌تواند تاثیر زیادی بر استایل شما داشته باشد. در این مقاله به نکات کلیدی انتخاب ساعت می‌پردازیم...</p>
+          <a href="pages/blog-detail.html" class="text-primary-custom small fw-bold">ادامه مطلب <i class="bi bi-chevron-left"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="content-box h-100">
+          <div class="rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#FF6B6B,#ee5253);">
+            <i class="bi bi-tools text-white" style="font-size:64px;"></i>
+          </div>
+          <span class="badge bg-soft text-primary-custom mb-2">راهنمای نگهداری</span>
+          <h6>راهنمای کامل نگهداری و مراقبت از ساعت مچی</h6>
+          <p class="text-muted-custom small">برای افزایش طول عمر ساعت مچی خود، رعایت نکات نگهداری بسیار مهم است. در این مقاله جامع به همه نکات می‌پردازیم...</p>
+          <a href="pages/blog-detail.html" class="text-primary-custom small fw-bold">ادامه مطلب <i class="bi bi-chevron-left"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="content-box h-100">
+          <div class="rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#2D3436,#636e72);">
+            <i class="bi bi-stars text-white" style="font-size:64px;"></i>
+          </div>
+          <span class="badge bg-soft text-primary-custom mb-2">بررسی محصول</span>
+          <h6>بررسی کامل اپل واچ سری ۹؛ آیا ارزش خرید دارد؟</h6>
+          <p class="text-muted-custom small">اپل واچ سری ۹ یکی از محبوب‌ترین ساعت‌های هوشمند بازار است. در این بررسی به تمام ویژگی‌ها و نکات آن می‌پردازیم...</p>
+          <a href="pages/blog-detail.html" class="text-primary-custom small fw-bold">ادامه مطلب <i class="bi bi-chevron-left"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === خبرنامه === -->
+<section class="py-4">
+  <div class="container">
+    <div class="banner-box banner-2 text-center d-block" style="min-height:auto;padding:40px 30px;">
+      <i class="bi bi-envelope-paper banner-icon" style="font-size:60px;"></i>
+      <h4 class="mb-2">عضویت در خبرنامه زمانک</h4>
+      <p class="mb-4">از جدیدترین تخفیف‌ها و محصولات باخبر شوید</p>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید" style="border-radius:50px 0 0 50px;">
+            <button class="btn btn-light px-4" style="border-radius:0 50px 50px 0;color:var(--color-primary);font-weight:700;">عضویت</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === فوتر === -->
+<footer class="main-footer">
+  <div class="container">
+    <!-- نمادهای اعتماد -->
+    <div class="footer-trust">
+      <div class="row g-3 align-items-center">
+        <div class="col-6 col-md-3">
+          <div class="trust-item">
+            <i class="bi bi-shield-check"></i>
+            <h6>ضمانت اصالت کالا</h6>
+            <p>تمام محصولات اورجینال</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="trust-item">
+            <i class="bi bi-truck"></i>
+            <h6>ارسال سریع</h6>
+            <p>تا ۲۴ ساعت در تهران</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="trust-item">
+            <i class="bi bi-arrow-repeat"></i>
+            <h6>۷ روز ضمانت بازگشت</h6>
+            <p>بدون قید و شرط</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="trust-item">
+            <i class="bi bi-headset"></i>
+            <h6>پشتیبانی ۲۴/۷</h6>
+            <p>همیشه در کنار شما</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row g-4 mt-2">
+      <div class="col-lg-3 col-md-6">
+        <a href="index.html" class="footer-logo d-flex align-items-center gap-2">
+          <i class="bi bi-clock-history text-accent"></i> زمانک
+        </a>
+        <p class="footer-desc">
+          زمانک، فروشگاه آنلاین تخصصی ساعت مچی با بیش از ۱۰ سال تجربه. عرضه‌کننده انواع ساعت‌های اورجینال با ضمانت اصالت کالا.
+        </p>
+        <div class="footer-social">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-telegram"></i></a>
+          <a href="#"><i class="bi bi-whatsapp"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <h5 class="footer-title">دسته‌بندی‌ها</h5>
+        <ul class="footer-links">
+          <li><a href="pages/search.html"><i class="bi bi-chevron-left"></i> ساعت مردانه</a></li>
+          <li><a href="pages/search.html"><i class="bi bi-chevron-left"></i> ساعت زنانه</a></li>
+          <li><a href="pages/search.html"><i class="bi bi-chevron-left"></i> ساعت هوشمند</a></li>
+          <li><a href="pages/search.html"><i class="bi bi-chevron-left"></i> ساعت لوکس</a></li>
+          <li><a href="pages/search.html"><i class="bi bi-chevron-left"></i> ساعت اسپرت</a></li>
+        </ul>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <h5 class="footer-title">خدمات مشتریان</h5>
+        <ul class="footer-links">
+          <li><a href="pages/faq.html"><i class="bi bi-chevron-left"></i> پرسش‌های متداول</a></li>
+          <li><a href="pages/blog.html"><i class="bi bi-chevron-left"></i> مجله زمانک</a></li>
+          <li><a href="#"><i class="bi bi-chevron-left"></i> شرایط بازگشت کالا</a></li>
+          <li><a href="#"><i class="bi bi-chevron-left"></i> حریم خصوصی</a></li>
+          <li><a href="#"><i class="bi bi-chevron-left"></i> قوانین و مقررات</a></li>
+        </ul>
+      </div>
+      
+      <div class="col-lg-3 col-md-6">
+        <h5 class="footer-title">تماس با ما</h5>
+        <ul class="footer-links">
+          <li><i class="bi bi-geo-alt text-primary-custom"></i> تهران، خیابان ولیعصر، پلاک ۱۲۳۴</li>
+          <li><i class="bi bi-telephone text-primary-custom"></i> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+          <li><i class="bi bi-envelope text-primary-custom"></i> info@zamank.ir</li>
+        </ul>
+        <div class="d-flex gap-2 mt-3">
+          <div class="bg-soft rounded p-2 text-center" style="width:80px;">
+            <div class="bg-white rounded mb-1" style="height:40px;"></div>
+            <small class="text-muted-custom">نماد اعتماد</small>
+          </div>
+          <div class="bg-soft rounded p-2 text-center" style="width:80px;">
+            <div class="bg-white rounded mb-1" style="height:40px;"></div>
+            <small class="text-muted-custom">ساماندهی</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p class="mb-0">© ۱۴۰۳ تمامی حقوق برای فروشگاه زمانک محفوظ است. طراحی و توسعه با ❤️</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- اسکریپت سفارشی -->
+<script src="js/main.js"></script>
+</body>
+</html>
