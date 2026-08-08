@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('brand_id')->nullable()->constrained('brands')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique()->nullable();
-            $table->string('sku')->unique()->nullable();
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
             $table->string('image')->nullable();
