@@ -9,3 +9,6 @@ Route::prefix('admin')->name('admin.')->group(function (){
        Route::post('',[\App\Http\Controllers\Admin\User\UserController::class,'store'])->name('store');
    });
 });
+Route::get('test',function (){
+   return view('welcome');
+});

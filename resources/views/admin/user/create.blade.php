@@ -42,10 +42,10 @@
 
             <form id="createUserForm" action="{{route('admin.user.store')}}" method="post" novalidate="">
                 @csrf
-                <div class="grid grid-cols-1 gap-6 xl:grid-cols-12">
+                <div class="grid grid-cols-1 gap-6 xl:grid-cols-12 ">
                     <div class="space-y-5 xl:col-span-8">
                         <section class="form-section glass-card animate-fade-up stagger-1 overflow-hidden p-0">
-                            <div class="section-heading">
+                            <div class="section-heading ">
                                 <div class="section-number">۰۱</div>
                                 <div><h3>اطلاعات فردی</h3>
                                     <p>مشخصات شناسایی و عمومی کاربر</p></div>

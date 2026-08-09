@@ -6,5 +6,6 @@
     @yield('title')
     <script src="{{asset('admin/assets/js/theme-init.js')}}"></script>
     <link rel="stylesheet" href="{{asset('admin/assets/css/main.css')}}"/>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
