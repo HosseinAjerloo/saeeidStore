@@ -223,6 +223,8 @@ return [
         "passport_no" => "شماره پاسپورت",
 		"sheba_number" => "شماره شبا",
 		"iban" => "شماره شبا",
-		"accountـnumber" => "شماره حساب"		
+		"accountـnumber" => "شماره حساب",
+        'date_of_birth'=>'تاریخ تولد',
+        'national_id_number'=>'کدملی',
     ],
 ];

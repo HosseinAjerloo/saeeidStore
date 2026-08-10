@@ -45,13 +45,13 @@ class UserRequest extends FormRequest
 
             'gender' => ['required', 'in:male,female'],
 
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
 
             'phone_verified_at' => ['nullable', 'date'],
 
             'email_verified_at' => ['nullable', 'date'],
 
-            'date_of_birth' => ['nullable', 'date'],
+            'date_of_birth' => ['required', 'date'],
         ];
     }
 }

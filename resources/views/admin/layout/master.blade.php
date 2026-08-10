@@ -18,5 +18,6 @@
 
 @yield('other_content')
 @include('admin.layout.script')
+@yield('script')
 </body>
 </html>

@@ -1,5 +1,3 @@
 import './bootstrap';
-
-document.addEventListener('load',function (){
-
-})
+import Swal from 'sweetalert2'
+window.Swal=Swal;

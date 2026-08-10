@@ -11,14 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('product_tag', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')
-                ->constrained('products')
-                ->cascadeOnUpdate()->cascadeOnDelete();
-
-            $table->foreignId('tag_id')
-                ->constrained('tags')
-                ->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('tag_id')->constrained('tags')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
             $table->primary([

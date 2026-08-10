@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('group_id')->nullable()->constrained('groups')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('brand_id')->nullable()->constrained('brands')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('group_id')->nullable()->constrained('product_groups')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('brand_id')->nullable()->constrained('product_brands')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique()->nullable();
             $table->text('short_description')->nullable();

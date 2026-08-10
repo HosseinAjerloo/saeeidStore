@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->nullable()->constrained('groups')->nullOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('product_groups')->cascadeOnDelete()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();

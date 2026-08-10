@@ -73,14 +73,22 @@
                                         class="field-hint">کد ملی ۱۰ رقمی بدون خط تیره</small></label>
                                 <label class="field-group"><span class="field-label">تاریخ تولد</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
-                                                d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 011 1v14H4V6a1 1 0 011-1z"></path></svg><input
-                                            name="date_ofـbirth" type="date" dir="ltr" class="text-left"></span></label>
+                                                d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 011 1v14H4V6a1 1 0 011-1z"></path></svg>
+                                        <input id="date-piker" type="text" class="text-left">
+                                        <input name="date_ofـbirth" type="hidden" id="date-piker-value" dir="ltr"
+                                               class="text-left">
+                                    </span>
+                                </label>
                                 <label class="field-group"><span class="field-label">جنسیت</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
-                                                d="M12 21a8 8 0 100-16 8 8 0 000 16zM9 11h6M12 8v6"></path></svg><select
-                                            name="gender"><option value="">انتخاب کنید</option><option
-                                                value="male">مرد</option><option value="female">زن</option><option
-                                                value="other">سایر</option></select></span></label>
+                                                d="M12 21a8 8 0 100-16 8 8 0 000 16zM9 11h6M12 8v6"></path></svg>
+                                        <select class="text-black" name="gender">
+                                            <option value="">انتخاب کنید</option>
+                                            <option value="male">مرد</option>
+                                            <option value="female">زن</option>
+                                        </select>
+                                    </span>
+                                </label>
                                 <div class="field-group"><span class="field-label">وضعیت حساب</span><label
                                         class="account-status"><span
                                             class="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/10 text-brand-400"><svg
@@ -91,8 +99,8 @@
                                             class="flex-1"><b>حساب فعال</b><small>کاربر بلافاصله امکان ورود دارد</small></span><span
                                             class="relative"><input name="is_active" type="checkbox" value="1"
                                                                     checked="" class="peer sr-only"><span
-                                                class="block h-6 w-11 rounded-full bg-ink-600 transition-colors peer-checked:bg-brand-500"></span><span
-                                                class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-5"></span></span></label>
+                                                class="block h-6 w-11 rounded-full bg-ink-600 transition-colors peer-checked:bg-sky-500"></span><span
+                                                class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-1/4"></span></span></label>
                                 </div>
                             </div>
                         </section>
@@ -136,24 +144,24 @@
                                             viewBox="0 0 24 24"><path
                                                 d="M7 10V7a5 5 0 0110 0v3M5 10h14v11H5z"></path></svg><input
                                             id="password" name="password" type="password" required="" minlength="8"
-                                            autocomplete="new-password" dir="ltr" placeholder="حداقل ۸ کاراکتر"
-                                            class="pl-12 text-left"><button id="togglePassword" type="button"
-                                                                            class="password-toggle"
-                                                                            aria-label="نمایش رمز عبور"><svg
-                                                viewBox="0 0 24 24"><path
-                                                    d="M3 12s3-5 9-5 9 5 9 5-3 5-9 5-9-5-9-5zM12 14.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path></svg></button></span><span
+                                            autocomplete="new-password" dir="rtl" placeholder="حداقل ۸ کاراکتر"
+                                            class="pl-12 text-right">
+                                        <button id="togglePassword" type="button" class="password-toggle"
+                                                aria-label="نمایش رمز عبور">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3 12s3-5 9-5 9 5 9 5-3 5-9 5-9-5-9-5zM12 14.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path>
+                                            </svg>
+                                        </button>
+                                    </span><span
                                         id="passwordError" class="mt-2 hidden text-[11px] text-rose">رمز عبور باید حداقل ۸ کاراکتر باشد.</span></label>
                                 <div class="mt-4">
                                     <div class="mb-2 flex justify-between text-[10px]"><span class="text-slate-500">قدرت رمز عبور</span><span
                                             id="strengthLabel" class="font-bold text-slate-500">وارد نشده</span></div>
-                                    <div class="grid grid-cols-4 gap-1.5"><span class="strength-bar"></span><span
-                                            class="strength-bar"></span><span class="strength-bar"></span><span
-                                            class="strength-bar"></span></div>
                                 </div>
-                                <div class="mt-5 flex flex-wrap gap-2 text-[10px] text-slate-500"><span
-                                        class="password-rule" data-rule="length">۸ کاراکتر</span><span
-                                        class="password-rule" data-rule="number">شامل عدد</span><span
-                                        class="password-rule" data-rule="letter">شامل حروف</span></div>
+                                <div class="mt-5 flex flex-wrap gap-2 text-[10px] text-slate-500">
+                                    <span class="password-rule" data-rule="length">۸ کاراکتر</span>
+                                </div>
                             </div>
                         </section>
 
@@ -239,5 +247,26 @@
             </form>
         </div>
     </main>
+@endsection
+@section('script')
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const input=this.previousElementSibling;
+            console.log()
+            if (input.dataset.show) {
+                input.type = 'password'
+               delete input.dataset.show
+            } else {
+                input.type = 'text'
+                input.dataset.show = 'true';
+            }
+        })
+        $('#date-piker').persianDatepicker({
+            observer: true,
+            format: 'YYYY/MM/DD',
+            altField: '#date-piker-value'
+        });
+    </script>
 @endsection
 
