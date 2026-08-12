@@ -15,7 +15,7 @@
                 <li><a href="index.html" class="nav-item"><span>⌂</span>داشبورد</a></li>
                 <li><a href="orders.html" class="nav-item"><span>□</span>سفارش‌ها</a></li>
                 <li><a href="products-index.html" class="nav-item"><span>▣</span>محصولات</a></li>
-                <li><a href="{{asset('admin.user.index')}}" class="nav-item {{\Illuminate\Support\Facades\Route::current()->getName()=='admin.user.index'?'active':''}}"><span>○</span>کاربران</a></li>
+                <li><a href="{{route('admin.user.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.user')?'active':''}}"><span>○</span>کاربران</a></li>
             </ul>
         </div>
         <div><p class="mb-2 px-4 text-[11px] font-semibold text-slate-600">کاتالوگ</p>

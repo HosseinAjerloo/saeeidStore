@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('product_groups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('parent_id')->nullable()->constrained('product_groups')->cascadeOnDelete()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();

@@ -25,7 +25,8 @@
                 <p class="mt-2 text-[10px] text-slate-600">{{$details->get('activePercent')}}% از کل کاربران</p></div>
             <div class="glass-card p-5"><p class="text-xs text-slate-500">ثبت‌نام این ماه</p>
                 <p class="mt-2 text-2xl font-extrabold text-aqua-300">{{$details->get('registerInMonth')}}</p>
-                <p class="mt-2 text-[10px] text-slate-600">{{$details->get('registerGrowth')}}٪ رشد نسبت به قبل</p></div>
+                <p class="mt-2 text-[10px] text-slate-600">{{$details->get('registerGrowth')}}٪ رشد نسبت به قبل</p>
+            </div>
             <div class="glass-card p-5"><p class="text-xs text-slate-500">غیرفعال</p>
                 <p class="mt-2 text-2xl font-extrabold text-rose">{{$details->get('userDeActiveCount')}}</p>
                 <p class="mt-2 text-[10px] text-slate-600">نیازمند بررسی وضعیت</p></div>
@@ -86,7 +87,7 @@
                             </td>
                             <td>
                                 <div class="flex items-center justify-center">
-                                    <span class="chip bg-aqua-500/10 text-aqua-300">{{$user->gender}}</span>
+                                    <span class="chip bg-aqua-500/10 text-aqua-300">{{$user->prGender}}</span>
                                 </div>
                             </td>
                             <td>
@@ -104,8 +105,12 @@
                             </td>
                             <td>
                                 <div class="flex justify-end gap-2">
-                                    <a href="{{route('admin.user.edit',$user)}}" class="table-action edit" title="ویرایش">✎</a>
-                                    <button data-delete="{{$user->fullName}}" data-route="{{route('admin.user.destroy',$user)}}" class="table-action delete" title="حذف">⌫</button>
+                                    <a href="{{route('admin.user.edit',$user)}}" class="table-action edit"
+                                       title="ویرایش">✎</a>
+                                    <button data-delete="{{$user->fullName}}"
+                                            data-route="{{route('admin.user.destroy',$user)}}"
+                                            class="table-action delete" title="حذف">⌫
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -127,9 +132,9 @@
 
                     <p class="text-xs text-slate-600">
                         نمایش
-                        {{ $users->firstItem() }}
+                        {{ $users->firstItem() ?? 0 }}
                         تا
-                        {{ $users->lastItem() }}
+                        {{ $users->lastItem() ?? 0 }}
                         از
                         {{ number_format($users->total()) }}
                         کاربر
@@ -149,31 +154,54 @@
                         @endif
 
 
-                        {{-- Pages --}}
-                        @foreach ($users as $element)
+                        @php
+                            $current = $users->currentPage();
+                            $last = $users->lastPage();
 
-                            @if (is_string($element))
+                            $pages = [];
+
+                            // صفحات اول
+                            for ($i = 1; $i <= min(3, $last); $i++) {
+                                $pages[] = $i;
+                            }
+
+                            // صفحات اطراف صفحه جاری
+                            for ($i = max(1, $current - 1); $i <= min($last, $current + 1); $i++) {
+                                $pages[] = $i;
+                            }
+
+                            // صفحات آخر
+                            for ($i = max(1, $last - 2); $i <= $last; $i++) {
+                                $pages[] = $i;
+                            }
+
+                            $pages = array_unique($pages);
+                            sort($pages);
+                        @endphp
+
+
+                        @php
+                            $previous = null;
+                        @endphp
+
+                        @foreach($pages as $page)
+
+                            @if($previous && $page > $previous + 1)
                                 <span class="pagination-btn">
-                        …
-                    </span>
+                    …
+                </span>
                             @endif
 
 
-                            @if (is_array($element))
-                                @foreach ($element as $page => $url)
+                            <a href="{{ $users->url($page) }}"
+                               class="pagination-btn @if($users->currentPage() == $page) active @endif">
+                                {{ $page }}
+                            </a>
 
-                                    @if ($page == $users->currentPage())
-                                        <button class="pagination-btn active">
-                                            {{ $page }}
-                                        </button>
-                                    @else
-                                        <a href="{{ $url }}" class="pagination-btn">
-                                            {{ $page }}
-                                        </a>
-                                    @endif
 
-                                @endforeach
-                            @endif
+                            @php
+                                $previous = $page;
+                            @endphp
 
                         @endforeach
 
@@ -207,7 +235,8 @@
             <p class="mt-2 text-sm leading-7 text-slate-400">آیا از حذف «<b id="deleteItemName" class="text-white"></b>»
                 مطمئن هستید؟ این عملیات قابل بازگشت نیست.</p>
             <div class="mt-6 flex gap-3">
-                <button type="button" data-close-dialog class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
+                <button type="button" data-close-dialog
+                        class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
                 </button>
                 <button id="confirmDelete" class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950">حذف شود
                 </button>

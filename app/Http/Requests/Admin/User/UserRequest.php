@@ -37,6 +37,7 @@ class UserRequest extends FormRequest
             'family' => ['required', 'string', 'max:100'],
             'mobile' => ['required', 'string', 'regex:/^09\d{9}$/', 'unique:users,mobile,' . $userId],
             'phone' => ['nullable', 'string', 'max:20'],
+            'type'=>'required|in:admin,customer',
             'national_id_number' => [
                 'required',
                 'digits:10',
@@ -55,6 +56,6 @@ class UserRequest extends FormRequest
 
     public function attributes()
     {
-        return ['is_active' => 'وضعیت حساب', 'date_of_birth' => 'تاریخ تولد'];
+        return ['is_active' => 'وضعیت حساب', 'date_of_birth' => 'تاریخ تولد','type'=>'نوع کاربر'];
     }
 }

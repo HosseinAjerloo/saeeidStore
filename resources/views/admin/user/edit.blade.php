@@ -88,6 +88,15 @@
                                                class="text-left">
                                     </span>
                                 </label>
+                                <label class="field-group"><span class="field-label">نوع کاربر</span><span
+                                        class="field-shell"><svg viewBox="0 0 24 24"><path
+                                                d="M12 21a8 8 0 100-16 8 8 0 000 16zM9 11h6M12 8v6"></path></svg>
+                                        <select class="text-black value-prev"  name="type">
+                                            <option class="text-white bg-brand-dark" @if(old('type',$user->type)=='admin') selected="selected" @endif value="admin">ادمین</option>
+                                            <option class="text-white bg-brand-dark" @if(old('type',$user->type)=='customer') selected="selected" @endif value="customer">مشتری</option>
+                                        </select>
+                                    </span>
+                                </label>
                                 <label class="field-group"><span class="field-label">جنسیت</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M12 21a8 8 0 100-16 8 8 0 000 16zM9 11h6M12 8v6"></path></svg>
@@ -185,10 +194,7 @@
                             <p class="hidden items-center gap-2 text-xs text-slate-500 sm:flex"><span
                                     class="h-2 w-2 rounded-full bg-amberx"></span>پیش از ثبت، اطلاعات را بررسی کنید.</p>
                             <div class="flex gap-3">
-                                <button type="reset"
-                                        class="flex-1 rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 hover:text-white sm:flex-none">
-                                    پاک کردن
-                                </button>
+
                                 <button type="submit"
                                         class="group flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-8 py-3 text-sm font-extrabold text-ink-950 shadow-glow transition-all hover:shadow-glow-lg hover:brightness-110 active:scale-95 sm:flex-none">
                                     ثبت کاربر

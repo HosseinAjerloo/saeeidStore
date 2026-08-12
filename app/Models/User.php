@@ -35,6 +35,7 @@ class User extends Authenticatable
         'phone_verified_at',
         'email_verified_at',
         'date_of_birth',
+        'type'
     ];
 
 
@@ -66,7 +67,7 @@ class User extends Authenticatable
             get: fn($value) => ($this->name ?? '') . ' ' . ($this->family ?? '')
         );
     }
-    public function gender(): Attribute
+    public function prGender(): Attribute
     {
         return Attribute::make(
             get: fn($value) =>$value=='male'?'مرد' : 'زن'

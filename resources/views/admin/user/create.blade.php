@@ -96,7 +96,17 @@
                                         </select>
                                     </span>
                                 </label>
-                                <div class="field-group"><span class="field-label">وضعیت حساب</span><label
+                                <label class="field-group"><span class="field-label">نوع کاربر</span><span
+                                        class="field-shell"><svg viewBox="0 0 24 24"><path
+                                                d="M12 21a8 8 0 100-16 8 8 0 000 16zM9 11h6M12 8v6"></path></svg>
+                                        <select class="text-black value-prev"  name="type">
+                                            <option class="text-white bg-brand-dark" @if(old('type')=='admin') selected="selected" @endif value="admin">ادمین</option>
+                                            <option class="text-white bg-brand-dark" @if(old('type')=='customer') selected="selected" @endif value="customer">متشری</option>
+                                        </select>
+                                    </span>
+                                </label>
+                                <div class="field-group">
+                                    <span class="field-label">وضعیت حساب</span><label
                                         class="account-status"><span
                                             class="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/10 text-brand-400"><svg
                                                 class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
