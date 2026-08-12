@@ -18,16 +18,16 @@
 
         <section class="grid grid-cols-2 gap-4 lg:grid-cols-4">
             <div class="glass-card p-5"><p class="text-xs text-slate-500">کل کاربران</p>
-                <p class="mt-2 text-2xl font-extrabold text-white">۱,۲۸۴</p>
+                <p class="mt-2 text-2xl font-extrabold text-white">{{$details->get('totalUser')}}</p>
                 <p class="mt-2 text-[10px] text-slate-600">همه حساب‌های ثبت‌شده</p></div>
             <div class="glass-card p-5"><p class="text-xs text-slate-500">کاربران فعال</p>
-                <p class="mt-2 text-2xl font-extrabold text-brand-300">۱,۱۹۶</p>
-                <p class="mt-2 text-[10px] text-slate-600">۹۳٪ از کل کاربران</p></div>
+                <p class="mt-2 text-2xl font-extrabold text-brand-300">{{$details->get('userActiveCount')}}</p>
+                <p class="mt-2 text-[10px] text-slate-600">{{$details->get('activePercent')}}% از کل کاربران</p></div>
             <div class="glass-card p-5"><p class="text-xs text-slate-500">ثبت‌نام این ماه</p>
-                <p class="mt-2 text-2xl font-extrabold text-aqua-300">۷۶</p>
-                <p class="mt-2 text-[10px] text-slate-600">۱۲٪ رشد نسبت به قبل</p></div>
+                <p class="mt-2 text-2xl font-extrabold text-aqua-300">{{$details->get('registerInMonth')}}</p>
+                <p class="mt-2 text-[10px] text-slate-600">{{$details->get('registerGrowth')}}٪ رشد نسبت به قبل</p></div>
             <div class="glass-card p-5"><p class="text-xs text-slate-500">غیرفعال</p>
-                <p class="mt-2 text-2xl font-extrabold text-rose">۸۸</p>
+                <p class="mt-2 text-2xl font-extrabold text-rose">{{$details->get('userDeActiveCount')}}</p>
                 <p class="mt-2 text-[10px] text-slate-600">نیازمند بررسی وضعیت</p></div>
         </section>
 
@@ -46,166 +46,72 @@
                 <table class="data-table min-w-[72rem]">
                     <thead>
                     <tr>
-                        <th>کاربر</th>
-                        <th>اطلاعات تماس</th>
-                        <th>کد ملی</th>
-                        <th>جنسیت</th>
-                        <th>تاریخ تولد</th>
-                        <th>وضعیت</th>
+                        <th class="text-center">کاربر</th>
+                        <th class="text-center">اطلاعات تماس</th>
+                        <th class="text-center">ایمیل</th>
+                        <th class="text-center">کد ملی</th>
+                        <th class="text-center">جنسیت</th>
+                        <th class="text-center">تاریخ تولد</th>
+                        <th class="text-center">وضعیت</th>
                         <th class="text-left">عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-searchable>
-                        <td>
-                            <div class="flex items-center gap-3"><span
-                                    class="row-avatar bg-brand-500/10 text-brand-300">ع‌ا</span>
-                                <div><b class="block text-sm text-white">علی احمدی</b><small
-                                        class="text-[10px] text-slate-600">کاربر شماره ۱۰۰۱</small></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div dir="ltr" class="text-left"><b
-                                    class="block text-xs text-slate-300">09121234567</b><small
-                                    class="mt-1 block text-[10px] text-aqua-400">ali.ahmadi@example.com</small></div>
-                        </td>
-                        <td dir="ltr" class="text-left">0012345678</td>
-                        <td><span class="chip bg-aqua-500/10 text-aqua-300">مرد</span></td>
-                        <td>۱۳۷۲/۰۵/۱۸</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="users-create.html" class="table-action edit"
-                                                                   title="ویرایش">✎</a>
-                                <button data-delete="علی احمدی" class="table-action delete" title="حذف">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable>
-                        <td>
-                            <div class="flex items-center gap-3"><span class="row-avatar bg-aqua-500/10 text-aqua-300">م‌ر</span>
-                                <div><b class="block text-sm text-white">مریم رضایی</b><small
-                                        class="text-[10px] text-slate-600">کاربر شماره ۱۰۰۲</small></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div dir="ltr" class="text-left"><b
-                                    class="block text-xs text-slate-300">09351234567</b><small
-                                    class="mt-1 block text-[10px] text-aqua-400">maryam.rezaei@example.com</small></div>
-                        </td>
-                        <td dir="ltr" class="text-left">0023456789</td>
-                        <td><span class="chip bg-rose/10 text-rose">زن</span></td>
-                        <td>۱۳۷۵/۰۹/۰۲</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="users-create.html" class="table-action edit"
-                                                                   title="ویرایش">✎</a>
-                                <button data-delete="مریم رضایی" class="table-action delete" title="حذف">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable>
-                        <td>
-                            <div class="flex items-center gap-3"><span
-                                    class="row-avatar bg-amberx/10 text-amberx">ر‌ک</span>
-                                <div><b class="block text-sm text-white">رضا کریمی</b><small
-                                        class="text-[10px] text-slate-600">کاربر شماره ۱۰۰۳</small></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div dir="ltr" class="text-left"><b
-                                    class="block text-xs text-slate-300">09193456789</b><small
-                                    class="mt-1 block text-[10px] text-aqua-400">reza.karimi@example.com</small></div>
-                        </td>
-                        <td dir="ltr" class="text-left">0034567890</td>
-                        <td><span class="chip bg-aqua-500/10 text-aqua-300">مرد</span></td>
-                        <td>۱۳۶۸/۱۲/۲۵</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="users-create.html" class="table-action edit"
-                                                                   title="ویرایش">✎</a>
-                                <button data-delete="رضا کریمی" class="table-action delete" title="حذف">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable>
-                        <td>
-                            <div class="flex items-center gap-3"><span
-                                    class="row-avatar bg-rose/10 text-rose">س‌م</span>
-                                <div><b class="block text-sm text-white">سارا محمدی</b><small
-                                        class="text-[10px] text-slate-600">کاربر شماره ۱۰۰۴</small></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div dir="ltr" class="text-left"><b
-                                    class="block text-xs text-slate-300">09021239876</b><small
-                                    class="mt-1 block text-[10px] text-aqua-400">sara.mohammadi@example.com</small>
-                            </div>
-                        </td>
-                        <td dir="ltr" class="text-left">0045678901</td>
-                        <td><span class="chip bg-rose/10 text-rose">زن</span></td>
-                        <td>۱۳۷۸/۰۳/۱۰</td>
-                        <td><span class="chip bg-white/5 text-slate-400"><span class="status-dot bg-slate-500"></span>غیرفعال</span>
-                        </td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="users-create.html" class="table-action edit"
-                                                                   title="ویرایش">✎</a>
-                                <button data-delete="سارا محمدی" class="table-action delete" title="حذف">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable>
-                        <td>
-                            <div class="flex items-center gap-3"><span
-                                    class="row-avatar bg-brand-500/10 text-brand-300">ح‌م</span>
-                                <div><b class="block text-sm text-white">حسین مرادی</b><small
-                                        class="text-[10px] text-slate-600">کاربر شماره ۱۰۰۵</small></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div dir="ltr" class="text-left"><b
-                                    class="block text-xs text-slate-300">09105678912</b><small
-                                    class="mt-1 block text-[10px] text-aqua-400">hossein.moradi@example.com</small>
-                            </div>
-                        </td>
-                        <td dir="ltr" class="text-left">0056789012</td>
-                        <td><span class="chip bg-aqua-500/10 text-aqua-300">مرد</span></td>
-                        <td>۱۳۷۰/۰۷/۰۸</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="users-create.html" class="table-action edit"
-                                                                   title="ویرایش">✎</a>
-                                <button data-delete="حسین مرادی" class="table-action delete" title="حذف">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable>
-                        <td>
-                            <div class="flex items-center gap-3"><span class="row-avatar bg-aqua-500/10 text-aqua-300">ن‌ج</span>
-                                <div><b class="block text-sm text-white">نگار جعفری</b><small
-                                        class="text-[10px] text-slate-600">کاربر شماره ۱۰۰۶</small></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div dir="ltr" class="text-left"><b
-                                    class="block text-xs text-slate-300">09213459876</b><small
-                                    class="mt-1 block text-[10px] text-aqua-400">negar.jafari@example.com</small></div>
-                        </td>
-                        <td dir="ltr" class="text-left">0067890123</td>
-                        <td><span class="chip bg-rose/10 text-rose">زن</span></td>
-                        <td>۱۳۷۶/۱۱/۱۴</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="users-create.html" class="table-action edit"
-                                                                   title="ویرایش">✎</a>
-                                <button data-delete="نگار جعفری" class="table-action delete" title="حذف">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
+                    @foreach($users as $user)
+                        <tr data-searchable>
+                            <td>
+                                <div class="flex items-center gap-3"><span
+                                        class="row-avatar bg-brand-500/10 text-brand-300">{{\Illuminate\Support\Str::limit($user->name,2)}}</span>
+                                    <div>
+                                        <b class="block text-sm text-white">{{$user->fullName}}</b><small
+                                            class="text-[10px] text-slate-600">کاربر شماره {{$user->id}}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex justify-center items-center">
+                                    <b class="block text-xs text-slate-300">{{$user->mobile??''}}</b>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex justify-center items-center">
+                                    <small class="mt-1 block text-[10px] text-aqua-400">{{$user->email??''}}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex justify-center items-center">
+
+                                    <b class="block text-xs text-slate-300">{{$user->national_id_number??''}}</b>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex items-center justify-center">
+                                    <span class="chip bg-aqua-500/10 text-aqua-300">{{$user->gender}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex items-center justify-center">
+                                    <span class="chip bg-aqua-500/10 text-aqua-300">{{$user->ofBirth}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex items-center justify-center">
+                                       <span class="chip bg-brand-500/10 text-brand-300">
+                                    <span class="status-dot bg-brand-400"></span>
+                                    {{$user->getActive}}
+                                </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex justify-end gap-2">
+                                    <a href="users-create.html" class="table-action edit" title="ویرایش">✎</a>
+                                    <button data-delete="علی احمدی" class="table-action delete" title="حذف">⌫</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    @endforeach
+
                     </tbody>
                 </table>
                 <div data-empty-state class="hidden px-6 py-16 text-center">
@@ -216,33 +122,94 @@
                     <p class="mt-4 text-sm font-bold text-slate-300">کاربری پیدا نشد</p>
                     <p class="mt-1 text-xs text-slate-600">نام، موبایل، ایمیل یا کد ملی دیگری را جست‌وجو کنید.</p></div>
             </div>
-            <div class="table-footer"><p class="text-xs text-slate-600">نمایش ۱ تا ۶ از ۱,۲۸۴ کاربر</p>
-                <nav class="flex gap-1" aria-label="صفحه‌بندی کاربران">
-                    <button class="pagination-btn" disabled>‹</button>
-                    <button class="pagination-btn active">۱</button>
-                    <button class="pagination-btn">۲</button>
-                    <button class="pagination-btn">۳</button>
-                    <span class="pagination-btn">…</span>
-                    <button class="pagination-btn">۲۱۵</button>
-                    <button class="pagination-btn">›</button>
-                </nav>
-            </div>
+            @if ($users->hasPages())
+                <div class="table-footer">
+
+                    <p class="text-xs text-slate-600">
+                        نمایش
+                        {{ $users->firstItem() }}
+                        تا
+                        {{ $users->lastItem() }}
+                        از
+                        {{ number_format($users->total()) }}
+                        کاربر
+                    </p>
+
+                    <nav class="flex gap-1" aria-label="صفحه‌بندی کاربران">
+
+                        {{-- Previous --}}
+                        @if ($users->onFirstPage())
+                            <button class="pagination-btn" disabled>
+                                ‹
+                            </button>
+                        @else
+                            <a href="{{ $users->previousPageUrl() }}" class="pagination-btn">
+                                ‹
+                            </a>
+                        @endif
+
+
+                        {{-- Pages --}}
+                        @foreach ($users as $element)
+
+                            @if (is_string($element))
+                                <span class="pagination-btn">
+                        …
+                    </span>
+                            @endif
+
+
+                            @if (is_array($element))
+                                @foreach ($element as $page => $url)
+
+                                    @if ($page == $users->currentPage())
+                                        <button class="pagination-btn active">
+                                            {{ $page }}
+                                        </button>
+                                    @else
+                                        <a href="{{ $url }}" class="pagination-btn">
+                                            {{ $page }}
+                                        </a>
+                                    @endif
+
+                                @endforeach
+                            @endif
+
+                        @endforeach
+
+
+                        {{-- Next --}}
+                        @if ($users->hasMorePages())
+                            <a href="{{ $users->nextPageUrl() }}" class="pagination-btn">
+                                ›
+                            </a>
+                        @else
+                            <button class="pagination-btn" disabled>
+                                ›
+                            </button>
+                        @endif
+
+                    </nav>
+
+                </div>
+            @endif
         </section>
     </main>
 @endsection
 
 @section('other_content')
-<div id="deleteDialog" class="delete-dialog">
-    <div class="delete-dialog-card">
-        <div class="grid h-12 w-12 place-items-center rounded-2xl bg-rose/10 text-rose">!</div>
-        <h3 class="mt-5 text-lg font-extrabold text-white">حذف کاربر</h3>
-        <p class="mt-2 text-sm leading-7 text-slate-400">آیا از حذف «<b id="deleteItemName" class="text-white"></b>»
-            مطمئن هستید؟ این عملیات قابل بازگشت نیست.</p>
-        <div class="mt-6 flex gap-3">
-            <button data-close-dialog class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
-            </button>
-            <button id="confirmDelete" class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950">حذف شود</button>
+    <div id="deleteDialog" class="delete-dialog">
+        <div class="delete-dialog-card">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-rose/10 text-rose">!</div>
+            <h3 class="mt-5 text-lg font-extrabold text-white">حذف کاربر</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-400">آیا از حذف «<b id="deleteItemName" class="text-white"></b>»
+                مطمئن هستید؟ این عملیات قابل بازگشت نیست.</p>
+            <div class="mt-6 flex gap-3">
+                <button data-close-dialog class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
+                </button>
+                <button id="confirmDelete" class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950">حذف شود
+                </button>
+            </div>
         </div>
     </div>
-</div>
 @endsection

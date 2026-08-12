@@ -17,14 +17,14 @@ return new class extends Migration
             $table->string('family')->nullable();
             $table->string('mobile')->nullable();
             $table->string('phone')->nullable();
-            $table->string('national_id_number')->nullable();
+            $table->string('national_id_number')->unique()->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('email')->nullable()->unique();
-            $table->string('gender')->nullable()->unique();
+            $table->enum('gender',['male','female'])->nullable();
             $table->string('password');
             $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('date_ofـbirth')->nullable();
+            $table->timestamp('date_of_birth')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

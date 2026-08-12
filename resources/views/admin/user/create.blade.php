@@ -57,35 +57,42 @@
                                     <span class="field-shell">
                                         <svg viewBox="0 0 24 24">
                                             <path
-                                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.1a7.5 7.5 0 0115 0"></path></svg><input
+                                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.1a7.5 7.5 0 0115 0"></path></svg>
+                                        <input
                                             name="name" type="text" maxlength="255" autocomplete="given-name"
-                                            placeholder="مثلاً علی"></span></label>
+                                            value="{{old('name')}}" placeholder="مثلاً علی">
+                                    </span></label>
                                 <label class="field-group"><span class="field-label">نام خانوادگی</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
-                                                d="M18 18.7a6 6 0 00-12 0M12 12a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"></path></svg><input
+                                                d="M18 18.7a6 6 0 00-12 0M12 12a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"></path></svg>
+                                        <input
                                             name="family" type="text" maxlength="255" autocomplete="family-name"
-                                            placeholder="مثلاً رضایی"></span></label>
+                                            placeholder="مثلاً رضایی" value="{{old('family')}}">
+                                    </span></label>
                                 <label class="field-group"><span class="field-label">کد ملی</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
-                                                d="M4 6.5h16v11H4zM8 10h3M8 14h6"></path></svg><input
+                                                d="M4 6.5h16v11H4zM8 10h3M8 14h6"></path></svg>
+                                        <input
                                             name="national_id_number" type="text" inputmode="numeric" maxlength="10"
-                                            dir="ltr" placeholder="0012345678" class="text-left"></span><small
+                                            dir="ltr" placeholder="0012345678" value="{{old('national_id_number')}}"
+                                            class="text-left">
+                                    </span><small
                                         class="field-hint">کد ملی ۱۰ رقمی بدون خط تیره</small></label>
                                 <label class="field-group"><span class="field-label">تاریخ تولد</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 011 1v14H4V6a1 1 0 011-1z"></path></svg>
-                                        <input id="date-piker" type="text" class="text-left">
-                                        <input name="date_ofـbirth" type="hidden" id="date-piker-value" dir="ltr"
+                                        <input id="date-piker" value="{{old('date_of_birth')}}" type="text"
+                                               class="text-left">
+                                        <input name="date_of_birth" type="hidden" id="date-piker-value" dir="ltr"
                                                class="text-left">
                                     </span>
                                 </label>
                                 <label class="field-group"><span class="field-label">جنسیت</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M12 21a8 8 0 100-16 8 8 0 000 16zM9 11h6M12 8v6"></path></svg>
-                                        <select class="text-black" name="gender">
-                                            <option value="">انتخاب کنید</option>
-                                            <option value="male">مرد</option>
-                                            <option value="female">زن</option>
+                                        <select class="text-black value-prev" data-value="genderPreview" name="gender">
+                                            <option class="text-white bg-brand-dark" @if(old('gender')=='male') selected="selected" @endif value="male">مرد</option>
+                                            <option class="text-white bg-brand-dark" @if(old('gender')=='female') selected="selected" @endif value="female">زن</option>
                                         </select>
                                     </span>
                                 </label>
@@ -98,9 +105,10 @@
                                                                             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></span><span
                                             class="flex-1"><b>حساب فعال</b><small>کاربر بلافاصله امکان ورود دارد</small></span><span
                                             class="relative"><input name="is_active" type="checkbox" value="1"
-                                                                    checked="" class="peer sr-only"><span
-                                                class="block h-6 w-11 rounded-full bg-ink-600 transition-colors peer-checked:bg-sky-500"></span><span
-                                                class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-1/4"></span></span></label>
+                                                                    @if(old('is_active')=='') checked="checked"
+                                                                    @endif checked="checked" class="peer sr-only"><span
+                                                class="block h-6 w-11 rounded-full bg-ink-600 transition-colors peer-checked:bg-brand-500"></span><span
+                                                class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-3"></span></span></label>
                                 </div>
                             </div>
                         </section>
@@ -114,19 +122,25 @@
                             <div class="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2 sm:p-7">
                                 <label class="field-group"><span class="field-label">شماره موبایل</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
-                                                d="M8 3h8a1 1 0 011 1v16a1 1 0 01-1 1H8a1 1 0 01-1-1V4a1 1 0 011-1zM10 18h4"></path></svg><input
-                                            name="mobile" type="tel" inputmode="tel" maxlength="11" autocomplete="tel"
-                                            dir="ltr" placeholder="09123456789" class="text-left"></span></label>
+                                                d="M8 3h8a1 1 0 011 1v16a1 1 0 01-1 1H8a1 1 0 01-1-1V4a1 1 0 011-1zM10 18h4"></path></svg>
+                                        <input name="mobile" data-value="mobilePreview" type="tel" inputmode="tel"
+                                               maxlength="11" value="{{old('mobile')}}" autocomplete="tel"
+                                               dir="ltr" placeholder="09123456789" class="value-prev text-left">
+                                    </span>
+                                </label>
                                 <label class="field-group"><span class="field-label">تلفن ثابت</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M7 4l3 4-2 2a14 14 0 006 6l2-2 4 3-2 3C10 20 4 14 4 6l3-2z"></path></svg><input
-                                            name="phone" type="tel" inputmode="tel" maxlength="20" dir="ltr"
+                                            name="phone" value="{{old('phone')}}" type="tel" inputmode="tel"
+                                            maxlength="20" dir="ltr"
                                             placeholder="02112345678" class="text-left"></span></label>
                                 <label class="field-group sm:col-span-2"><span
                                         class="field-label">نشانی ایمیل</span><span class="field-shell"><svg
-                                            viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"></path></svg><input
-                                            name="email" type="email" maxlength="255" autocomplete="email" dir="ltr"
-                                            placeholder="user@example.com" class="text-left"></span><small
+                                            viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"></path></svg>
+                                        <input name="email" value="{{old('email')}}" data-value="emailPreview"
+                                               type="email" maxlength="255"
+                                               autocomplete="email" dir="ltr"
+                                               placeholder="user@example.com" class="text-left value-prev"></span><small
                                         class="field-hint">برای بازیابی حساب و دریافت اعلان‌ها استفاده
                                         می‌شود.</small></label>
                             </div>
@@ -198,7 +212,7 @@
                                 </div>
                                 <div class="mt-4 flex items-start justify-between gap-3">
                                     <div><h3 id="namePreview" class="font-extrabold text-white">کاربر جدید</h3>
-                                        <p id="emailPreview" class="mt-1 text-xs text-slate-500">ایمیل ثبت نشده</p>
+                                        <p class="mt-1 text-xs text-slate-500">ایمیل ثبت نشده</p>
                                     </div>
                                     <span id="statusPreview" class="chip bg-brand-500/10 text-brand-300"><span
                                             class="h-1.5 w-1.5 rounded-full bg-brand-400"></span>فعال</span></div>
@@ -207,17 +221,7 @@
                                     <div><p class="text-[11px] text-slate-500">تکمیل پروفایل</p>
                                         <p id="completionText" class="mt-1 text-xl font-extrabold text-white">۰٪</p>
                                     </div>
-                                    <div
-                                        class="relative grid h-14 w-14 place-items-center rounded-full bg-ink-800 text-xs font-bold text-brand-300">
-                                        <svg class="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 36 36">
-                                            <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,.06)"
-                                                    stroke-width="2"></circle>
-                                            <circle id="progressCircle" cx="18" cy="18" r="15.5" fill="none"
-                                                    stroke="#34d399" stroke-width="2" stroke-linecap="round"
-                                                    stroke-dasharray="97.4" stroke-dashoffset="97.4"
-                                                    style="stroke-dashoffset: 97.4;"></circle>
-                                        </svg>
-                                        <span id="completionMini">۰٪</span></div>
+
                                 </div>
                                 <div class="mt-4 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
                                     <div id="completionBar"
@@ -228,7 +232,7 @@
                                     <div class="preview-row"><span>شماره موبایل</span><b id="mobilePreview"
                                                                                          dir="ltr">—</b></div>
                                     <div class="preview-row"><span>جنسیت</span><b id="genderPreview">—</b></div>
-                                    <div class="preview-row"><span>نوع حساب</span><b>کاربر عادی</b></div>
+                                    <div class="preview-row"><span>ایمیل</span><b id="emailPreview">-</b></div>
                                 </div>
                                 <div class="mt-6 rounded-2xl border border-aqua-500/10 bg-aqua-500/[0.06] p-4">
                                     <div class="flex gap-3">
@@ -252,21 +256,98 @@
 
     <script>
         document.getElementById('togglePassword').addEventListener('click', function () {
-            const input=this.previousElementSibling;
-            console.log()
+            const input = this.previousElementSibling;
             if (input.dataset.show) {
                 input.type = 'password'
-               delete input.dataset.show
+                delete input.dataset.show
             } else {
                 input.type = 'text'
                 input.dataset.show = 'true';
             }
+
         })
         $('#date-piker').persianDatepicker({
             observer: true,
             format: 'YYYY/MM/DD',
             altField: '#date-piker-value'
         });
+
+        var value = null;
+        var processBar = 0;
+        var howIsRun = [];
+
+        function updateProgress() {
+            const totalStep = document.querySelectorAll('.value-prev').length;
+
+            processBar = totalStep > 0
+                ? Math.round((howIsRun.length / totalStep) * 100)
+                : 0;
+
+            document.getElementById('completionBar').style.width = processBar + '%';
+            document.getElementById('completionText').innerText = processBar + '%';
+        }
+
+        function runProcess(elem, type) {
+            elem.addEventListener(type, function (e) {
+
+                const valueKey = e.target.dataset.value;
+                const inputValue = e.target.value;
+
+                if (inputValue !== '') {
+
+                    if (!howIsRun.includes(valueKey)) {
+                        howIsRun.push(valueKey);
+                    }
+
+                    if (valueKey === 'genderPreview') {
+                        value = inputValue === 'male' ? 'مرد' : 'زن';
+                    } else {
+                        value = inputValue;
+                    }
+
+                    document.getElementById(valueKey).innerText = value;
+
+                } else {
+
+                    const arrayIndex = howIsRun.indexOf(valueKey);
+
+                    if (arrayIndex !== -1) {
+                        howIsRun.splice(arrayIndex, 1);
+                    }
+
+                    document.getElementById(valueKey).innerText = '-';
+                }
+
+                updateProgress();
+            });
+        }
+
+
+        document.querySelectorAll('.value-prev').forEach(function (elem) {
+
+            if (elem.tagName === 'SELECT') {
+
+                runProcess(elem, 'change');
+
+                const event = new Event('change', {
+                    bubbles: true
+                });
+
+                elem.dispatchEvent(event);
+
+            } else {
+
+                runProcess(elem, 'input');
+
+                const event = new Event('input', {
+                    bubbles: true
+                });
+
+                elem.dispatchEvent(event);
+            }
+
+        });
+
     </script>
 @endsection
 

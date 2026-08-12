@@ -10,6 +10,7 @@
 </div>
 <div id="sidebarOverlay" class="fixed inset-0 z-30 hidden bg-ink-950/70 backdrop-blur-sm lg:hidden"></div>
 @include('admin.toast.error')
+@include('admin.toast.success')
 @include('admin.layout.sidebar')
 <div class="flex min-h-screen flex-col lg:mr-72">
 @include('admin.layout.header')

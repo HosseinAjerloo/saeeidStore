@@ -16,6 +16,13 @@ class UserRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'is_active' => request()->input('is_active','0')
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,33 +32,26 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100'],
-
             'family' => ['required', 'string', 'max:100'],
-
             'mobile' => ['required', 'string', 'regex:/^09\d{9}$/', 'unique:users,mobile'],
-
             'phone' => ['nullable', 'string', 'max:20'],
-
             'national_id_number' => [
                 'required',
                 'digits:10',
                 'unique:users,national_id_number',
                 new NationalCode()
             ],
-
-            'is_active' => ['required', 'boolean'],
-
+            'is_active' => ['nullable', 'in:1,0'],
             'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
-
             'gender' => ['required', 'in:male,female'],
-
             'password' => ['required', 'string', 'min:8'],
-
             'phone_verified_at' => ['nullable', 'date'],
-
             'email_verified_at' => ['nullable', 'date'],
-
-            'date_of_birth' => ['required', 'date'],
+            'date_of_birth' => ['required', 'max:13'],
         ];
+    }
+    public function attributes()
+    {
+        return ['is_active'=>'وضعیت حساب','date_of_birth'=>'تاریخ تولد'];
     }
 }
