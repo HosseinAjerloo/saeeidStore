@@ -90,24 +90,50 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.user.edit',compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, User $user)
     {
-        //
-    }
+        try {
+            $inputs = $request->safe()->all();
 
+            if (isset($inputs['date_of_birth'])) {
+                $inputs['date_of_birth'] = normalizeDate($inputs['date_of_birth']);
+            }
+            $user->update($inputs);
+            return redirect()
+                ->route('admin.user.index')
+                ->with([
+                    'success' => 'اطلاعات کاربر با موفقیت بروزرسانی شد!'
+                ]);
+
+        } catch (\Exception $exception) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    'userUpdateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.'
+                ]);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        try {
+            $user->delete();
+            return redirect()->route('admin.user.index')->with(['success'=>'کاربر باموفقیت حذف شد!']);
+        }catch (\Exception $exception){
+            return redirect()->back()->withErrors(['userDeleteError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
+
+        }
     }
 }

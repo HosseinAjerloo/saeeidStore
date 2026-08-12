@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
       selectedRow = button.closest('[data-searchable]');
       if (deleteName) deleteName.textContent = button.dataset.delete;
       dialog?.classList.add('open');
+        console.log(button.dataset.route)
+      dialog.setAttribute('action',button.dataset.route)
       document.body.style.overflow = 'hidden';
     });
   });

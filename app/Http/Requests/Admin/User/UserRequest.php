@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin\User;
 use App\Rules\NationalCode;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class UserRequest extends FormRequest
 {
@@ -19,7 +20,7 @@ class UserRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'is_active' => request()->input('is_active','0')
+            'is_active' => request()->input('is_active', '0')
         ]);
     }
 
@@ -30,19 +31,20 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = Route::current()->parameter('user')?->id;
         return [
             'name' => ['required', 'string', 'max:100'],
             'family' => ['required', 'string', 'max:100'],
-            'mobile' => ['required', 'string', 'regex:/^09\d{9}$/', 'unique:users,mobile'],
+            'mobile' => ['required', 'string', 'regex:/^09\d{9}$/', 'unique:users,mobile,' . $userId],
             'phone' => ['nullable', 'string', 'max:20'],
             'national_id_number' => [
                 'required',
                 'digits:10',
-                'unique:users,national_id_number',
+                'unique:users,national_id_number,' . $userId,
                 new NationalCode()
             ],
             'is_active' => ['nullable', 'in:1,0'],
-            'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:users,email,' . $userId],
             'gender' => ['required', 'in:male,female'],
             'password' => ['required', 'string', 'min:8'],
             'phone_verified_at' => ['nullable', 'date'],
@@ -50,8 +52,9 @@ class UserRequest extends FormRequest
             'date_of_birth' => ['required', 'max:13'],
         ];
     }
+
     public function attributes()
     {
-        return ['is_active'=>'وضعیت حساب','date_of_birth'=>'تاریخ تولد'];
+        return ['is_active' => 'وضعیت حساب', 'date_of_birth' => 'تاریخ تولد'];
     }
 }

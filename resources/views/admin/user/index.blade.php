@@ -104,8 +104,8 @@
                             </td>
                             <td>
                                 <div class="flex justify-end gap-2">
-                                    <a href="users-create.html" class="table-action edit" title="ویرایش">✎</a>
-                                    <button data-delete="علی احمدی" class="table-action delete" title="حذف">⌫</button>
+                                    <a href="{{route('admin.user.edit',$user)}}" class="table-action edit" title="ویرایش">✎</a>
+                                    <button data-delete="{{$user->fullName}}" data-route="{{route('admin.user.destroy',$user)}}" class="table-action delete" title="حذف">⌫</button>
                                 </div>
                             </td>
                         </tr>
@@ -198,18 +198,20 @@
 @endsection
 
 @section('other_content')
-    <div id="deleteDialog" class="delete-dialog">
+    <form id="deleteDialog" class="delete-dialog" method="POST">
+        @method('DELETE')
+        @csrf
         <div class="delete-dialog-card">
             <div class="grid h-12 w-12 place-items-center rounded-2xl bg-rose/10 text-rose">!</div>
             <h3 class="mt-5 text-lg font-extrabold text-white">حذف کاربر</h3>
             <p class="mt-2 text-sm leading-7 text-slate-400">آیا از حذف «<b id="deleteItemName" class="text-white"></b>»
                 مطمئن هستید؟ این عملیات قابل بازگشت نیست.</p>
             <div class="mt-6 flex gap-3">
-                <button data-close-dialog class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
+                <button type="button" data-close-dialog class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
                 </button>
                 <button id="confirmDelete" class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950">حذف شود
                 </button>
             </div>
         </div>
-    </div>
+    </form>
 @endsection

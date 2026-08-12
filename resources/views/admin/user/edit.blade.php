@@ -19,7 +19,7 @@
                         <p class="mt-2 max-w-xl text-sm leading-7 text-slate-400">اطلاعات کاربر را تکمیل کنید؛ می‌توانید
                             موارد اختیاری را بعداً از پروفایل او ویرایش کنید.</p>
                     </div>
-                    <a href="users-index.html"
+                    <a href="{{route('admin.user.index')}}"
                        class="inline-flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-ink-950/30 px-4 py-2.5 text-sm font-semibold text-slate-300 backdrop-blur-sm transition-all hover:border-brand-500/30 hover:text-brand-300">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -40,8 +40,9 @@
                 </div>
             </section>
 
-            <form id="createUserForm" action="{{route('admin.user.store')}}" method="post" novalidate="">
+            <form id="createUserForm" action="{{route('admin.user.update',$user)}}" method="post" novalidate="">
                 @csrf
+                @method('PUT')
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-12 ">
                     <div class="space-y-5 xl:col-span-8">
                         <section class="form-section glass-card animate-fade-up stagger-1 overflow-hidden p-0">
@@ -60,28 +61,28 @@
                                                 d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.1a7.5 7.5 0 0115 0"></path></svg>
                                         <input
                                             name="name" type="text" maxlength="255" autocomplete="given-name"
-                                            value="{{old('name')}}" placeholder="مثلاً علی">
+                                            value="{{old('name',$user->name)}}" placeholder="مثلاً علی">
                                     </span></label>
                                 <label class="field-group"><span class="field-label">نام خانوادگی</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M18 18.7a6 6 0 00-12 0M12 12a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"></path></svg>
                                         <input
                                             name="family" type="text" maxlength="255" autocomplete="family-name"
-                                            placeholder="مثلاً رضایی" value="{{old('family')}}">
+                                            placeholder="مثلاً رضایی" value="{{old('family',$user->family)}}">
                                     </span></label>
                                 <label class="field-group"><span class="field-label">کد ملی</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M4 6.5h16v11H4zM8 10h3M8 14h6"></path></svg>
                                         <input
                                             name="national_id_number" type="text" inputmode="numeric" maxlength="10"
-                                            dir="ltr" placeholder="0012345678" value="{{old('national_id_number')}}"
+                                            dir="ltr" placeholder="0012345678" value="{{old('national_id_number',$user->national_id_number)}}"
                                             class="text-left">
                                     </span><small
                                         class="field-hint">کد ملی ۱۰ رقمی بدون خط تیره</small></label>
                                 <label class="field-group"><span class="field-label">تاریخ تولد</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 011 1v14H4V6a1 1 0 011-1z"></path></svg>
-                                        <input id="date-piker" value="{{old('date_of_birth')}}" type="text"
+                                        <input id="date-piker" value="{{old('date_of_birth',$user->date_of_birth)}}" type="text"
                                                class="text-left">
                                         <input name="date_of_birth" type="hidden" id="date-piker-value" dir="ltr"
                                                class="text-left">
@@ -91,8 +92,8 @@
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M12 21a8 8 0 100-16 8 8 0 000 16zM9 11h6M12 8v6"></path></svg>
                                         <select class="text-black value-prev" data-value="genderPreview" name="gender">
-                                            <option class="text-white bg-brand-dark" @if(old('gender')=='male') selected="selected" @endif value="male">مرد</option>
-                                            <option class="text-white bg-brand-dark" @if(old('gender')=='female') selected="selected" @endif value="female">زن</option>
+                                            <option class="text-white bg-brand-dark" @if(old('gender',$user->gender)=='male') selected="selected" @endif value="male">مرد</option>
+                                            <option class="text-white bg-brand-dark" @if(old('gender',$user->gender)=='female') selected="selected" @endif value="female">زن</option>
                                         </select>
                                     </span>
                                 </label>
@@ -105,7 +106,7 @@
                                                                             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></span><span
                                             class="flex-1"><b>حساب فعال</b><small>کاربر بلافاصله امکان ورود دارد</small></span><span
                                             class="relative"><input name="is_active" type="checkbox" value="1"
-                                                                    @if(old('is_active')=='') checked="checked"
+                                                                    @if(old('is_active',$user->is_active)=='') checked="checked"
                                                                     @endif checked="checked" class="peer sr-only"><span
                                                 class="block h-6 w-11 rounded-full bg-ink-600 transition-colors peer-checked:bg-brand-500"></span><span
                                                 class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-3"></span></span></label>
@@ -124,20 +125,20 @@
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M8 3h8a1 1 0 011 1v16a1 1 0 01-1 1H8a1 1 0 01-1-1V4a1 1 0 011-1zM10 18h4"></path></svg>
                                         <input name="mobile" data-value="mobilePreview" type="tel" inputmode="tel"
-                                               maxlength="11" value="{{old('mobile')}}" autocomplete="tel"
+                                               maxlength="11" value="{{old('mobile',$user->mobile)}}" autocomplete="tel"
                                                dir="ltr" placeholder="09123456789" class="value-prev text-left">
                                     </span>
                                 </label>
                                 <label class="field-group"><span class="field-label">تلفن ثابت</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M7 4l3 4-2 2a14 14 0 006 6l2-2 4 3-2 3C10 20 4 14 4 6l3-2z"></path></svg><input
-                                            name="phone" value="{{old('phone')}}" type="tel" inputmode="tel"
+                                            name="phone" value="{{old('phone',$user->phone)}}" type="tel" inputmode="tel"
                                             maxlength="20" dir="ltr"
                                             placeholder="02112345678" class="text-left"></span></label>
                                 <label class="field-group sm:col-span-2"><span
                                         class="field-label">نشانی ایمیل</span><span class="field-shell"><svg
                                             viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"></path></svg>
-                                        <input name="email" value="{{old('email')}}" data-value="emailPreview"
+                                        <input name="email" value="{{old('email',$user->email)}}" data-value="emailPreview"
                                                type="email" maxlength="255"
                                                autocomplete="email" dir="ltr"
                                                placeholder="user@example.com" class="text-left value-prev"></span><small
@@ -184,6 +185,10 @@
                             <p class="hidden items-center gap-2 text-xs text-slate-500 sm:flex"><span
                                     class="h-2 w-2 rounded-full bg-amberx"></span>پیش از ثبت، اطلاعات را بررسی کنید.</p>
                             <div class="flex gap-3">
+                                <button type="reset"
+                                        class="flex-1 rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 hover:text-white sm:flex-none">
+                                    پاک کردن
+                                </button>
                                 <button type="submit"
                                         class="group flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-8 py-3 text-sm font-extrabold text-ink-950 shadow-glow transition-all hover:shadow-glow-lg hover:brightness-110 active:scale-95 sm:flex-none">
                                     ثبت کاربر
