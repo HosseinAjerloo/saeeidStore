@@ -20,9 +20,15 @@
         </div>
         <div><p class="mb-2 px-4 text-[11px] font-semibold text-slate-600">کاتالوگ</p>
             <ul class="space-y-1">
-                <li><a href="groups-index.html" class="nav-item"><span>⌑</span>گروه‌بندی محصولات</a></li>
-                <li><a href="brands-index.html" class="nav-item"><span>♢</span>برندها</a></li>
-                <li><a href="attributes-index.html" class="nav-item"><span>◇</span>ویژگی‌ها</a></li>
+                <li>
+                    <a href="{{route('admin.category.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.category')?'active':''}}">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path d="M3 6h7l2 2h9v11H3z"></path>
+                        </svg>
+                        گروه‌بندی محصولات
+                    </a>
+                </li>
+
             </ul>
         </div>
     </nav>

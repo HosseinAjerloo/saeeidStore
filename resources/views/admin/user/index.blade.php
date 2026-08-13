@@ -34,14 +34,12 @@
 
         <section class="glass-card overflow-hidden p-0">
             <div class="list-toolbar">
-                <div class="table-search"><span
-                        class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-600">⌕</span><input
-                        data-table-search type="search" placeholder="جست‌وجو در نام، موبایل، ایمیل یا کد ملی..."/><kbd>Ctrl
-                        K</kbd></div>
-                <div class="flex items-center gap-2 text-xs text-slate-500"><span
-                        class="h-2 w-2 rounded-full bg-brand-400"></span><span data-result-count>۶</span> کاربر نمایش
-                    داده می‌شود
-                </div>
+                <form action="{{route('admin.user.index')}}" method="GET" class="table-search flex items-center">
+                    <input
+                        name="q" type="text" class="text-white" placeholder="جست‌وجو در نام، موبایل، ایمیل یا کد ملی..."/>
+                    <kbd>Ctrl K</kbd>
+                </form>
+
             </div>
             <div class="overflow-x-auto">
                 <table class="data-table min-w-[72rem]">
@@ -243,4 +241,16 @@
             </div>
         </div>
     </form>
+@endsection
+@section('script')
+    <script>
+        const search = document.querySelector('input[type="text"]');
+
+
+        window.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.key.toLowerCase()==='k') {
+                    search.focus()
+            }
+        })
+    </script>
 @endsection

@@ -11,6 +11,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Morilog\Jalali\Jalalian;
 use function Pest\Laravel\get;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -84,5 +86,11 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn($value) =>$this->is_active=='1'?'فعال':'غیرفعال'
         );
+    }
+    #[Scope]
+    public function scopeSearch(Builder $builder){
+        $builder->when(request()->query('q'),function ($query,$value){
+            $query->where('name','like',"%{$value}%")->orWhere('email',$value)->orWhere('mobile',$value);
+        });
     }
 }

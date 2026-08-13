@@ -49,7 +49,7 @@ class UserController extends Controller
                 ? round(($userActiveCount / $totalUser) * 100)
                 : 0,
         ]);
-        $users = User::paginate(1);
+        $users = User::search()->paginate(15)->withQueryString();
         return view('admin.user.index', compact('users', 'details'));
 
 

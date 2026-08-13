@@ -1,7 +1,7 @@
+@extends('admin.layout.master')
 @section('title')
     <title>پنل | ایجاد کاربر جدید</title>
 @endsection
-@extends('admin.layout.master')
 @section('content')
     <main class="flex-1 p-4 sm:p-6 lg:p-8">
         <div class="mx-auto max-w-7xl">
