@@ -28,10 +28,8 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd(request()->all());
         return [
             'parent_id'   => ['nullable', 'exists:product_groups,id'],
-            'user_id'     => ['required', 'exists:users,id'],
             'name'        => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'image'       => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5048'],

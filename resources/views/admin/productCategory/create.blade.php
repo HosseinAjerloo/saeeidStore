@@ -57,7 +57,7 @@
                                     <span class="field-shell">
                                         <svg viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z"></path></svg>
                                         <input id="groupName" name="name" type="text" required="" maxlength="255"
-                                               placeholder="مثلاً کالای دیجیتال">
+                                               placeholder="مثلاً کالای پلاستیکی">
                                     </span>
                                     <span id="nameError" class="mt-2 hidden text-[11px] text-rose">
                                         نام گروه را وارد کنید.
@@ -169,7 +169,7 @@
                                         </span>
                                         <span class="relative"><input id="activeInput" name="is_active" type="checkbox" value="1" checked="" class="peer sr-only"><span
                                                 class="block h-6 w-11 rounded-full bg-ink-600 transition-colors peer-checked:bg-brand-500"></span>
-                                            <span class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-4"></span>
+                                            <span class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-3"></span>
                                         </span>
                                     </label>
                                 </div>

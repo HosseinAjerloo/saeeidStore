@@ -184,6 +184,7 @@
      ۶) دراپ‌داون اعلان‌ها و پروفایل
      ============================================================ */
   const notifBtn = document.getElementById("notifBtn");
+  const imagePreview=document.getElementById('imageInput');
   const notifDropdown = document.getElementById("notifDropdown");
   const profileBtn = document.getElementById("profileBtn");
   const profileDropdown = document.getElementById("profileDropdown");
@@ -229,6 +230,36 @@
       toggleProfile(false);
     }
   });
+    const imageFillable = [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+    ];
+    imagePreview?.addEventListener('change', function (e) {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        if (!imageFillable.includes(file.type)) {
+            window.Swal.fire({
+                icon: "error",
+                title: "فرمت فایل انتخاب‌شده پشتیبانی نمی‌شود.",
+                text: `لطفاً یکی از فرمت‌های زیر را انتخاب کنید.\n${imageFillable.join(' , ')}`,
+            });
+
+            e.target.value = ''; // پاک کردن فایل انتخاب شده
+            return;
+        }
+
+        const objectFile = URL.createObjectURL(file);
+
+        const previewImg = document.getElementById('previewImg');
+        previewImg.src = objectFile;
+        previewImg.classList.remove('hidden')
+        previewImg.onload = () => {
+            URL.revokeObjectURL(objectFile);
+        };
+    });
 
   /* ============================================================
      ۶.۵) انیمیشن ورود ردیف‌های جدول
@@ -444,3 +475,4 @@
   });
 
 })();
+

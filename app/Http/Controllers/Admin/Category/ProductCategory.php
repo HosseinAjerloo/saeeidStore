@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CategoryRequest;
 use App\Models\ProductGroup;
+use App\service\imageService\ImageService;
 use Illuminate\Http\Request;
 
 class ProductCategory extends Controller
@@ -29,9 +30,15 @@ class ProductCategory extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request,ImageService $imageService)
     {
-        //
+        try {
+            $image=$request->file('image');
+//            $path=$imageService->setFile($image)->setFilePath('hesam')->setExtension('png')->setName('hossein')->setRootPath(public_path())->generator();
+           dd($imageService->removeFile('E:\SaeeidStore\public\2026\08\15\hossein.png'));
+        }catch (\Exception $exception){
+            return redirect()->route('admin.category.create');
+        }
     }
 
     /**
