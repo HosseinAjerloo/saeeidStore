@@ -34,4 +34,8 @@ interface ImageUploaderInterface
     public function getExtension(): string;
 
     public function removeFile(string $path): bool;
+
+    public function basePath(string $path);
+
+    public function getBasePath():string;
 }

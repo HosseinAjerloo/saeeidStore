@@ -36,4 +36,14 @@ class CategoryRequest extends FormRequest
             'is_active'   => ['nullable', 'in:0,1'],
         ];
     }
+    public function attributes()
+    {
+        return [
+            'is_active'=>'وضعیت گروه',
+            'name'=>'نام گروه',
+            'description'=>'توضیحات',
+            'image'=>'تصویر گروه',
+            'parent_id'=>'گروه والد',
+        ];
+    }
 }

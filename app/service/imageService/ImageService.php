@@ -17,6 +17,7 @@ class ImageService implements ImageUploaderInterface
     private $name = null;
     private $resolveFilePaths = null;
     private $extension = null;
+    private $basePath = null;
 
 
     public function setFile(UploadedFile $file)
@@ -96,21 +97,33 @@ class ImageService implements ImageUploaderInterface
             mkdir($path, 0755, true);
         }
     }
+    public function basePath(string $path){
+        $this->basePath=$this->formatAble($path);
+        return $this;
+    }
+
+    public function getBasePath():string{
+        return $this->basePath??'';
+    }
 
     public function generator()
     {
         $extension = $this->getExtension();
         $this->resolveFilePaths();
-        $resolveFilePaths = $this->getResolveFilePaths();
+        $basePath=$this->getBasePath();
+        $resolveFilePaths = $this->getResolveFilePaths(). DIRECTORY_SEPARATOR;
         $fileName = $this->getName();
-        $finalPath = $resolveFilePaths . DIRECTORY_SEPARATOR;
+        $finalName=$fileName . '.' . $this->getExtension();
+        $finalRoute = $resolveFilePaths . $finalName;
+        $finalPath =$basePath.DIRECTORY_SEPARATOR. $resolveFilePaths ;
+        $roteSave=$finalPath.DIRECTORY_SEPARATOR.$finalName;
+
         $this->makeFolder($finalPath);
-        $finalRoute = $finalPath . $fileName . '.' . $this->getExtension();
         $manager = new ImageManager(new Driver());
         $image = $manager->read($this->getFile());
 //        $image->resize(800, 600);
-        $image->save($finalRoute);
-        if (file_exists($finalRoute))
+        $image->save($roteSave);
+        if (file_exists($roteSave))
             return $finalRoute;
         return false;
 
