@@ -20,17 +20,17 @@ Route::prefix('admin')->name('admin.')->group(function (){
        Route::put('update/{productGroup}',[\App\Http\Controllers\Admin\Category\ProductCategory::class,'update'])->name('update');
        Route::delete('destroy/{productGroup}',[\App\Http\Controllers\Admin\Category\ProductCategory::class,'destroy'])->name('destroy');
    });
+
+    Route::prefix('brand')->name('brand.')->group(function (){
+        Route::get('',[\App\Http\Controllers\Admin\Brand\BrandController::class,'index'])->name('index');
+        Route::get('create',[\App\Http\Controllers\Admin\Brand\BrandController::class,'create'])->name('create');
+        Route::post('store',[\App\Http\Controllers\Admin\Brand\BrandController::class,'store'])->name('store');
+        Route::get('edit/{productBrand}',[\App\Http\Controllers\Admin\Brand\BrandController::class,'edit'])->name('edit');
+        Route::put('update/{productBrand}',[\App\Http\Controllers\Admin\Brand\BrandController::class,'update'])->name('update');
+        Route::delete('destroy/{productBrand}',[\App\Http\Controllers\Admin\Brand\BrandController::class,'destroy'])->name('destroy');
+    });
 });
 Route::get('test',function (){
-    $categories = ProductGroup::where('is_active', '1')->whereNull('parent_id')->get();
 
-    foreach ($categories as $category){
-        if ($category->childs()->exists())
-        {
-            dd('ye');
-        }else{
-            dd('no');
-        }
-    }
-
+    dd(\App\Models\productBrand::all());
 });

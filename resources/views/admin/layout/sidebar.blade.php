@@ -28,6 +28,14 @@
                         گروه‌بندی محصولات
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('admin.brand.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.brand')?'active':''}}">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M10 3H5v7l8 10 7-7L10 3z"></path>
+                        </svg>
+                        برندها
+                    </a>
+                </li>
 
             </ul>
         </div>
