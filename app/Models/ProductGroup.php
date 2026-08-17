@@ -28,6 +28,8 @@ class ProductGroup extends Model
     /**
      * تنظیمات مربوط به اسلاگ
      */
+
+
     public function getSlugOptions(): SlugOptions
     {
 
@@ -51,7 +53,7 @@ class ProductGroup extends Model
     {
         return $this->hasMany(ProductGroup::class, 'parent_id');
     }
-    public function product()
+    public function products()
     {
         return $this->hasMany(Product::class, 'group_id');
     }
@@ -76,5 +78,16 @@ class ProductGroup extends Model
         $builder->when(request()->query('q'),function ($query,$value){
             $query->where('name','like',"%{$value}%")->orWhere('slug','like',"%$value%");
         });
+    }
+    public function buildTree($group)
+    {
+        return [
+            'id' => (string) $group->id,
+            'text' => $group->name,
+
+            'children' => $group->childs->map(function ($child) {
+                return $this->buildTree($child);
+            })->values()->toArray(),
+        ];
     }
 }

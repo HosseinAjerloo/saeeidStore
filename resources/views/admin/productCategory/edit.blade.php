@@ -39,9 +39,10 @@
                 </div>
             </section>
 
-            <form id="createGroupForm" action="{{route('admin.category.store')}}" method="post"
+            <form id="createGroupForm" action="{{route('admin.category.update',$productGroup)}}" method="post"
                   enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-12">
                     <div class="space-y-5 xl:col-span-8">
                         <section class="form-section glass-card animate-fade-up stagger-1 overflow-hidden p-0">
@@ -50,13 +51,14 @@
                                 <div><h3>ساختار گروه</h3>
                                     <p>عنوان، آدرس و جایگاه گروه در کاتالوگ</p></div>
                                 <span class="mr-auto chip bg-brand-500/10 text-brand-300">اصلی</span></div>
-                            <div class="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2 sm:p-7">
+                            <div class="grid grid-cols-1 p-5  sm:p-7">
                                 <label class="field-group">
                                     <span class="field-label">نام گروه <span
                                             class="text-rose">*</span></span>
                                     <span class="field-shell">
                                         <svg viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z"></path></svg>
-                                        <input id="groupName" value="{{old('name')}}" name="name" type="text" required="" maxlength="255"
+                                        <input id="groupName" value="{{old('name',$productGroup->name)}}" name="name" type="text"
+                                               required="" maxlength="255"
                                                placeholder="مثلاً کالای پلاستیکی">
                                     </span>
                                     <span id="nameError" class="mt-2 hidden text-[11px] text-rose">
@@ -64,37 +66,20 @@
                                     </span>
                                 </label>
 
-                                <label class="field-group">
-                                    <span class="field-label">گروه والد</span>
-                                    <span class="native-select-shell">
-                                        <span class="native-select-icon">
-                                            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"
-                                                 stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M3.75 6.75A2.25 2.25 0 016 4.5h5.25l2.25 2.25H18A2.25 2.25 0 0120.25 9v8.25A2.25 2.25 0 0118 19.5H6a2.25 2.25 0 01-2.25-2.25V6.75z">
-
-                                                </path>
-                                            </svg>
-                                        </span>
-                                      <select id="parentGroup" name="parent_id" class="native-select">
-                                        <option value="">بدون گروه والد — ایجاد گروه اصلی</option>
-                                        <optgroup label="گروه‌های موجود">
-                                          <option value="1">کالای دیجیتال — ۸ زیرگروه</option>
-                                          <option value="2">خانه و آشپزخانه — ۱۲ زیرگروه</option>
-                                          <option value="3">مد و پوشاک — ۶ زیرگروه</option>
-                                          <option value="4">ورزش و سفر — ۵ زیرگروه</option>
-                                        </optgroup>
-                                      </select>
-                                      <svg class="native-select-chevron" fill="none" viewBox="0 0 24 24"
-                                           stroke-width="2"
-                                           stroke="currentColor">
-                                          <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 9l-7.5 7.5L4.5 9"></path>
-                                      </svg>
-                                    </span>
-                                    <small class="field-hint">برای ساخت زیرگروه، یک گروه والد انتخاب کنید.</small>
-                                </label>
                             </div>
+                            <div class="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2 sm:p-7">
+                                <label class="field-group">
+                                    <span class="field-label">
+                                        انتخاب دسته والد
+                                    </span>
+                                    <input type="hidden" name="parent_id" id="parent">
+                                    <div id="category-tree">
+
+                                    </div>
+                                </label>
+
+                            </div>
+
                         </section>
 
                         <section class="form-section glass-card animate-fade-up stagger-2 overflow-hidden p-0">
@@ -115,8 +100,8 @@
 
                                             </path>
                                         </svg>
-                                        <textarea id="description" name="description" rows="5" maxlength="1000"
-                                                  placeholder="توضیحی کوتاه درباره محصولات این گروه بنویسید..."></textarea>
+                                        <textarea id="description" name="description"  rows="5" maxlength="1000"
+                                                  placeholder="توضیحی کوتاه درباره محصولات این گروه بنویسید...">{{$productGroup->description}}</textarea>
                                     </span>
                                     <span
                                         class="mt-2 flex justify-between text-[10px] text-slate-600">
@@ -155,9 +140,12 @@
                                 <div class="field-group">
                                     <span class="field-label">وضعیت گروه</span><label
                                         class="account-status">
-                                        <span class="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/10 text-brand-400">
-                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                        <span
+                                            class="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/10 text-brand-400">
+                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                                                 stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
 
                                                 </path>
                                             </svg>
@@ -168,9 +156,12 @@
                                             <small>در فروشگاه قابل مشاهده خواهد بود</small>
                                         </span>
                                         <span class="relative">
-                                            <input id="activeInput" @if(old('is_active')=='1') checked="checked" @endif name="is_active" type="checkbox" value="1" checked="checked" class="peer sr-only"><span
+                                            <input id="activeInput" @if(old('is_active')=='1') checked="checked"
+                                                   @endif name="is_active" type="checkbox" value="1"
+                                                   class="peer sr-only"><span
                                                 class="block h-6 w-11 rounded-full bg-ink-600 transition-colors peer-checked:bg-brand-500"></span>
-                                            <span class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-3"></span>
+                                            <span
+                                                class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:-translate-x-3"></span>
                                         </span>
                                     </label>
                                 </div>
@@ -184,10 +175,7 @@
                                     class="h-2 w-2 rounded-full bg-amberx"></span>نام و نامک برای ثبت گروه الزامی هستند.
                             </p>
                             <div class="flex gap-3">
-                                <button type="reset"
-                                        class="flex-1 rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-400 transition-all hover:bg-white/5 hover:text-white sm:flex-none">
-                                    پاک کردن
-                                </button>
+
                                 <button type="submit"
                                         class="group flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-8 py-3 text-sm font-extrabold text-ink-950 shadow-glow transition-all hover:shadow-glow-lg hover:brightness-110 active:scale-95 sm:flex-none">
                                     ثبت گروه
@@ -267,4 +255,32 @@
         </div>
     </main>
 
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            let tree = {{ \Illuminate\Support\Js::from($tree) }};
+
+            $('#category-tree').jstree({
+                core: {
+                    data: tree
+                }
+            });
+            @if($productGroup->parent_id)
+            $('#category-tree').on('ready.jstree', function () {
+                $('#category-tree').jstree(
+                    'select_node',
+                    '{{ $productGroup->parent_id }}'
+                );
+            });
+            @endif
+
+            $('#category-tree').on('select_node.jstree', function (e, data) {
+                $('#parent').val(data.node.id);
+
+            });
+
+        });
+    </script>
 @endsection

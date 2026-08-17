@@ -310,8 +310,8 @@
                     } else {
                         value = inputValue;
                     }
-
-                    document.getElementById(valueKey).innerText = value;
+                    if (valueKey!=undefined)
+                        document.getElementById(valueKey).innerText = value;
 
                 } else {
 
@@ -321,7 +321,7 @@
                         howIsRun.splice(arrayIndex, 1);
                     }
 
-                    document.getElementById(valueKey).innerText = '-';
+                       document.getElementById(valueKey).innerText = '-';
                 }
 
                 updateProgress();

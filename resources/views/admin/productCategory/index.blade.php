@@ -28,17 +28,12 @@
         </section>
         <section class="glass-card animate-fade-up stagger-2 overflow-hidden p-0">
             <div class="list-toolbar">
-                <div class="table-search">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M21 21l-5.2-5.2m0 0A7.5 7.5 0 105.2 5.2a7.5 7.5 0 0010.6 10.6z"></path>
-                    </svg>
-                    <input data-table-search="" type="search" placeholder="جستجو در نام، نامک یا گروه والد..."><kbd>Ctrl
-                        K</kbd></div>
-                <div class="flex items-center gap-2 text-xs text-slate-500"><span
-                        class="h-2 w-2 rounded-full bg-brand-400"></span><span data-result-count="">۶</span> گروه نمایش
-                    داده می‌شود
-                </div>
+                <form action="{{route('admin.category.index')}}" method="GET" class="table-search flex items-center">
+                    <input
+                        name="q" type="text" class="text-white" placeholder="جست‌وجو در نام، موبایل، ایمیل یا کد ملی..."/>
+                    <kbd>Ctrl K</kbd>
+                </form>
+
             </div>
             <div class="overflow-x-auto">
                 <table class="data-table min-w-[72rem]">
@@ -65,7 +60,7 @@
                             </td>
                             <td>
                                 <div class="flex justify-center items-center">
-                                    <img class="w-20" src="{{asset($productCategory->image)}}" alt="">
+                                    <img class="w-20 h-20 object-contain" src="{{asset($productCategory->image)}}" alt="">
                                 </div>
                             </td>
                             <td>
@@ -80,7 +75,7 @@
                             </td>
                             <td>
                                 <div class="flex justify-center items-center">
-                                    <small class="mt-1 block text-[10px] text-aqua-400">{{optional($productCategory->product)->count()??'-'}}</small>
+                                    <small class="mt-1 block text-[10px] text-aqua-400">{{optional($productCategory->products)->count()??'-'}}</small>
                                 </div>
                             </td>
                             <td>
@@ -125,7 +120,7 @@
                         تا
                         {{ $productCategories->lastItem() ?? 0 }}
                         از
-                        {{ number_format($users->total()) }}
+                        {{ number_format($productCategories->total()) }}
                         کاربر
                     </p>
 
@@ -213,4 +208,35 @@
 
         </section>
     </main>
+@endsection
+@section('other_content')
+    <form id="deleteDialog" class="delete-dialog" method="POST">
+        @method('DELETE')
+        @csrf
+        <div class="delete-dialog-card">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-rose/10 text-rose">!</div>
+            <h3 class="mt-5 text-lg font-extrabold text-white">حذف گروه</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-400">آیا از حذف «<b id="deleteItemName" class="text-white"></b>»
+                مطمئن هستید؟ این عملیات قابل بازگشت نیست.</p>
+            <div class="mt-6 flex gap-3">
+                <button type="button" data-close-dialog
+                        class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
+                </button>
+                <button id="confirmDelete" class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950">حذف شود
+                </button>
+            </div>
+        </div>
+    </form>
+@endsection
+@section('script')
+    <script>
+        const search = document.querySelector('input[type="text"]');
+
+
+        window.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.key.toLowerCase()==='k') {
+                search.focus()
+            }
+        })
+    </script>
 @endsection

@@ -34,8 +34,12 @@ class ProductCategory extends Controller
      */
     public function create()
     {
-        $categories = ProductGroup::where('is_active', '1')->get();
-        return view('admin.productCategory.create', compact('categories'));
+        $categories = ProductGroup::where('is_active', '1')->with('childs')->whereNull('parent_id')->get();
+
+        $tree = $categories->map(function ($group) {
+            return $group->buildTree($group);
+        });
+        return view('admin.productCategory.create', compact('tree'));
     }
 
     /**
@@ -76,10 +80,11 @@ class ProductCategory extends Controller
      */
     public function edit(ProductGroup $productGroup)
     {
-        $categories = ProductGroup::where('is_active', 1)
-            ->where('id', '!=', $productGroup->id)
-            ->get();
-        return view('admin.productCategory.edit',compact('productGroup','categories'));
+        $categories = ProductGroup::where('is_active', '1')->where('id','!=',$productGroup->id)->with('childs')->whereNull('parent_id')->get();
+        $tree = $categories->map(function ($group) {
+            return $group->buildTree($group);
+        });
+        return view('admin.productCategory.edit',compact('productGroup','tree'));
     }
 
     /**
@@ -102,10 +107,8 @@ class ProductCategory extends Controller
                     throw new \Exception("Can't save image path");
                 }
 
-                // حذف تصویر قبلی
-                if ($productGroup->image && file_exists(public_path($productGroup->image))) {
-                    unlink(public_path($productGroup->image));
-                }
+               if (!$imageService->removeFile($productGroup->image))
+                   throw new \Exception("Can't remove image ");
 
                 $input['image'] = $path;
             }
@@ -133,8 +136,27 @@ class ProductCategory extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(ProductGroup $productGroup)
     {
-        //
+        $hasProducts = $productGroup->products()->exists();
+
+        $hasChildren = $productGroup->childs()->exists();
+        if ($hasProducts && $hasChildren) {
+            return back()->withErrors(['این دسته دارای محصول و زیرمجموعه است و قابل حذف نیست.']
+            );
+        }
+
+        if ($hasProducts) {
+            return back()->withErrors(['این دسته دارای محصول است. ابتدا محصولات را به دسته دیگری منتقل کنید.']
+            );
+        }
+
+        if ($hasChildren) {
+            return back()->withErrors(['این دسته دارای زیرمجموعه است. ابتدا زیرمجموعه‌ها را منتقل یا حذف کنید.']);
+        }
+
+        $productGroup->delete();
+        return back()->with(['success'=>'حذف گروه با موفقیت انجام شد']);
+
     }
 }
