@@ -29,8 +29,15 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::put('update/{productBrand}',[\App\Http\Controllers\Admin\Brand\BrandController::class,'update'])->name('update');
         Route::delete('destroy/{productBrand}',[\App\Http\Controllers\Admin\Brand\BrandController::class,'destroy'])->name('destroy');
     });
+
+    Route::prefix('attribute')->name('attribute.')->group(function (){
+        Route::get('',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'index'])->name('index');
+        Route::get('create',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'create'])->name('create');
+        Route::post('store',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'store'])->name('store');
+        Route::get('edit/{productBrand}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'edit'])->name('edit');
+        Route::put('update/{productBrand}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'update'])->name('update');
+        Route::delete('destroy/{productBrand}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'destroy'])->name('destroy');
+    });
 });
 Route::get('test',function (){
-
-    dd(\App\Models\productBrand::all());
 });

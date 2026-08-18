@@ -37,6 +37,14 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="attributes-index.html" class="nav-item active">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M4 6h16M7 12h10M10 18h4"></path>
+                        </svg>ویژگی‌ها
+                    </a>
+                </li>
+
             </ul>
         </div>
     </nav>
