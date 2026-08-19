@@ -14,7 +14,12 @@
             <ul class="space-y-1">
                 <li><a href="index.html" class="nav-item"><span>⌂</span>داشبورد</a></li>
                 <li><a href="orders.html" class="nav-item"><span>□</span>سفارش‌ها</a></li>
-                <li><a href="products-index.html" class="nav-item"><span>▣</span>محصولات</a></li>
+                <li>
+                    <a href="{{route('admin.product.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.product')?'active':''}}">
+                        <span>▣</span>
+                        محصولات
+                    </a>
+                </li>
                 <li><a href="{{route('admin.user.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.user')?'active':''}}"><span>○</span>کاربران</a></li>
             </ul>
         </div>
@@ -38,7 +43,7 @@
                 </li>
 
                 <li>
-                    <a href="attributes-index.html" class="nav-item active">
+                    <a href="{{route('admin.attribute.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.attribute')?'active':''}}">
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path d="M4 6h16M7 12h10M10 18h4"></path>
                         </svg>ویژگی‌ها

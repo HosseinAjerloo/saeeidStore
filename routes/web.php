@@ -38,6 +38,15 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::put('update/{attribute}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'update'])->name('update');
         Route::delete('destroy/{attribute}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'destroy'])->name('destroy');
     });
+
+    Route::prefix('product')->name('product.')->group(function (){
+        Route::get('',[\App\Http\Controllers\Admin\Product\ProductController::class,'index'])->name('index');
+        Route::get('create',[\App\Http\Controllers\Admin\Product\ProductController::class,'create'])->name('create');
+        Route::post('store',[\App\Http\Controllers\Admin\Product\ProductController::class,'store'])->name('store');
+        Route::get('edit/{attribute}',[\App\Http\Controllers\Admin\Product\ProductController::class,'edit'])->name('edit');
+        Route::put('update/{attribute}',[\App\Http\Controllers\Admin\Product\ProductController::class,'update'])->name('update');
+        Route::delete('destroy/{attribute}',[\App\Http\Controllers\Admin\Product\ProductController::class,'destroy'])->name('destroy');
+    });
 });
 Route::get('test',function (){
 });

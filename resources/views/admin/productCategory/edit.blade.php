@@ -199,8 +199,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M3.75 6.75A2.25 2.25 0 016 4.5h5.25l2.25 2.25H18a2.25 2.25 0 012.25 2.25v8.25A2.25 2.25 0 0118 19.5H6a2.25 2.25 0 01-2.25-2.25V6.75z"></path>
                                 </svg>
-                                <img id="previewImg" alt="پیش‌نمایش تصویر گروه"
-                                     class="absolute inset-0 hidden h-full w-full object-cover"><span id="statusPreview"
+                                <img id="previewImg" @if(isset($productGroup->image)) src="{{asset($productGroup->image)}}" @endif alt="پیش‌نمایش تصویر گروه"
+                                     class="absolute inset-0 @if(!isset($productGroup->image)) hidden @endif h-full w-full object-cover"><span id="statusPreview"
                                                                                                       class="absolute left-4 top-4 chip backdrop-blur-md bg-brand-500/15 text-brand-300"><span
                                         class="h-1.5 w-1.5 rounded-full bg-brand-400"></span>فعال</span></div>
                             <div class="p-6"><p class="text-[10px] font-bold tracking-wider text-brand-400">گروه
