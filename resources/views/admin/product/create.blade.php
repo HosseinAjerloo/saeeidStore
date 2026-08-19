@@ -1,5 +1,7 @@
 @extends('admin.layout.master')
-
+@section('title')
+    <title>پنل | ایجاد محصول جدید</title>
+@endsection
 @section('content')
 <main class="flex-1 p-4 sm:p-6 lg:p-8">
     <div class="mx-auto max-w-7xl">
@@ -15,7 +17,7 @@
                     <h2 class="text-2xl font-extrabold text-white sm:text-3xl">ایجاد محصول</h2>
                     <p class="mt-2 max-w-xl text-sm leading-7 text-slate-400">مشخصات اصلی، محتوای معرفی و تنظیمات انتشار
                         محصول را تکمیل کنید.</p></div>
-                <a href="products-index.html"
+                <a href="{{route('admin.product.index')}}"
                    class="inline-flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-ink-950/30 px-4 py-2.5 text-sm font-semibold text-slate-300 hover:border-brand-500/30 hover:text-brand-300">←
                     بازگشت به محصولات</a></div>
             <div class="relative mt-7 grid grid-cols-3 gap-2 sm:max-w-2xl sm:gap-3">
