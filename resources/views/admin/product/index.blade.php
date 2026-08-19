@@ -60,7 +60,7 @@
                                         class="text-[10px] text-slate-600">WH-1000XM5</small></div>
                             </div>
                         </td>
-                        <td dir="ltr" class="text-left">PRD-1001</td>
+                        <td  >PRD-1001</td>
                         <td>لوازم صوتی</td>
                         <td>سونی</td>
                         <td><b class="text-brand-300">۲,۴۵۰,۰۰۰</b> تومان</td>
@@ -76,121 +76,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr data-searchable="">
-                        <td>
-                            <div class="flex items-center gap-3"><span class="row-avatar">⌚</span>
-                                <div><b class="block max-w-52 truncate text-sm text-white">ساعت هوشمند اپل</b><small
-                                        class="text-[10px] text-slate-600">Series 9</small></div>
-                            </div>
-                        </td>
-                        <td dir="ltr" class="text-left">PRD-1002</td>
-                        <td>گجت پوشیدنی</td>
-                        <td>اپل</td>
-                        <td><b class="text-brand-300">۱۸,۹۰۰,۰۰۰</b> تومان</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300">۲۴ عدد</span></td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="product-variants.html"
-                                                                   class="table-action text-aqua-300"
-                                                                   title="تنوع‌ها">≡</a><a href="products-create.html"
-                                                                                           class="table-action edit">✎</a>
-                                <button data-delete="ساعت هوشمند اپل" class="table-action delete">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable="">
-                        <td>
-                            <div class="flex items-center gap-3"><span class="row-avatar">🖥</span>
-                                <div><b class="block max-w-52 truncate text-sm text-white">مانیتور گیمینگ
-                                        ال‌جی</b><small class="text-[10px] text-slate-600">UltraGear 27</small></div>
-                            </div>
-                        </td>
-                        <td dir="ltr" class="text-left">PRD-1003</td>
-                        <td>کامپیوتر</td>
-                        <td>ال‌جی</td>
-                        <td><b class="text-brand-300">۱۲,۷۵۰,۰۰۰</b> تومان</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300">۱۸ عدد</span></td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="product-variants.html"
-                                                                   class="table-action text-aqua-300"
-                                                                   title="تنوع‌ها">≡</a><a href="products-create.html"
-                                                                                           class="table-action edit">✎</a>
-                                <button data-delete="مانیتور گیمینگ ال‌جی" class="table-action delete">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable="">
-                        <td>
-                            <div class="flex items-center gap-3"><span class="row-avatar">📷</span>
-                                <div><b class="block max-w-52 truncate text-sm text-white">دوربین کانن EOS</b><small
-                                        class="text-[10px] text-slate-600">EOS R10</small></div>
-                            </div>
-                        </td>
-                        <td dir="ltr" class="text-left">PRD-1004</td>
-                        <td>دوربین</td>
-                        <td>کانن</td>
-                        <td><b class="text-brand-300">۲۸,۵۰۰,۰۰۰</b> تومان</td>
-                        <td><span class="chip bg-amberx/10 text-amberx">۳ عدد</span></td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="product-variants.html"
-                                                                   class="table-action text-aqua-300"
-                                                                   title="تنوع‌ها">≡</a><a href="products-create.html"
-                                                                                           class="table-action edit">✎</a>
-                                <button data-delete="دوربین کانن EOS" class="table-action delete">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable="">
-                        <td>
-                            <div class="flex items-center gap-3"><span class="row-avatar">💻</span>
-                                <div><b class="block max-w-52 truncate text-sm text-white">لپ‌تاپ ایسوس ROG</b><small
-                                        class="text-[10px] text-slate-600">Strix G16</small></div>
-                            </div>
-                        </td>
-                        <td dir="ltr" class="text-left">PRD-1005</td>
-                        <td>لپ‌تاپ</td>
-                        <td>ایسوس</td>
-                        <td><b class="text-brand-300">۴۵,۲۰۰,۰۰۰</b> تومان</td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300">۷ عدد</span></td>
-                        <td><span class="chip bg-brand-500/10 text-brand-300"><span
-                                    class="status-dot bg-brand-400"></span>فعال</span></td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="product-variants.html"
-                                                                   class="table-action text-aqua-300"
-                                                                   title="تنوع‌ها">≡</a><a href="products-create.html"
-                                                                                           class="table-action edit">✎</a>
-                                <button data-delete="لپ‌تاپ ایسوس ROG" class="table-action delete">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-searchable="">
-                        <td>
-                            <div class="flex items-center gap-3"><span class="row-avatar opacity-50">📱</span>
-                                <div><b class="block max-w-52 truncate text-sm text-white">گوشی سامسونگ S24</b><small
-                                        class="text-[10px] text-slate-600">Galaxy S24</small></div>
-                            </div>
-                        </td>
-                        <td dir="ltr" class="text-left">PRD-1006</td>
-                        <td>موبایل</td>
-                        <td>سامسونگ</td>
-                        <td><b class="text-brand-300">۳۲,۰۰۰,۰۰۰</b> تومان</td>
-                        <td><span class="chip bg-rose/10 text-rose">ناموجود</span></td>
-                        <td><span class="chip bg-white/5 text-slate-400"><span class="status-dot bg-slate-500"></span>غیرفعال</span>
-                        </td>
-                        <td>
-                            <div class="flex justify-end gap-2"><a href="product-variants.html"
-                                                                   class="table-action text-aqua-300"
-                                                                   title="تنوع‌ها">≡</a><a href="products-create.html"
-                                                                                           class="table-action edit">✎</a>
-                                <button data-delete="گوشی سامسونگ S24" class="table-action delete">⌫</button>
-                            </div>
-                        </td>
-                    </tr>
+
                     </tbody>
                 </table>
                 <div data-empty-state="" class="hidden px-6 py-16 text-center"><p
