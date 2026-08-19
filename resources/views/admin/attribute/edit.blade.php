@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-    <title>پنل | ایجاد ویژگی جدید</title>
+    <title>پنل | ویرایش ویژگی </title>
 @endsection
 @section('content')
 
@@ -15,7 +15,7 @@
                             class="mb-3 inline-flex items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-3 py-1.5 text-[11px] font-bold text-brand-300">
                             <span class="h-1.5 w-1.5 rounded-full bg-brand-400 animate-pulse"></span>مشخصات قابل انتخاب
                         </div>
-                        <h2 class="text-2xl font-extrabold text-white sm:text-3xl">ایجاد ویژگی محصول</h2>
+                        <h2 class="text-2xl font-extrabold text-white sm:text-3xl">ویرایش ویژگی محصول</h2>
                         <p class="mt-2 max-w-xl text-sm leading-7 text-slate-400">نوع ویژگی را مشخص و مقادیر قابل
                             استفاده آن را در همان صفحه تعریف کنید.</p></div>
                     <a href="{{route('admin.attribute.index')}}"
@@ -31,8 +31,9 @@
                 </div>
             </section>
 
-            <form id="attributeForm" action="{{route('admin.attribute.store')}}" method="post" novalidate="">
+            <form id="attributeForm" action="{{route('admin.attribute.update',$attribute)}}" method="post" novalidate="">
                 @csrf
+                @method('PUT')
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-12">
                     <div class="space-y-5 xl:col-span-8">
                         <section class="form-section glass-card overflow-hidden p-0">
@@ -45,7 +46,7 @@
                                 <label class="field-group"><span class="field-label">نام ویژگی</span><span
                                         class="field-shell"><svg viewBox="0 0 24 24"><path
                                                 d="M4 6h16M7 12h10M10 18h4"></path></svg><input id="attributeName"
-                                                                                                value="{{old('name')}}"
+                                                                                                value="{{old('name',$attribute->name)}}"
                                                                                                 name="name" type="text"
                                                                                                 maxlength="255"
                                                                                                 placeholder="مثلاً رنگ یا حافظه"></span></label>
@@ -54,11 +55,14 @@
                                         class="native-select-shell"><span class="native-select-icon"><svg fill="none"
                                                                                                           viewBox="0 0 24 24"
                                                                                                           stroke="currentColor"><path
-                                                    d="M5 5h14v14H5zM9 9h6v6H9z"></path></svg></span><select
-                                            id="typeInput" name="type" class="native-select"><option value="normal">معمولی — متن و عدد</option><option
-                                                value="color">رنگی — انتخاب رنگ</option></select><svg
-                                            class="native-select-chevron" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor"><path d="M19 9l-7 7-7-7"></path></svg></span></label>
+                                                    d="M5 5h14v14H5zM9 9h6v6H9z"></path></svg></span>
+                                        <select
+                                            id="typeInput" name="type" class="native-select">
+                                            <option value="normal"  @selected($attribute->type=="normal") >معمولی — متن و عدد</option>
+                                            <option value="color"  @selected($attribute->type=="color") >رنگی — انتخاب رنگ</option>
+                                        </select>
+                                        <svg class="native-select-chevron" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor"><path d="M19 9l-7 7-7-7"></path></svg></span></label>
                                 <div class="field-group">
                                     <span class="field-label">وضعیت ویژگی</span>
                                     <label
@@ -66,7 +70,9 @@
                                             class="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/10 text-brand-400">✓</span><span
                                             class="flex-1"><b>ویژگی فعال باشد</b><small>هنگام تعریف محصول قابل استفاده است</small></span><span
                                             class="relative"><input id="activeInput" name="is_active" type="checkbox"
-                                                                    value="1" @if(old('is_active')=='1') checked="checked" @endif class="peer sr-only"><span
+                                                                    value="1"
+                                                                    @if(old('is_active',$attribute->is_active)=='1') checked="checked"
+                                                                    @endif class="peer sr-only"><span
                                                 class="block h-6 w-11 rounded-full bg-ink-600 peer-checked:bg-brand-500"></span><span
                                                 class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:-translate-x-3"></span></span></label>
                                 </div>
@@ -76,8 +82,10 @@
                         <section class="form-section glass-card overflow-hidden p-0">
                             <div class="section-heading">
                                 <div class="section-number aqua">۰۲</div>
-                                <div><h3>مقادیر ویژگی</h3>
-                                    <p id="valuesHelp">مقادیر متنی یا عددی ویژگی را اضافه کنید.</p></div>
+                                <div>
+                                    <h3>مقادیر ویژگی</h3>
+                                    <p id="valuesHelp">مقادیر متنی یا عددی ویژگی را اضافه کنید.</p>
+                                </div>
                                 <div class="value-stepper mr-auto" aria-label="تعداد مقادیر">
                                     <button id="decreaseValue" type="button" aria-label="کم کردن مقدار" disabled="">−
                                     </button>
@@ -86,37 +94,59 @@
                                 </div>
                             </div>
                             <div id="valueRows" class="space-y-4 p-5 sm:p-7">
-                                <div class="price-row" data-value-row="" data-index="0">
-                                    <div class="price-row-heading">
-                                        <div><span class="price-row-number">۱</span><span class="price-row-title">مقدار ۱</span>
+                                @foreach($attribute->attributeValues as $key=> $value)
+                                    <div class="price-row" data-value-row="" data-index="{{$key}}">
+                                        <div class="price-row-heading">
+                                            <div>
+                                                <span class="price-row-number">{{$key}}</span>
+                                                <span class="price-row-title">مقدار {{$key}}</span>
+                                            </div>
+                                            <button type="button" class="remove-value invisible remove-price-row"
+                                                    disabled="">
+                                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path d="M4 7h16M7 7l1 14h8l1-14"></path>
+                                                </svg>
+                                            </button>
                                         </div>
-                                        <button type="button" class="remove-value invisible remove-price-row"
-                                                disabled="">
-                                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path d="M4 7h16M7 7l1 14h8l1-14"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-[1fr_auto]"><label
-                                            class="field-group"><span class="field-label value-label">مقدار</span><span
-                                                class="field-shell"><span class="color-picker-wrap hidden mr-3"><input
-                                                        type="color" value="#10b981" class="color-picker"></span><svg
-                                                    class="normal-value-icon" viewBox="0 0 24 24"><path
-                                                        d="M5 8h14M5 12h10M5 16h7"></path></svg><input
-                                                    name="values[0][value]" type="text" maxlength="255"
-                                                    placeholder="مثلاً ۲۵۶ گیگابایت"
-                                                    class="attribute-value"></span></label>
-                                        <div class="field-group sm:w-52"><span
-                                                class="field-label">وضعیت مقدار</span><label
-                                                class="account-status"><span class="flex-1"><b>فعال</b><small>قابل انتخاب باشد</small></span><span
-                                                    class="relative"><input name="values[0][is_active]" type="checkbox"
-                                                                            value="1" checked=""
-                                                                            class="peer sr-only value-active"><span
-                                                        class="block h-6 w-11 rounded-full bg-ink-600 peer-checked:bg-brand-500"></span><span
-                                                        class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:-translate-x-3"></span></span></label>
+                                        <div class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-[1fr_auto]">
+                                            <label
+                                                class="field-group">
+                                                <span class="field-label value-label">مقدار</span>
+                                                <span class="field-shell">
+                                                    <span class="color-picker-wrap hidden mr-3">
+                                                        <input type="color" value="{{$value->value}}" class="color-picker">
+                                                    </span>
+                                                    <svg class="normal-value-icon" viewBox="0 0 24 24"><path
+                                                            d="M5 8h14M5 12h10M5 16h7"></path>
+                                                    </svg>
+                                                    <input value="{{$value->value}}" name="values[{{$value->id}}][value]" type="text" maxlength="255"
+                                                           placeholder="مثلاً ۲۵۶ گیگابایت"
+                                                           class="attribute-value">
+                                                </span>
+                                            </label>
+                                            <div class="field-group sm:w-52">
+                                                <span
+                                                    class="field-label">وضعیت مقدار</span>
+                                                <label class="account-status">
+                                                    <span class="flex-1">
+                                                        <b>فعال</b>
+                                                        <small>قابل انتخاب باشد</small>
+                                                    </span>
+                                                    <span class="relative">
+                                                        <input name="values[{{$value->id}}][is_active]" type="checkbox" value="1"
+                                                               @if($value->is_active=='1') checked="checked" @endif class="peer sr-only value-active">
+                                                        <span
+                                                            class="block h-6 w-11 rounded-full bg-ink-600 peer-checked:bg-brand-500"></span>
+                                                        <span
+                                                            class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:-translate-x-3">
+
+                                                        </span>
+                                                    </span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                             <div
                                 class="flex items-center justify-between border-t border-white/[0.06] px-5 py-4 sm:px-7">

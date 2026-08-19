@@ -34,9 +34,9 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::get('',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'index'])->name('index');
         Route::get('create',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'create'])->name('create');
         Route::post('store',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'store'])->name('store');
-        Route::get('edit/{productBrand}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'edit'])->name('edit');
-        Route::put('update/{productBrand}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'update'])->name('update');
-        Route::delete('destroy/{productBrand}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'destroy'])->name('destroy');
+        Route::get('edit/{attribute}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'edit'])->name('edit');
+        Route::put('update/{attribute}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'update'])->name('update');
+        Route::delete('destroy/{attribute}',[\App\Http\Controllers\Admin\Attribute\AttributeController::class,'destroy'])->name('destroy');
     });
 });
 Route::get('test',function (){
