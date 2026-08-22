@@ -107,7 +107,7 @@ class ProductCategory extends Controller
                     throw new \Exception("Can't save image path");
                 }
 
-               if (!$imageService->removeFile($productGroup->image))
+               if (!$imageService->basePath(public_path())->removeFile($productGroup->image))
                    throw new \Exception("Can't remove image ");
 
                 $input['image'] = $path;

@@ -43,10 +43,20 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::get('',[\App\Http\Controllers\Admin\Product\ProductController::class,'index'])->name('index');
         Route::get('create',[\App\Http\Controllers\Admin\Product\ProductController::class,'create'])->name('create');
         Route::post('store',[\App\Http\Controllers\Admin\Product\ProductController::class,'store'])->name('store');
-        Route::get('edit/{attribute}',[\App\Http\Controllers\Admin\Product\ProductController::class,'edit'])->name('edit');
-        Route::put('update/{attribute}',[\App\Http\Controllers\Admin\Product\ProductController::class,'update'])->name('update');
-        Route::delete('destroy/{attribute}',[\App\Http\Controllers\Admin\Product\ProductController::class,'destroy'])->name('destroy');
+        Route::get('edit/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'edit'])->name('edit');
+        Route::put('update/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'update'])->name('update');
+        Route::delete('destroy/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'destroy'])->name('destroy');
+
+        Route::prefix('variant')->name('variant.')->group(function (){
+            Route::get('create/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'variant'])->name('create');
+            Route::post('store/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'variantStore'])->name('store');
+            Route::get('show/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'show'])->name('show');
+            Route::get('edit/{product}/{productVariant}',[\App\Http\Controllers\Admin\Product\ProductController::class,'editVariant'])->name('editVariant');
+            Route::put('update/{product}/{productVariant}',[\App\Http\Controllers\Admin\Product\ProductController::class,'updateVariant'])->name('updateVariant');
+            Route::delete('update/{productVariant}',[\App\Http\Controllers\Admin\Product\ProductController::class,'destroyVariant'])->name('destroyVariant');
+        });
     });
 });
 Route::get('test',function (){
+    dd(\App\Models\VariantAttribute::all());
 });

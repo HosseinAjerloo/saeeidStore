@@ -136,7 +136,7 @@
                                             class="relative"><input id="activeInput" name="is_active" type="checkbox"
                                                                     value="1" checked="" class="peer sr-only"><span
                                                 class="block h-6 w-11 rounded-full bg-ink-600 peer-checked:bg-brand-500"></span><span
-                                                class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:-translate-x-5"></span></span></label>
+                                                class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:-translate-x-3"></span></span></label>
                                 </div>
                                 <div class="field-group"><span class="field-label">محصول ویژه</span><label
                                         class="account-status"><span

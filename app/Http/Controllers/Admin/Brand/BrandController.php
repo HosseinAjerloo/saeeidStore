@@ -99,7 +99,7 @@ class BrandController extends Controller
                     throw new \Exception("Can't save image path");
                 }
 
-                if (!$imageService->removeFile($productBrand->logo))
+                if (!$imageService->basePath(public_path())->removeFile($productBrand->logo))
                     throw new \Exception("Can't remove image ");
 
                 $input['logo'] = $path;
