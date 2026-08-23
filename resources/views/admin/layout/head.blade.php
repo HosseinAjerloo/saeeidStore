@@ -10,5 +10,5 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="{{asset('adminFolder/assets/js/theme-init.js')}}"></script>
     <link rel="stylesheet" href="{{asset('global/css/persian-datepicker.min.css')}}"/>
-
+    @yield('style')
 </head>

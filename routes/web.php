@@ -46,7 +46,6 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::get('edit/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'edit'])->name('edit');
         Route::put('update/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'update'])->name('update');
         Route::delete('destroy/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'destroy'])->name('destroy');
-
         Route::prefix('variant')->name('variant.')->group(function (){
             Route::get('create/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'variant'])->name('create');
             Route::post('store/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'variantStore'])->name('store');
@@ -55,6 +54,14 @@ Route::prefix('admin')->name('admin.')->group(function (){
             Route::put('update/{product}/{productVariant}',[\App\Http\Controllers\Admin\Product\ProductController::class,'updateVariant'])->name('updateVariant');
             Route::delete('update/{productVariant}',[\App\Http\Controllers\Admin\Product\ProductController::class,'destroyVariant'])->name('destroyVariant');
         });
+    });
+
+    Route::prefix('tag')->name('tag.')->group(function (){
+        Route::get('',[\App\Http\Controllers\Admin\Tag\TagController::class,'index'])->name('index');
+        Route::get('/create',[\App\Http\Controllers\Admin\Tag\TagController::class,'create'])->name('create');
+        Route::post('/store',[\App\Http\Controllers\Admin\Tag\TagController::class,'store'])->name('store');
+        Route::get('sync-product',[\App\Http\Controllers\Admin\Tag\TagController::class,'syncProduct'])->name('syncProduct');
+
     });
 });
 Route::get('test',function (){

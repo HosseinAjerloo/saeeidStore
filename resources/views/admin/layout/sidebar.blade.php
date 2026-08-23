@@ -50,6 +50,12 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{route('admin.tag.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.tag')?'active':''}}">
+                        # تگ‌ها
+                    </a>
+                </li>
+
             </ul>
         </div>
     </nav>
