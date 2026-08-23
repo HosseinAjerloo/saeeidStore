@@ -286,14 +286,8 @@
                 </div>
             </section>
 
-            <form
-                id="productTagForm"
-                action="#"
-                method="post"
-                class="space-y-5"
-            >
-
-                {{-- انتخاب محصول --}}
+            <form id="productTagForm" action="{{route('admin.tag.syncProductStore')}}" method="post" class="space-y-5" >
+                @csrf
                 <section class="form-section glass-card overflow-hidden p-0">
                     <div class="section-heading">
                         <div class="section-number">۰۱</div>
@@ -590,12 +584,7 @@
             document.querySelector(`input[name="tag_ids[]"][value="${b.dataset.removeTag}"]`).checked = false;
             updateTags()
         });
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            const b = form.querySelector('[type=submit]');
-            b.textContent = '✓ تگ‌های محصول آماده ذخیره هستند';
-            setTimeout(() => b.textContent = 'ذخیره تگ‌های محصول ←', 2200)
-        });
+
         updateTags();
     </script>
 @endsection

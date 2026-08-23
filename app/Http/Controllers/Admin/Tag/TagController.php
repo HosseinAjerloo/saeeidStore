@@ -72,8 +72,20 @@ class TagController extends Controller
         //
     }
     public function syncProduct(){
-        $products=Product::where('is_active','1')->orderBy('created_at','desc')->cursor();
+        $products=Product::withCount('tags as totalTag')->where('is_active','1')->orderBy('created_at','desc')->get();
         $tags=Tag::where('is_active','1')->orderBy('created_at','desc')->cursor();
         return view('admin.tag.sync',compact('products','tags'));
+    }
+    public function syncProductStore(Request $request){
+        try {
+            $inputs=$request->all();
+            $product=Product::findOrFail($inputs['product_id']);
+            $product->tags()->syncOrFail($inputs['tag_ids']);
+            return redirect()->route('admin.tag.index')->with(['success'=>'تگ با موفقیت به محصول متصل شد.']);
+        }catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->withErrors(['tagGenerateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
+
+        }
     }
 }

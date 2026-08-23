@@ -61,9 +61,9 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::get('/create',[\App\Http\Controllers\Admin\Tag\TagController::class,'create'])->name('create');
         Route::post('/store',[\App\Http\Controllers\Admin\Tag\TagController::class,'store'])->name('store');
         Route::get('sync-product',[\App\Http\Controllers\Admin\Tag\TagController::class,'syncProduct'])->name('syncProduct');
+        Route::post('sync-product/store',[\App\Http\Controllers\Admin\Tag\TagController::class,'syncProductStore'])->name('syncProductStore');
 
     });
 });
 Route::get('test',function (){
-    dd(\App\Models\VariantAttribute::all());
 });

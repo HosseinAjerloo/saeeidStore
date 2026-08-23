@@ -28,4 +28,7 @@ class Tag extends Model
             get: fn($value) =>$this->is_active=='1'?'فعال':'غیرفعال'
         );
     }
+    public function products(){
+        return $this->belongsToMany(Tag::class,'product_tag','tag_id','product_id','id','id');
+    }
 }

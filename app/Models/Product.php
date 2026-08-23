@@ -49,6 +49,10 @@ class Product extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
+    public function tags(){
+        return $this->belongsToMany(Tag::class,'product_tag','product_id','tag_id','id','id');
+    }
     #[Scope]
     public function scopeSearch(Builder $builder){
         $search=request()->query('q');
