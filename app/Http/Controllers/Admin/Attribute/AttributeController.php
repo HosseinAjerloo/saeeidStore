@@ -101,7 +101,14 @@ class AttributeController extends Controller
      */
     public function destroy(Attribute $attribute)
     {
-        dd($attribute);
-        //todo remove attribute for relation variant_attribute
+        try {
+            $attribute->attributeValues()->delete();
+            $attribute->delete();
+            return redirect()->route('admin.attribute.index')->with(['success' => 'ویژگی  با موفیقت حذف شد']);
+
+        }catch (\Exception $e)
+        {
+            return redirect()->back()->withInput()->withErrors(['attributeDestroy' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
+        }
     }
 }

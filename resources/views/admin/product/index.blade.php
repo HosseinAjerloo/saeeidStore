@@ -79,6 +79,9 @@
                                 </td>
                                 <td>
                                     <div class="flex justify-end gap-2">
+                                        <a href="{{route('admin.tag.syncProduct',$product)}}" class="table-action text-aqua-300" title="تنوع‌ها">
+                                            #
+                                        </a>
                                         <a href="{{route('admin.product.variant.show',$product)}}" class="table-action text-aqua-300" title="تنوع‌ها">
                                             ≡
                                         </a>

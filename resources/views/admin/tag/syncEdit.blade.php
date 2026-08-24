@@ -1,259 +1,243 @@
 @extends('admin.layout.master')
 @section('style')
     <link rel="stylesheet" href="{{asset('global/css/select2.min.css')}}">
-   <style>
-       .products + .select2 {
-           width: 100% !important;
-       }
+    <style>
+        .products + .select2 {
+            width: 100% !important;
+        }
 
-       .products + .select2 .select2-selection {
-           position: relative !important;
+        .products + .select2 .select2-selection {
+            position: relative !important;
 
-           min-height: 42px !important;
+            min-height: 42px !important;
 
-           display: flex !important;
-           align-items: center !important;
+            display: flex !important;
+            align-items: center !important;
 
-           background: transparent !important;
+            background: transparent !important;
 
-           border: none !important;
-           outline: none !important;
-           box-shadow: none !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
 
-           border-radius: 10px !important;
-       }
+            border-radius: 10px !important;
+        }
 
-       .products + .select2 .select2-selection__rendered {
-           padding-right: 4px !important;
+        .products + .select2 .select2-selection__rendered {
+            padding-right: 4px !important;
 
-           color: rgb(52 211 153) !important;
+            color: rgb(52 211 153) !important;
 
-           font-size: 13px !important;
-           font-weight: 500 !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
 
-           line-height: 42px !important;
-       }
+            line-height: 42px !important;
+        }
 
 
-       .products + .select2 .select2-selection__arrow {
-           position: absolute !important;
+        .products + .select2 .select2-selection__arrow {
+            position: absolute !important;
 
-           left: 10px !important;
-           right: auto !important;
+            left: 10px !important;
+            right: auto !important;
 
-           top: 50% !important;
+            top: 50% !important;
 
-           width: 20px !important;
-           height: 20px !important;
+            width: 20px !important;
+            height: 20px !important;
 
-           display: flex !important;
-           align-items: center !important;
-           justify-content: center !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
 
-           transform: translateY(-50%) !important;
+            transform: translateY(-50%) !important;
 
-           pointer-events: none !important;
-       }
+            pointer-events: none !important;
+        }
 
-       .products + .select2 .select2-selection__arrow b {
-           position: static !important;
+        .products + .select2 .select2-selection__arrow b {
+            position: static !important;
 
-           display: block !important;
+            display: block !important;
 
-           width: 0 !important;
-           height: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
 
-           margin: 0 !important;
+            margin: 0 !important;
 
-           border-style: solid !important;
+            border-style: solid !important;
 
-           border-width: 5px 4px 0 4px !important;
+            border-width: 5px 4px 0 4px !important;
 
-           border-color:
-               rgb(52 211 153)
-               transparent
-               transparent
-               transparent !important;
+            border-color: rgb(52 211 153) transparent transparent transparent !important;
 
-           transform: translateY(1px) !important;
-       }
+            transform: translateY(1px) !important;
+        }
 
 
-       .select2-container--default .select2-dropdown {
-           margin-top: 6px !important;
+        .select2-container--default .select2-dropdown {
+            margin-top: 6px !important;
 
-           background: #0b0f0e !important;
+            background: #0b0f0e !important;
 
-           border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
 
-           border-radius: 12px !important;
+            border-radius: 12px !important;
 
-           overflow: hidden !important;
+            overflow: hidden !important;
 
-           box-shadow:
-               0 18px 45px rgba(0, 0, 0, 0.45) !important;
-       }
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45) !important;
+        }
 
-       .select2-container--default .select2-results {
-           padding: 6px !important;
+        .select2-container--default .select2-results {
+            padding: 6px !important;
 
-           background: transparent !important;
-       }
+            background: transparent !important;
+        }
 
-       .select2-container--default .select2-results__options {
-           background: transparent !important;
-       }
+        .select2-container--default .select2-results__options {
+            background: transparent !important;
+        }
 
-       .select2-container--default .select2-results__option {
-           margin: 2px 0 !important;
+        .select2-container--default .select2-results__option {
+            margin: 2px 0 !important;
 
-           padding: 10px 12px !important;
+            padding: 10px 12px !important;
 
-           border-radius: 8px !important;
+            border-radius: 8px !important;
 
-           background: transparent !important;
+            background: transparent !important;
 
-           color: rgba(255, 255, 255, 0.72) !important;
+            color: rgba(255, 255, 255, 0.72) !important;
 
-           font-size: 13px !important;
-           font-weight: 400 !important;
+            font-size: 13px !important;
+            font-weight: 400 !important;
 
-           cursor: pointer;
+            cursor: pointer;
 
-           transition:
-               background-color 0.15s ease,
-               color 0.15s ease !important;
-       }
+            transition: background-color 0.15s ease,
+            color 0.15s ease !important;
+        }
 
 
+        .select2-container--default
+        .select2-results__option--highlighted[aria-selected] {
+            background: rgba(52, 211, 153, 0.09) !important;
 
-       .select2-container--default
-       .select2-results__option--highlighted[aria-selected] {
-           background: rgba(52, 211, 153, 0.09) !important;
+            color: rgb(52 211 153) !important;
+        }
 
-           color: rgb(52 211 153) !important;
-       }
 
+        .select2-container--default
+        .select2-results__option[aria-selected="true"] {
+            background: rgba(52, 211, 153, 0.06) !important;
 
+            color: rgb(52 211 153) !important;
 
-       .select2-container--default
-       .select2-results__option[aria-selected="true"] {
-           background: rgba(52, 211, 153, 0.06) !important;
+            font-weight: 500 !important;
+        }
 
-           color: rgb(52 211 153) !important;
 
-           font-weight: 500 !important;
-       }
+        .select2-container--default
+        .select2-results__option--highlighted[aria-selected="true"] {
+            background: rgba(52, 211, 153, 0.13) !important;
 
+            color: rgb(52 211 153) !important;
+        }
 
-       .select2-container--default
-       .select2-results__option--highlighted[aria-selected="true"] {
-           background: rgba(52, 211, 153, 0.13) !important;
 
-           color: rgb(52 211 153) !important;
-       }
+        .select2-container--default .select2-search--dropdown {
+            padding: 9px !important;
 
+            background: #0b0f0e !important;
+        }
 
+        .select2-container--default
+        .select2-search--dropdown
+        .select2-search__field {
+            width: 100% !important;
 
-       .select2-container--default .select2-search--dropdown {
-           padding: 9px !important;
+            box-sizing: border-box !important;
 
-           background: #0b0f0e !important;
-       }
+            padding: 9px 11px !important;
 
-       .select2-container--default
-       .select2-search--dropdown
-       .select2-search__field {
-           width: 100% !important;
+            background: #111716 !important;
 
-           box-sizing: border-box !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
 
-           padding: 9px 11px !important;
+            border-radius: 8px !important;
 
-           background: #111716 !important;
+            color: #fff !important;
 
-           border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            font-size: 12px !important;
 
-           border-radius: 8px !important;
+            outline: none !important;
 
-           color: #fff !important;
+            box-shadow: none !important;
 
-           font-size: 12px !important;
+            transition: border-color 0.15s ease !important;
+        }
 
-           outline: none !important;
 
-           box-shadow: none !important;
+        .select2-container--default
+        .select2-search--dropdown
+        .select2-search__field:focus {
+            border-color: rgba(52, 211, 153, 0.35) !important;
 
-           transition: border-color 0.15s ease !important;
-       }
+            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.05) !important;
+        }
 
 
+        .select2-container--default
+        .select2-search--dropdown
+        .select2-search__field::placeholder {
+            color: rgba(255, 255, 255, 0.3) !important;
+        }
 
-       .select2-container--default
-       .select2-search--dropdown
-       .select2-search__field:focus {
-           border-color: rgba(52, 211, 153, 0.35) !important;
 
-           box-shadow:
-               0 0 0 2px rgba(52, 211, 153, 0.05)
-           !important;
-       }
+        .select2-container--default
+        .select2-results__options::-webkit-scrollbar {
+            width: 4px;
+        }
 
+        .select2-container--default
+        .select2-results__options::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-       .select2-container--default
-       .select2-search--dropdown
-       .select2-search__field::placeholder {
-           color: rgba(255, 255, 255, 0.3) !important;
-       }
+        .select2-container--default
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
 
+            border-radius: 10px;
+        }
 
+        .select2-container--default
+        .select2-results__options::-webkit-scrollbar-thumb:hover {
+            background: rgba(52, 211, 153, 0.35);
+        }
 
-       .select2-container--default
-       .select2-results__options::-webkit-scrollbar {
-           width: 4px;
-       }
 
-       .select2-container--default
-       .select2-results__options::-webkit-scrollbar-track {
-           background: transparent;
-       }
+        .products + .select2.select2-container--focus
+        .select2-selection,
+        .products + .select2.select2-container--open
+        .select2-selection {
+            border: none !important;
 
-       .select2-container--default
-       .select2-results__options::-webkit-scrollbar-thumb {
-           background: rgba(255, 255, 255, 0.12);
+            outline: none !important;
 
-           border-radius: 10px;
-       }
+            box-shadow: none !important;
+        }
 
-       .select2-container--default
-       .select2-results__options::-webkit-scrollbar-thumb:hover {
-           background: rgba(52, 211, 153, 0.35);
-       }
 
+        .products + .select2 .select2-selection__clear {
+            color: rgb(52 211 153) !important;
 
+            font-size: 18px !important;
 
-       .products + .select2.select2-container--focus
-       .select2-selection,
-
-       .products + .select2.select2-container--open
-       .select2-selection {
-           border: none !important;
-
-           outline: none !important;
-
-           box-shadow: none !important;
-       }
-
-
-
-       .products + .select2 .select2-selection__clear {
-           color: rgb(52 211 153) !important;
-
-           font-size: 18px !important;
-
-           margin-left: 8px !important;
-       }
-   </style>
+            margin-left: 8px !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -278,7 +262,7 @@
                     </div>
 
                     <a
-                        href="{{route('admin.tag.index')}}"
+                        href="tags-index.html"
                         class="rounded-xl border border-white/10 bg-ink-950/30 px-4 py-2.5 text-sm text-slate-300"
                     >
                         ← مدیریت تگ‌ها
@@ -286,23 +270,25 @@
                 </div>
             </section>
 
-            <form id="productTagForm" action="{{route('admin.tag.syncProductStore',$product)}}" method="post" class="space-y-5" >
+            <form id="productTagForm" action="{{route('admin.tag.syncProductUpdate',$tag)}}" method="post" class="space-y-5">
                 @csrf
+                @method('PUT')
 
+
+
+                {{-- انتخاب تگ‌ها --}}
                 <section class="form-section glass-card overflow-hidden p-0">
 
                     <div class="section-heading">
-                        <div class="section-number aqua">۰۲</div>
+                        <div class="section-number">۰۱</div>
 
                         <div>
-                            <h3>انتخاب تگ‌ها</h3>
-                            <p>یک یا چند تگ را برای این محصول انتخاب کنید</p>
+                            <h3>انتخاب محصول</h3>
+                            <p>تگ‌ها به محصول انتخاب‌شده متصل می‌شوند</p>
                         </div>
 
-                        <span
-                            id="selectedCount"
-                            class="mr-auto chip bg-aqua-500/10 text-aqua-300"
-                        >
+                        <span class="mr-auto chip bg-brand-500/10 text-brand-300">
+                        الزامی
                     </span>
                     </div>
 
@@ -317,7 +303,7 @@
                                 <input
                                     id="tagSearch"
                                     type="search"
-                                    placeholder="جست‌وجوی تگ..."
+                                    placeholder="جست‌وجوی محصول..."
                                 >
                             </div>
 
@@ -337,26 +323,23 @@
                         class="grid gap-3 p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-3"
                     >
 
-                    @foreach($tags as $tag)
+                        @foreach($products as $product)
                             <label
                                 class="attribute-value-choice block"
                                 data-tag-card
                                 data-search="پرفروش best-seller"
                             >
                                 <input
-                                    name="tag_ids[]"
+                                    name="product_ids[]"
                                     type="checkbox"
-                                    value="{{$tag->id}}"
-                                   @if(in_array($product->id,$tag->products->pluck('id')->toArray())) checked="checked" @endif
-                                >
+                                    value="{{$product->id}}"
+                                   @if(in_array($tag->id,$product->tags->pluck('id')->toArray())) checked="checked" @endif>
 
                                 <span class="flex w-full justify-between px-4 py-3">
-                            <b>{{$tag->name}}</b>
-
+                            <b>{{$product->name}}</b>
                         </span>
                             </label>
                         @endforeach
-
 
 
                     </div>
@@ -371,6 +354,7 @@
                 </section>
 
 
+                {{-- تگ‌های انتخاب شده --}}
                 <section class="glass-card overflow-hidden p-0">
 
                     <div class="section-heading">
@@ -441,7 +425,6 @@
                     class="sticky bottom-4 z-10 flex flex-col-reverse gap-3 rounded-2xl border border-white/[0.08] bg-ink-900/90 p-3 shadow-lift backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
 
 
-
                     <div class="flex gap-3">
                         <button
                             type="submit"
@@ -465,12 +448,13 @@
         $(".products").select2({
             width: 'resolve' // need to override the changed default
         });
-        $('#productSelect').on('change',updateProduct)
+        $('#productSelect').on('change', updateProduct)
+
         function updateProduct() {
             const option = $(this).find('option:selected');
             const icon = option.data('icon');
             document.getElementById('productName').textContent = option.text();
-            document.getElementById('productIcon').src =icon
+            document.getElementById('productIcon').src = icon
 
         }
     </script>
@@ -478,7 +462,6 @@
         const form = document.getElementById('productTagForm'),
             cards = [...document.querySelectorAll('[data-tag-card]')], search = document.getElementById('tagSearch');
         const fa = n => Number(n).toLocaleString('fa-IR');
-
 
 
         function updateTags() {

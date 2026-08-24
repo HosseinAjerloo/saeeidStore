@@ -1,142 +1,216 @@
 @extends('admin.layout.master')
 
+
 @section('content')
-    <main class="flex-1 p-4 sm:p-6 lg:p-8">
-        <div class="mx-auto max-w-5xl">
-            <section class="list-hero animate-fade-up mb-6">
-                <div class="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                        <span class="chip bg-brand-500/10 text-brand-300">تگ جدید</span>
-                        <h2 class="mt-3 text-2xl font-extrabold text-white sm:text-3xl">ایجاد تگ محصول</h2>
-                        <p class="mt-2 text-sm text-slate-400">یک عنوان کوتاه و خوانا برای گروه‌بندی محتوایی محصولات
-                            تعریف کنید.</p>
-                    </div>
-                    <a href="tags-index.html"
-                       class="rounded-xl border border-white/10 bg-ink-950/30 px-4 py-2.5 text-sm text-slate-300">←
-                        بازگشت به تگ‌ها</a>
+    <main class="flex-1 space-y-6 p-4 sm:p-6 lg:p-8">
+        <section class="list-hero animate-fade-up">
+            <div class="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <span class="chip bg-brand-500/10 text-brand-300">برچسب‌های محصول</span>
+                    <h2 class="mt-3 text-2xl font-extrabold text-white sm:text-3xl">تگ‌های فروشگاه</h2>
+                    <p class="mt-2 text-sm text-slate-400">مدیریت تگ‌ها و مشاهده تعداد محصول متصل به هر تگ</p>
                 </div>
-            </section>
-            <form id="tagForm" action="#" method="post" novalidate="">
-                <div class="grid gap-6 lg:grid-cols-[1fr_20rem]">
-                    <section class="form-section glass-card overflow-hidden p-0">
-                        <div class="section-heading">
-                            <div class="section-number">۰۱</div>
-                            <div><h3>مشخصات تگ</h3>
-                                <p>عنوان، نامک و وضعیت انتشار</p></div>
-                        </div>
-                        <div class="space-y-5 p-5 sm:p-7">
-                            <label class="field-group"><span
-                                    class="field-label">نام تگ</span>
-                                <span class="field-shell">
-                                    <span class="mr-4 text-brand-400">#</span>
-                                    <input id="tagName" name="name" type="text" maxlength="255" placeholder="مثلاً پرفروش">
-                                </span>
-                                <small
-                                    class="field-hint">این فیلد طبق Migration اختیاری است.</small>
-                            </label>
-                            <label
-                                class="field-group">
-                                <span class="field-label">نامک (Slug)</span>
-                                <span class="field-shell">
-                                    <span class="mr-4 text-slate-600">/</span>
-                                    <input id="tagSlug" name="slug" type="text" maxlength="255" dir="ltr" class="text-left" placeholder="best-seller">
-                                </span>
-                                <small
-                                    class="field-hint">
-                                    اختیاری و یکتا؛ از نام تگ به‌صورت خودکار ساخته می‌شود.
-                                </small>
-                            </label>
-                            <div class="field-group">
-                                <span class="field-label">وضعیت تگ</span>
-                                <label
-                                    class="account-status">
-                                    <span
-                                        class="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/10 text-brand-400">✓</span>
-                                    <span class="flex-1">
-                                        <b>تگ فعال باشد</b>
-                                        <small>در بخش انتخاب تگ محصولات نمایش داده می‌شود</small>
+                <div class="flex flex-col gap-2 sm:flex-row">
+
+                    <a href="{{route('admin.tag.create')}}"
+                                          class="rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-5 py-3 text-center text-sm font-extrabold text-ink-950 shadow-glow">+
+                        ایجاد تگ جدید</a>
+                </div>
+            </div>
+        </section>
+        <section class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div class="glass-card p-5"><p class="text-xs text-slate-500">کل تگ‌ها</p>
+                <p class="mt-2 text-2xl font-extrabold text-white">{{$details->get('totalTags')}}</p></div>
+            <div class="glass-card p-5"><p class="text-xs text-slate-500">تگ فعال</p>
+                <p class="mt-2 text-2xl font-extrabold text-brand-300">{{$details->get('totalTagsActive')}}</p></div>
+            <div class="glass-card p-5"><p class="text-xs text-slate-500">متصل به محصول</p>
+                <p class="mt-2 text-2xl font-extrabold text-aqua-300">{{$details->get('totalSyncProduct')}}</p></div>
+            <div class="glass-card p-5"><p class="text-xs text-slate-500">بدون استفاده</p>
+                <p class="mt-2 text-2xl font-extrabold text-rose">{{$details->get('tagNotSync')}}</p></div>
+        </section>
+        <section class="glass-card overflow-hidden p-0">
+            <div class="list-toolbar">
+                <form action="{{route('admin.tag.index')}}" method="GET" class="table-search flex items-center">
+                    <input
+                        name="q" type="text" class="text-white" placeholder="جست‌وجو در نام، موبایل، ایمیل یا کد ملی..."/>
+                    <kbd>Ctrl K</kbd>
+                </form>
+                <div class="text-xs text-slate-500"><span data-result-count="">۶</span> تگ نمایش داده می‌شود</div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>تگ</th>
+                        <th>محصولات</th>
+                        <th>وضعیت</th>
+                        <th class="text-left">عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($tags as $tag)
+                            <tr data-searchable="">
+                                <td>
+                                    <span class="chip bg-brand-500/10 px-3 py-2 text-brand-300">
+                                        {{$tag->name}}
                                     </span>
-                                    <span
-                                        class="relative">
-                                        <input id="tagActive" name="is_active" type="checkbox" value="1" checked="" class="peer sr-only">
-                                        <span class="block h-6 w-11 rounded-full bg-ink-600 peer-checked:bg-brand-500"></span>
-                                        <span class="absolute right-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:-translate-x-5">
-                                        </span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    </section>
-                    <aside class="glass-card h-fit overflow-hidden p-0">
-                        <div class="section-heading">
-                            <div>
-                                <h3>پیش‌نمایش</h3>
-                                <p>نمایش تگ در محصولات</p>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="rounded-2xl border border-white/[0.07] bg-ink-800/50 p-5">
-                                <span id="tagPreview" class="chip bg-brand-500/10 px-4 py-2 text-sm text-brand-300"># نام تگ</span>
-                                <p id="slugPreview" dir="ltr" class="mt-4 text-left text-[11px] text-slate-600">
-                                    /tags/new-tag
-                                </p>
-                                <div class="mt-5 flex items-center gap-2 text-[10px] text-slate-500">
-                                    <span id="statusDot" class="h-2 w-2 rounded-full bg-brand-400"></span>
-                                    <span id="statusText">فعال و قابل انتخاب</span>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
+                                </td>
+                                <td>
+                                    {{$tag->products->count()}}
+                                </td>
+                                <td><span class="chip bg-brand-500/10 text-brand-300"><span class="status-dot bg-brand-400">
+
+                                        </span>{{$tag->getActive}}</span>
+                                </td>
+                                <td>
+                                    <div class="flex justify-end gap-2">
+                                        <a href="{{route('admin.tag.syncProductEdit',$tag)}}" class="table-action text-aqua-300" title="تنوع‌ها">
+                                            ▣
+                                        </a>
+                                        <a href="{{route('admin.tag.edit',$tag)}}" class="table-action edit">✎</a>
+                                        <button data-delete="{{$tag->name}}" data-route="{{route('admin.tag.destroy',$tag)}}"  class="table-action delete">⌫</button>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        @endforeach
+                    </tbody>
+                </table>
+                <div data-empty-state="" class="hidden px-6 py-16 text-center"><p class="text-sm font-bold text-slate-300">
+                        تگی پیدا نشد</p>
+                    <p class="mt-1 text-xs text-slate-600">عبارت دیگری را جست‌وجو کنید.</p></div>
+            </div>
+            @if ($tags->hasPages())
+                <div class="table-footer">
+
+                    <p class="text-xs text-slate-600">
+                        نمایش
+                        {{ $tags->firstItem() ?? 0 }}
+                        تا
+                        {{ $tags->lastItem() ?? 0 }}
+                        از
+                        {{ number_format($tags->total()) }}
+                        کاربر
+                    </p>
+
+                    <nav class="flex gap-1" aria-label="صفحه‌بندی کاربران">
+
+                        {{-- Previous --}}
+                        @if ($tags->onFirstPage())
+                            <button class="pagination-btn" disabled>
+                                ‹
+                            </button>
+                        @else
+                            <a href="{{ $tags->previousPageUrl() }}" class="pagination-btn">
+                                ‹
+                            </a>
+                        @endif
+
+
+                        @php
+                            $current = $tags->currentPage();
+                            $last = $tags->lastPage();
+
+                            $pages = [];
+
+                            // صفحات اول
+                            for ($i = 1; $i <= min(3, $last); $i++) {
+                                $pages[] = $i;
+                            }
+
+                            // صفحات اطراف صفحه جاری
+                            for ($i = max(1, $current - 1); $i <= min($last, $current + 1); $i++) {
+                                $pages[] = $i;
+                            }
+
+                            // صفحات آخر
+                            for ($i = max(1, $last - 2); $i <= $last; $i++) {
+                                $pages[] = $i;
+                            }
+
+                            $pages = array_unique($pages);
+                            sort($pages);
+                        @endphp
+
+
+                        @php
+                            $previous = null;
+                        @endphp
+
+                        @foreach($pages as $page)
+
+                            @if($previous && $page > $previous + 1)
+                                <span class="pagination-btn">
+                    …
+                </span>
+                            @endif
+
+
+                            <a href="{{ $tags->url($page) }}"
+                               class="pagination-btn @if($tags->currentPage() == $page) active @endif">
+                                {{ $page }}
+                            </a>
+
+
+                            @php
+                                $previous = $page;
+                            @endphp
+
+                        @endforeach
+
+
+                        {{-- Next --}}
+                        @if ($tags->hasMorePages())
+                            <a href="{{ $tags->nextPageUrl() }}" class="pagination-btn">
+                                ›
+                            </a>
+                        @else
+                            <button class="pagination-btn" disabled>
+                                ›
+                            </button>
+                        @endif
+
+                    </nav>
+
                 </div>
-                <div class="mt-5 flex justify-end gap-3 rounded-2xl border border-white/[0.08] bg-ink-900/90 p-3">
-                    <button type="reset" class="rounded-xl border border-white/10 px-5 py-3 text-sm text-slate-400">پاک
-                        کردن
-                    </button>
-                    <button type="submit"
-                            class="rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-8 py-3 text-sm font-extrabold text-ink-950 shadow-glow">
-                        ثبت تگ ←
-                    </button>
-                </div>
-            </form>
-        </div>
+            @endif
+
+        </section>
     </main>
 
+
+@endsection
+
+@section('other_content')
+    <form id="deleteDialog" class="delete-dialog" method="POST">
+        @method('DELETE')
+        @csrf
+        <div class="delete-dialog-card">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-rose/10 text-rose">!</div>
+            <h3 class="mt-5 text-lg font-extrabold text-white">حذف گروه</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-400">آیا از حذف «<b id="deleteItemName" class="text-white"></b>»
+                مطمئن هستید؟ این عملیات قابل بازگشت نیست.</p>
+            <div class="mt-6 flex gap-3">
+                <button type="button" data-close-dialog
+                        class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
+                </button>
+                <button id="confirmDelete" class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950">حذف شود
+                </button>
+            </div>
+        </div>
+    </form>
 @endsection
 
 @section('script')
     <script>
-        const form = document.getElementById('tagForm'), nameInput = document.getElementById('tagName'),
-            slugInput = document.getElementById('tagSlug'), activeInput = document.getElementById('tagActive');
-        let slugEdited = false;
-        const slugify = v => v.trim().toLowerCase().replace(/[\s_]+/g, '-').replace(/[^a-z0-9\u0600-\u06ff-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+        const search = document.querySelector('input[type="text"]');
 
-        function update() {
-            document.getElementById('tagPreview').textContent = '# ' + (nameInput.value || 'نام تگ');
-            document.getElementById('slugPreview').textContent = '/tags/' + (slugInput.value || 'new-tag');
-            document.getElementById('statusText').textContent = activeInput.checked ? 'فعال و قابل انتخاب' : 'غیرفعال';
-            document.getElementById('statusDot').className = 'h-2 w-2 rounded-full ' + (activeInput.checked ? 'bg-brand-400' : 'bg-slate-500');
-        }
 
-        nameInput.addEventListener('input', () => {
-            if (!slugEdited) slugInput.value = slugify(nameInput.value);
-            update()
-        });
-        slugInput.addEventListener('input', () => {
-            slugEdited = true;
-            slugInput.value = slugify(slugInput.value);
-            update()
-        });
-        activeInput.addEventListener('change', update);
-        form.addEventListener('reset', () => setTimeout(() => {
-            slugEdited = false;
-            update()
-        }, 0));
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            const b = form.querySelector('[type=submit]');
-            b.textContent = '✓ اطلاعات تگ آماده ثبت است';
-            setTimeout(() => b.textContent = 'ثبت تگ ←', 2000)
-        });
-        update();
+        window.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.key.toLowerCase()==='k') {
+                search.focus()
+            }
+        })
     </script>
 @endsection

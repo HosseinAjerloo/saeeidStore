@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,6 +31,13 @@ class Tag extends Model
         );
     }
     public function products(){
-        return $this->belongsToMany(Tag::class,'product_tag','tag_id','product_id','id','id');
+        return $this->belongsToMany(Product::class,'product_tag','tag_id','product_id','id','id');
+    }
+
+    #[Scope]
+    public function scopeSearch(Builder $builder){
+        $builder->when(request()->query('q'),function ($query,$value){
+            $query->where('name','like',"%{$value}%");
+        });
     }
 }

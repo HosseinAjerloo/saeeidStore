@@ -53,7 +53,7 @@
 
                                     <div>
                                         <b class="block text-sm text-white">{{$product->name??''}}
-                                            {{$productVariant->id}}</b>
+                                        </b>
 
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                     <span class="">
                                             @foreach($productVariant->variantAttributes->pluck('attribute') as $value)
                                                 <div>
-                                                    <div class="mt-2">{{$value->name}}</div>
+                                                    <div class="mt-2">{{$value?->name}}</div>
                                                 </div>
 
                                         @endforeach
@@ -76,13 +76,13 @@
                             <td>
                                     <span class="">
                                             @foreach($productVariant->variantAttributes->pluck('attributeValue') as $value)
-                                            @if($value->attribute->type=='color')
+                                            @if($value?->attribute->type=='color')
                                                 <div class="h-4 w-4 rounded-full border-2 border-ink-850 "
                                                      style="background-color:{{$value->value}}" title="رنگ">
                                                 </div>
 
                                             @else
-                                                <div class=" mt-2 rounded-md   text-aqua-300">{{$value->value}}</div>
+                                                <div class=" mt-2 rounded-md   text-aqua-300">{{$value?->value}}</div>
                                             @endif
 
                                         @endforeach
