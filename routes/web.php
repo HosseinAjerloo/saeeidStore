@@ -69,6 +69,13 @@ Route::prefix('admin')->name('admin.')->group(function (){
         Route::put('sync-product-update/{tag}',[\App\Http\Controllers\Admin\Tag\TagController::class,'syncProductUpdate'])->name('syncProductUpdate');
 
     });
+
+    Route::prefix('discount')->name('discount.')->group(function (){
+       Route::get('/',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'index'])->name('index');
+       Route::get('create',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'create'])->name('create');
+       Route::post('store',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'store'])->name('store');
+    });
 });
 Route::get('test',function (){
+    dd(\App\Models\Discount::all());
 });

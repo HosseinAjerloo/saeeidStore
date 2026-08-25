@@ -56,6 +56,12 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{route('admin.discount.index')}}" class="nav-item {{str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'admin.discount')?'active':''}}">
+                        ٪ کدهای تخفیف
+                    </a>
+                </li>
+
             </ul>
         </div>
     </nav>
