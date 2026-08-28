@@ -31,8 +31,9 @@
             </section>
 
             {{-- Form --}}
-            <form id="discountForm" action="{{route('admin.discount.store')}}" method="POST" novalidate>
+            <form id="discountForm" action="{{route('admin.discount.update',$discount)}}" method="POST" novalidate>
                 @csrf
+                @method('PUT')
                 <div class="grid gap-6 xl:grid-cols-[1fr_22rem]">
 
                     <div class="space-y-6">
@@ -67,7 +68,7 @@
                                             required
                                             maxlength="255"
                                             placeholder="مثلاً جشنواره خرید تابستانه"
-                                            value="{{old('name')}}"
+                                            value="{{old('name',$discount->name)}}"
                                         >
                                     </span>
 
@@ -91,12 +92,13 @@
                                             name="type"
                                             class="native-select"
                                             required
+
                                         >
-                                            <option value="percentage"@if(old('type')=='percentage') selected="selected" @endif>
+                                            <option value="percentage" @if(old('type',$discount->type=='percentage'))  selected="selected" @endif>
                                                 درصدی
                                             </option>
 
-                                            <option value="fixed"@if(old('type')=='fixed') selected="selected" @endif>
+                                            <option value="fixed" @if(old('type',$discount->type=='fixed'))  selected="selected" @endif>
                                                 مبلغ ثابت
                                             </option>
                                         </select>
@@ -122,7 +124,7 @@
                                             step="0.001"
                                             required
                                             placeholder="0"
-                                            value="{{old('value')}}"
+                                            value="{{old('value',round($discount->value,PHP_ROUND_HALF_DOWN))}}"
                                         >
 
                                         <span
@@ -151,11 +153,11 @@
                                             name="scope"
                                             class="native-select"
                                         >
-                                            <option value="product" @if(old('scope')=='product') selected="selected" @endif>
+                                            <option value="product"@if(old('scope',$discount->scope)=='product') selected="selected" @endif>
                                                 محصول
                                             </option>
 
-                                            <option value="user" @if(old('scope')=='user') selected="selected" @endif>
+                                            <option value="user"@if(old('scope',$discount->scope)=='user') selected="selected" @endif>
                                                 کاربر
                                             </option>
                                         </select>
@@ -235,7 +237,7 @@
                                         <input
                                             id="minOrder"
                                             name="min_order_amount"
-                                            type="text"
+                                            type="number"
                                             min="0"
                                             step="0.001"
                                             placeholder="مثلاً 1000000"
@@ -262,7 +264,7 @@
                                         <input
                                             id="maxOrder"
                                             name="max_order_amount"
-                                            type="text"
+                                            type="number"
                                             min="0"
                                             step="0.001"
                                             placeholder="مثلاً 20000000"

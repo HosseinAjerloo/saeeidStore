@@ -74,6 +74,8 @@ Route::prefix('admin')->name('admin.')->group(function (){
        Route::get('/',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'index'])->name('index');
        Route::get('create',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'create'])->name('create');
        Route::post('store',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'store'])->name('store');
+       Route::get('edit/{discount}',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'edit'])->name('edit');
+       Route::put('update/{discount}',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'update'])->name('update');
     });
 });
 Route::get('test',function (){

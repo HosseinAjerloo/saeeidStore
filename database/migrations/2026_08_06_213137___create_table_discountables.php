@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('discountables', function (Blueprint $table) {
             $table->id();
             $table->foreignId('discount_id')->constrained('discounts')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->boolean('used')->default(0);
             $table->morphs('discountable');
             $table->timestamps();
             $table->softDeletes();

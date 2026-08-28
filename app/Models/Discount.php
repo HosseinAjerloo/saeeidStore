@@ -26,7 +26,7 @@ class Discount extends Model
 
     ];
 
-    private function generateDiscountCode(): string
+    protected function generateDiscountCode(): string
     {
         do {
             $code = Str::upper(Str::random(10));

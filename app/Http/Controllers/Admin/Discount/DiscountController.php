@@ -35,11 +35,16 @@ class DiscountController extends Controller
             $inputs = $request->all();
             $inputs['starts_at']=date('Y-m-d',$inputs['starts_at']);
             $inputs['expires_at']=date('Y-m-d',$inputs['expires_at']);
+            if ($inputs['scope']=='product')
+            {
+                $inputs['min_order_amount']=null;
+                $inputs['max_order_amount']=null;
+            }
             Discount::create([
                 ...$inputs,
-                'code' => $inputs['type'] == 'user' ? $this->generateDiscountCode() : null
+                'code' => $inputs['scope'] == 'user' ? Discount::generateDiscountCode() : null
             ]);
-            return redirect()->route('admin.discount.index')->with(['success' => 'کدتخفیف با موفقیت ساخته شد']);
+            return redirect()->route('admin.discount.index')->with(['success' => 'تخفیف با موفقیت ساخته شد']);
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->withErrors(['discountGenerateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
 
@@ -57,17 +62,29 @@ class DiscountController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Discount $discount)
     {
-        //
+       return view('admin.discount.edit',compact('discount'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DiscountRequest $request, Discount $discount)
     {
-        //
+        try {
+            $inputs = $request->all();
+            $inputs['starts_at']=date('Y-m-d',$inputs['starts_at']);
+            $inputs['expires_at']=date('Y-m-d',$inputs['expires_at']);
+            $discount->update([
+                ...$inputs,
+                'code' => $inputs['scope'] == 'user' ? $discount->code : null
+            ]);
+            return redirect()->route('admin.discount.index')->with(['success' => 'تخفیف با موفقیت ویرایش شد']);
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['discountGenerateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
+
+        }
     }
 
     /**

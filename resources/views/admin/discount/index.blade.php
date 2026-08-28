@@ -20,7 +20,7 @@
                 </div>
 
                 <a
-                    href="discounts-create.html"
+                    href="{{route('admin.discount.create')}}"
                     class="rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-5 py-3 text-center text-sm font-extrabold text-ink-950 shadow-glow"
                 >
                     + ایجاد تخفیف جدید
@@ -102,6 +102,7 @@
                         <th>نوع و مقدار</th>
                         <th>محدوده سفارش</th>
                         <th>دامنه</th>
+                        <th>کد تخفیف</th>
                         <th>بازه اعتبار</th>
                         <th>وضعیت</th>
                         <th class="text-left">عملیات</th>
@@ -131,7 +132,7 @@
                             <td>
                                 <div>
                                     <b class="text-slate-300">
-                                        ۱ تا ۲۰ میلیون
+                                        {{numberFormatAble($discount->min_order_amount)}} تا {{numberFormatAble($discount->max_order_amount)}}
                                     </b>
 
                                     <p class="mt-1 text-[10px] text-slate-600">
@@ -149,6 +150,11 @@
                                     @endif
                                 </span>
                             </td>
+                            <td>
+                                <span class="chip bg-aqua-500/10 text-aqua-300">
+                                  {{$discount->code??'-'}}
+                                </span>
+                            </td>
 
                             <td>
                                 <div>
@@ -157,7 +163,8 @@
                                     </b>
 
                                     <p class="mt-1 text-[10px] text-slate-600">
-                                        ۲۲ روز باقی‌مانده
+                                        {{\Carbon\Carbon::make($discount->starts_at)->diff($discount->expires_at)->days}}
+                                            روز باقی مانده
                                     </p>
                                 </div>
                             </td>
@@ -172,7 +179,7 @@
                             <td>
                                 <div class="flex justify-end gap-2">
                                     <a
-                                        href="discounts-create.html"
+                                        href="{{route('admin.discount.edit',$discount)}}"
                                         class="table-action edit"
                                         aria-label="ویرایش"
                                     >

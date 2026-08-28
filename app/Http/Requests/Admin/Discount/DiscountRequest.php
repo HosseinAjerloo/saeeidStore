@@ -21,8 +21,8 @@ class DiscountRequest extends FormRequest
             'starts_at'=>substr(request()->input('starts_at'),0,10),
             'expires_at'=>substr(request()->input('expires_at'),0,10),
             'is_active'=>request()->input('is_active',0),
-            'min_order_amount' => request()->filled('min_order_amount') ? request()->input('min_order_amount') * 10 : null,
-            'max_order_amount' => request()->filled('max_order_amount') ? request()->input('max_order_amount') * 10 : null,
+            'min_order_amount' => request()->filled('min_order_amount') ? request()->input('min_order_amount')  : null,
+            'max_order_amount' => request()->filled('max_order_amount') ? request()->input('max_order_amount')  : null,
             ]);
 
     }
@@ -44,7 +44,7 @@ class DiscountRequest extends FormRequest
             'min_order_amount'=>'nullable|numeric|min:10000',
             'max_order_amount'=>'nullable|numeric|min:10000',
             'starts_at'=>'required|min:10|max:10|string',
-            'expires_at'=>'required|min:10|max:10|string',
+            'expires_at'=>'required|min:10|max:10|string|gte:starts_at',
         ];
     }
     public function attributes()
@@ -59,6 +59,12 @@ class DiscountRequest extends FormRequest
             'max_order_amount'=>'حداکثر مبلغ سفارش',
             'starts_at'=>'زمان شروع',
             'expires_at'=>'زمان پایان',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'expires_at.gt'=>'زمان پایان تاریخ باید بزرگ تر یا برابر زمان شروع باشد'
         ];
     }
 }
