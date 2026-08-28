@@ -34,7 +34,6 @@ class DiscountRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'name'=>'required',
             'type'=>'required|in:percentage,fixed',
@@ -45,6 +44,8 @@ class DiscountRequest extends FormRequest
             'max_order_amount'=>'nullable|numeric|min:10000',
             'starts_at'=>'required|min:10|max:10|string',
             'expires_at'=>'required|min:10|max:10|string|gte:starts_at',
+            'connection'=>['required','array'],
+            'connection.*'=>['required', 'exists:' . (request()->input('scope') === 'user' ? 'users' : 'products') . ',id']
         ];
     }
     public function attributes()

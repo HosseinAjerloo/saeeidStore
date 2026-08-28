@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Discount;
 use App\Models\ProductGroup;
 use Illuminate\Support\Facades\Route;
 
@@ -76,8 +77,10 @@ Route::prefix('admin')->name('admin.')->group(function (){
        Route::post('store',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'store'])->name('store');
        Route::get('edit/{discount}',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'edit'])->name('edit');
        Route::put('update/{discount}',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'update'])->name('update');
+       Route::delete('destroy/{discount}',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'destroy'])->name('destroy');
     });
 });
 Route::get('test',function (){
-    dd(\App\Models\Discount::all());
+
+    dd(\App\Models\Discountable::all());
 });

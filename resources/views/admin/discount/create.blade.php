@@ -1,5 +1,219 @@
 @extends('admin.layout.master')
 
+@section('style')
+    <link rel="stylesheet" href="{{asset('/global/css/select2.min.css')}}">
+    <style>
+
+        /* ===============================
+           Select2 - Modern Minimal
+        ================================ */
+
+        .select2-container--default .select2-selection--multiple {
+            background: rgba(255, 255, 255, 0.025) !important;
+            border: 1px solid rgba(255, 255, 255, 0.10) !important;
+            border-radius: 11px !important;
+            padding: 5px 7px !important;
+            transition: all .2s ease;
+        }
+
+        .select2-container--default.select2-container--focus
+        .select2-selection--multiple {
+            border-color: rgba(52, 211, 153, .55) !important;
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, .08) !important;
+            background: rgba(52, 211, 153, .025) !important;
+        }
+
+
+        /* ===============================
+           Selected Items
+        ================================ */
+
+        .select2-container--default
+        .select2-selection--multiple
+        .select2-selection__choice {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: max-content;
+            min-width: max-content;
+            margin: 3px 5px 3px 0 !important;
+            padding: 5px 10px !important;
+            box-sizing: border-box;
+
+            background: rgba(52, 211, 153, .09) !important;
+            border: 1px solid rgba(52, 211, 153, .16) !important;
+            border-radius: 7px !important;
+
+            color: #d1fae5 !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+
+            transition: all .15s ease;
+        }
+
+        .select2-container--default
+        .select2-selection--multiple
+        .select2-selection__choice:hover {
+            background: rgba(52, 211, 153, .15) !important;
+            border-color: rgba(52, 211, 153, .28) !important;
+        }
+
+
+        /* ===============================
+           Selected Text
+        ================================ */
+
+        .select2-container--default
+        .select2-selection--multiple
+        .select2-selection__choice__display {
+            color: #d1fae5 !important;
+            margin-left: 20px;
+        }
+
+
+        /* ===============================
+           Remove Button
+        ================================ */
+
+        .select2-container--default
+        .select2-selection--multiple
+        .select2-selection__choice__remove {
+            order: 2;
+
+            width: 16px !important;
+            height: 16px !important;
+
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+
+            margin: 6px !important;
+            padding: 0 !important;
+
+            border: 0 !important;
+            border-radius: 5px !important;
+
+            background: rgba(255, 255, 255, .06) !important;
+
+            color: rgba(255, 255, 255, .45) !important;
+
+            font-size: 12px !important;
+            line-height: 1 !important;
+
+            transition: all .15s ease;
+        }
+
+        .select2-container--default
+        .select2-selection--multiple
+        .select2-selection__choice__remove:hover {
+            background: rgba(248, 113, 113, .16) !important;
+            color: #f87171 !important;
+        }
+
+
+        /* ===============================
+           Search Input
+        ================================ */
+
+        .select2-container--default
+        .select2-selection--multiple
+        .select2-search--inline
+        .select2-search__field {
+            margin: 3px 2px !important;
+            padding: 2px 4px !important;
+
+            color: #e5e7eb !important;
+            font-size: 12px !important;
+            outline: none !important;
+        }
+
+        .select2-container--default
+        .select2-selection--multiple
+        .select2-search--inline
+        .select2-search__field::placeholder {
+            color: #6b7280 !important;
+        }
+
+
+        /* ===============================
+           Dropdown
+        ================================ */
+
+        .select2-container--default .select2-dropdown {
+            margin-top: 5px !important;
+
+            background: #111827 !important;
+            border: 1px solid rgba(255, 255, 255, .09) !important;
+            border-radius: 11px !important;
+
+            overflow: hidden !important;
+
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .35) !important;
+        }
+
+
+        /* ===============================
+           Options
+        ================================ */
+
+        .select2-container--default
+        .select2-results__option {
+            padding: 9px 12px !important;
+
+            background: transparent !important;
+            color: #d1d5db !important;
+
+            font-size: 12px !important;
+
+            transition: all .12s ease;
+        }
+
+        .select2-container--default
+        .select2-results__option--highlighted {
+            background: rgba(52, 211, 153, .09) !important;
+            color: #6ee7b7 !important;
+        }
+
+        .select2-container--default
+        .select2-results__option[aria-selected="true"] {
+            background: rgba(52, 211, 153, .055) !important;
+            color: #6ee7b7 !important;
+        }
+
+
+        /* ===============================
+           Dropdown Search
+        ================================ */
+
+        .select2-container--default .select2-search--dropdown {
+            padding: 8px !important;
+            background: #111827 !important;
+        }
+
+        .select2-container--default
+        .select2-search--dropdown
+        .select2-search__field {
+            width: 100% !important;
+
+            padding: 8px 10px !important;
+
+            background: rgba(255, 255, 255, .045) !important;
+
+            border: 1px solid rgba(255, 255, 255, .09) !important;
+            border-radius: 8px !important;
+
+            color: #f9fafb !important;
+
+            outline: none !important;
+        }
+
+        .select2-container--default
+        .select2-search--dropdown
+        .select2-search__field:focus {
+            border-color: rgba(52, 211, 153, .45) !important;
+        }
+    </style>
+@endsection
 @section('content')
     <main class="flex-1 p-4 sm:p-6 lg:p-8">
         <div class="mx-auto max-w-6xl">
@@ -92,11 +306,12 @@
                                             class="native-select"
                                             required
                                         >
-                                            <option value="percentage"@if(old('type')=='percentage') selected="selected" @endif>
+                                            <option value="percentage"
+                                                    @if(old('type')=='percentage') selected="selected" @endif>
                                                 درصدی
                                             </option>
 
-                                            <option value="fixed"@if(old('type')=='fixed') selected="selected" @endif>
+                                            <option value="fixed" @if(old('type')=='fixed') selected="selected" @endif>
                                                 مبلغ ثابت
                                             </option>
                                         </select>
@@ -116,7 +331,7 @@
                                         <input
                                             id="discountValue"
                                             name="value"
-                                            type="number"
+                                            type="text"
                                             min="0"
                                             max="100"
                                             step="0.001"
@@ -209,6 +424,48 @@
                                         </span>
                                     </label>
                                 </div>
+                            </div>
+                        </section>
+
+                        <section class="form-section glass-card overflow-hidden p-0  hide under-discount">
+                            <div class="section-heading">
+                                <div class="section-number aqua">۰۲</div>
+
+                                <div>
+                                    <h3>اتصالات تخفیفات</h3>
+                                    <p>مشخص کنید کد تخفیف روی چه دامنه هایی فعال باشد</p>
+                                </div>
+                            </div>
+
+                            <div class="grid gap-5 p-5 sm:grid-cols-1 sm:p-7">
+
+
+                                <label class="field-group connection-label opacity-0" id="user-connection-label">
+                                    <span class="field-label">
+                                        دامنه را مشخص کنید
+                                    </span>
+                                    <select class="connection w-full" id="user-connection" multiple="multiple">
+                                        @foreach($users as $user)
+                                                <option value="{{$user->id}}">{{$user->fullName??'-'}}</option>
+
+                                        @endforeach
+
+                                    </select>
+
+
+                                </label>
+                                <label class="field-group connection-label opacity-0" id="product-connection-label">
+
+                                    <select class="connection w-full" id="product-connection" multiple="multiple">
+                                        @foreach($products as $product)
+                                            <option value="{{$product->id}}">{{$product->name??'-'}}/{{$product?->group->name}}</option>
+                                        @endforeach
+
+                                    </select>
+
+                                </label>
+
+
                             </div>
                         </section>
 
@@ -453,7 +710,33 @@
 @endsection
 
 @section('script')
+    <script src="{{asset('global/js/select2.min.js')}}"></script>
+    <script>
+        const updateConnection = () => {
+            const scope = document.getElementById('discountScope');
+            let value = scope.value
 
+            const change = (e) => {
+                action(e.target.value)
+            }
+            const action = (value)=> {
+                document.querySelectorAll('.connection-label').forEach(function (elme){
+                    elme.querySelector('select').removeAttribute('name')
+                    elme.classList.add('opacity-0')
+                })
+
+                document.getElementById(value+'-connection-label').classList.remove('opacity-0')
+                document.getElementById(value+'-connection').setAttribute('name','connection[]')
+            }
+            action(value)
+            scope.addEventListener('change', change)
+
+        }
+        updateConnection();
+        $('.connection').select2({
+            width: 'resolve'
+        })
+    </script>
     <script>
         $('#startsAt').persianDatepicker({
             observer: true,
@@ -574,7 +857,6 @@
                 : 'بدون محدودیت';
 
 
-
             updateStatus();
 
             validateRanges();
@@ -605,7 +887,7 @@
         });
 
 
-
         updatePreview();
     </script>
+
 @endsection

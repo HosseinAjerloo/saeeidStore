@@ -40,10 +40,24 @@ class Discount extends Model
             get: fn($value) =>$this->is_active=='1'?'فعال':'غیرفعال'
         );
     }
+    public function products(){
+        return $this->morphedByMany(Product::class,'discountable')->using(Discountable::class)->wherePivotNull('deleted_at')->withPivot('used');
+    }
+
+
+    public function users(){
+        return $this->morphedByMany(User::class,'discountable')->using(Discountable::class)->wherePivotNull('deleted_at')->withPivot('used');
+    }
     #[Scope]
     public function scopeSearch(Builder $builder){
         $builder->when(request()->query('q'),function ($query,$value){
-            $query->where('name','like',"%{$value}%")->orWhere('email',$value)->orWhere('mobile',$value);
+            if ($value=='کاربر')
+            {
+                $value='user';
+            }elseif ($value=='محصول'){
+                $value='product';
+            }
+            $query->where('name','like',"%{$value}%")->orWhere('scope',$value);
         });
     }
 

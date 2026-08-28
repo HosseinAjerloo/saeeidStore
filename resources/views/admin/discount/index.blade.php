@@ -33,7 +33,7 @@
 
             <div class="glass-card p-5">
                 <p class="text-xs text-slate-500">کل تخفیف‌ها</p>
-                <p class="mt-2 text-2xl font-extrabold text-white">۲۴</p>
+                <p class="mt-2 text-2xl font-extrabold text-white">{{$details->get('totalDiscount')}}</p>
                 <p class="mt-2 text-[10px] text-slate-600">
                     تمام کمپین‌ها
                 </p>
@@ -41,23 +41,19 @@
 
             <div class="glass-card p-5">
                 <p class="text-xs text-slate-500">فعال و معتبر</p>
-                <p class="mt-2 text-2xl font-extrabold text-brand-300">۱۲</p>
+                <p class="mt-2 text-2xl font-extrabold text-brand-300">
+                    {{$details->get('activeAndReputable')}}
+                </p>
                 <p class="mt-2 text-[10px] text-slate-600">
                     قابل استفاده در فروشگاه
                 </p>
             </div>
 
-            <div class="glass-card p-5">
-                <p class="text-xs text-slate-500">درصدی</p>
-                <p class="mt-2 text-2xl font-extrabold text-aqua-300">۱۵</p>
-                <p class="mt-2 text-[10px] text-slate-600">
-                    از کل تخفیف‌ها
-                </p>
-            </div>
+
 
             <div class="glass-card p-5">
                 <p class="text-xs text-slate-500">منقضی‌شده</p>
-                <p class="mt-2 text-2xl font-extrabold text-rose">۵</p>
+                <p class="mt-2 text-2xl font-extrabold text-rose">{{$details->get('inactive')}}</p>
                 <p class="mt-2 text-[10px] text-slate-600">
                     نیازمند بررسی
                 </p>
@@ -70,21 +66,11 @@
 
 
             <div class="list-toolbar">
-                <div class="table-search">
-                    <span
-                        class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-600"
-                    >
-                        ⌕
-                    </span>
-
+                <form action="{{route('admin.discount.index')}}" method="GET" class="table-search flex items-center">
                     <input
-                        data-table-search=""
-                        type="search"
-                        placeholder="جست‌وجو در عنوان، نوع، دامنه یا وضعیت..."
-                    >
-
+                        name="q" type="text" class="text-white" placeholder="جست‌وجو در نام،دامنه"/>
                     <kbd>Ctrl K</kbd>
-                </div>
+                </form>
 
                 <div class="text-xs text-slate-500">
                     <span data-result-count="">۶</span>
@@ -187,7 +173,8 @@
                                     </a>
 
                                     <button
-                                        data-delete="جشنواره تابستانه"
+                                        data-route="{{route('admin.discount.destroy',$discount)}}"
+                                        data-delete="{{$discount->name??''}}"
                                         class="table-action delete"
                                         aria-label="حذف"
                                     >
@@ -217,85 +204,121 @@
             </div>
 
 
-            <div class="table-footer">
-                <p class="text-xs text-slate-600">
-                    نمایش ۱ تا ۶ از ۲۴ تخفیف
-                </p>
+            @if ($discounts->hasPages())
+                <div class="table-footer">
 
-                <nav
-                    class="flex gap-1"
-                    aria-label="صفحه‌بندی"
-                >
-                    <button
-                        class="pagination-btn"
-                        disabled
-                    >
-                        ‹
-                    </button>
+                    <p class="text-xs text-slate-600">
+                        نمایش
+                        {{ $discounts->firstItem() ?? 0 }}
+                        تا
+                        {{ $discounts->lastItem() ?? 0 }}
+                        از
+                        {{ number_format($discounts->total()) }}
+                        کاربر
+                    </p>
 
-                    <button class="pagination-btn active">
-                        ۱
-                    </button>
+                    <nav class="flex gap-1" aria-label="صفحه‌بندی کاربران">
 
-                    <button class="pagination-btn">
-                        ۲
-                    </button>
+                        {{-- Previous --}}
+                        @if ($discounts->onFirstPage())
+                            <button class="pagination-btn" disabled>
+                                ‹
+                            </button>
+                        @else
+                            <a href="{{ $discounts->previousPageUrl() }}" class="pagination-btn">
+                                ‹
+                            </a>
+                        @endif
 
-                    <button class="pagination-btn">
-                        ۳
-                    </button>
 
-                    <button class="pagination-btn">
-                        ۴
-                    </button>
+                        @php
+                            $current = $discounts->currentPage();
+                            $last = $discounts->lastPage();
 
-                    <button class="pagination-btn">
-                        ›
-                    </button>
-                </nav>
-            </div>
+                            $pages = [];
+
+                            // صفحات اول
+                            for ($i = 1; $i <= min(3, $last); $i++) {
+                                $pages[] = $i;
+                            }
+
+                            // صفحات اطراف صفحه جاری
+                            for ($i = max(1, $current - 1); $i <= min($last, $current + 1); $i++) {
+                                $pages[] = $i;
+                            }
+
+                            // صفحات آخر
+                            for ($i = max(1, $last - 2); $i <= $last; $i++) {
+                                $pages[] = $i;
+                            }
+
+                            $pages = array_unique($pages);
+                            sort($pages);
+                        @endphp
+
+
+                        @php
+                            $previous = null;
+                        @endphp
+
+                        @foreach($pages as $page)
+
+                            @if($previous && $page > $previous + 1)
+                                <span class="pagination-btn">
+                    …
+                </span>
+                            @endif
+
+
+                            <a href="{{ $discounts->url($page) }}"
+                               class="pagination-btn @if($discounts->currentPage() == $page) active @endif">
+                                {{ $page }}
+                            </a>
+
+
+                            @php
+                                $previous = $page;
+                            @endphp
+
+                        @endforeach
+
+
+                        {{-- Next --}}
+                        @if ($discounts->hasMorePages())
+                            <a href="{{ $discounts->nextPageUrl() }}" class="pagination-btn">
+                                ›
+                            </a>
+                        @else
+                            <button class="pagination-btn" disabled>
+                                ›
+                            </button>
+                        @endif
+
+                    </nav>
+
+                </div>
+            @endif
 
         </section>
     </main>
 @endsection
 
 @section('other_content')
-    <div id="deleteDialog" class="delete-dialog">
-
+    <form id="deleteDialog" class="delete-dialog" method="POST">
+        @method('DELETE')
+        @csrf
         <div class="delete-dialog-card">
-
-            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-rose/10 text-rose">
-                !
-            </div>
-
-            <h3 class="mt-5 text-lg font-extrabold text-white">
-                حذف تخفیف
-            </h3>
-
-            <p class="mt-2 text-sm leading-7 text-slate-400">
-                آیا از حذف
-                «<b id="deleteItemName" class="text-white"></b>»
-                مطمئن هستید؟
-            </p>
-
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-rose/10 text-rose">!</div>
+            <h3 class="mt-5 text-lg font-extrabold text-white">حذف کدتخفیف</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-400">آیا از حذف «<b id="deleteItemName" class="text-white"></b>»
+                مطمئن هستید؟ این عملیات قابل بازگشت نیست.</p>
             <div class="mt-6 flex gap-3">
-
-                <button
-                    data-close-dialog=""
-                    class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400"
-                >
-                    انصراف
+                <button type="button" data-close-dialog
+                        class="flex-1 rounded-xl border border-white/10 py-2.5 text-slate-400">انصراف
                 </button>
-
-                <button
-                    id="confirmDelete"
-                    class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950"
-                >
-                    حذف شود
+                <button id="confirmDelete" class="flex-1 rounded-xl bg-rose py-2.5 font-bold text-ink-950">حذف شود
                 </button>
-
             </div>
-
         </div>
-    </div>
+    </form>
 @endsection
