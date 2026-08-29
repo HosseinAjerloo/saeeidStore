@@ -4,6 +4,7 @@ use App\Models\Discount;
 use App\Models\ProductGroup;
 use Illuminate\Support\Facades\Route;
 
+//admin
 Route::prefix('admin')->name('admin.')->group(function (){
    Route::prefix('user')->name('user.')->group(function (){
        Route::get('',[\App\Http\Controllers\Admin\User\UserController::class,'index'])->name('index');
@@ -80,6 +81,9 @@ Route::prefix('admin')->name('admin.')->group(function (){
        Route::delete('destroy/{discount}',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'destroy'])->name('destroy');
     });
 });
-Route::get('/',function (){
-   return view('panel.index');
+
+//panel
+
+Route::name('panel.')->group(function (){
+   Route::get('/',[App\Http\Controllers\Panel\PanelController::class,'index'])->name('index');
 });

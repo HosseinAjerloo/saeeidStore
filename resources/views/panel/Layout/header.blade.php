@@ -6,11 +6,7 @@
                 <span class="text-muted-50">|</span>
                 <a href="#"><i class="bi bi-envelope"></i> info@zamank.ir</a>
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <a href="pages/faq.html"><i class="bi bi-question-circle"></i> پرسش‌های متداول</a>
-                <span class="text-muted-50">|</span>
-                <a href="pages/blog.html"><i class="bi bi-journal-text"></i> وبلاگ</a>
-            </div>
+
         </div>
     </div>
 </div>
@@ -30,7 +26,9 @@
                 <div class="search-bar">
                     <input type="text" id="search-input" placeholder="جستجو..." oninput="liveSearch(this)">
                     <button><i class="bi bi-search"></i></button>
-                    <div id="search-suggestions" class="dropdown-menu w-100 show d-none" style="position:absolute; top:100%; right:0; border-radius:12px; box-shadow:0 8px 30px rgba(108,92,231,0.12); padding:8px;"></div>
+                    <div id="search-suggestions" class="dropdown-menu w-100 show d-none" style="position:absolute; top:100%; right:0; border-radius:12px; box-shadow:0 8px 30px rgba(108,92,231,0.12); padding:8px;">
+
+                    </div>
                 </div>
             </div>
             <!-- آیکون‌ها -->
@@ -57,7 +55,7 @@
     <nav class="category-nav d-none d-lg-block">
         <div class="container">
             <ul>
-                <li><a href="index.html"><i class="bi bi-house"></i> خانه</a></li>
+                <li><a href="{{route('panel.index')}}"><i class="bi bi-house"></i> خانه</a></li>
 
                 <!-- مگا منو 4 ستونه -->
                 <li class="dropdown">
@@ -139,88 +137,9 @@
                     </div>
                 </li>
 
-                <!-- مگا منو 5 ستونه -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="bi bi-grid"></i> همه برندها
-                    </a>
-                    <div class="dropdown-menu mega-menu mega-menu-5col">
-                        <div class="row g-3">
-                            <div class="col-2">
-                                <h6>A - C</h6>
-                                <a href="pages/search.html" class="mega-item d-block">Apple</a>
-                                <a href="pages/search.html" class="mega-item d-block">Armani</a>
-                                <a href="pages/search.html" class="mega-item d-block">Casio</a>
-                                <a href="pages/search.html" class="mega-item d-block">Citizen</a>
-                            </div>
-                            <div class="col-2">
-                                <h6>D - F</h6>
-                                <a href="pages/search.html" class="mega-item d-block">Daniel Wellington</a>
-                                <a href="pages/search.html" class="mega-item d-block">Diesel</a>
-                                <a href="pages/search.html" class="mega-item d-block">Fossil</a>
-                            </div>
-                            <div class="col-2">
-                                <h6>G - M</h6>
-                                <a href="pages/search.html" class="mega-item d-block">G-Shock</a>
-                                <a href="pages/search.html" class="mega-item d-block">Guess</a>
-                                <a href="pages/search.html" class="mega-item d-block">Michael Kors</a>
-                            </div>
-                            <div class="col-2">
-                                <h6>O - S</h6>
-                                <a href="pages/search.html" class="mega-item d-block">Orient</a>
-                                <a href="pages/search.html" class="mega-item d-block">Rolex</a>
-                                <a href="pages/search.html" class="mega-item d-block">Seiko</a>
-                                <a href="pages/search.html" class="mega-item d-block">Skagen</a>
-                            </div>
-                            <div class="col-2">
-                                <h6>T - Z</h6>
-                                <a href="pages/search.html" class="mega-item d-block">Tissot</a>
-                                <a href="pages/search.html" class="mega-item d-block">Tommy Hilfiger</a>
-                                <a href="pages/search.html" class="mega-item d-block">Versace</a>
-                            </div>
-                            <div class="col-2">
-                                <a href="pages/search.html" class="mega-menu-img">
-                                    <div>
-                                        <i class="bi bi-stars" style="font-size:36px;"></i>
-                                        <h6 class="text-white mt-2">برندهای جدید</h6>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- مگا منو 2 ستونه -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="bi bi-smartwatch"></i> ساعت هوشمند
-                    </a>
-                    <div class="dropdown-menu mega-menu mega-menu-2col">
-                        <div class="row g-3">
-                            <div class="col-6">
-                                <h6>برندهای هوشمند</h6>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-apple"></i> اپل واچ</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-samsung"></i> سامسونگ گالکسی واچ</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-smartwatch"></i> هواوی واچ</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-smartwatch"></i> شیائومی</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-smartwatch"></i> آمیزفیت</a>
-                            </div>
-                            <div class="col-6">
-                                <a href="pages/search.html" class="mega-menu-img" style="background:linear-gradient(135deg,#00CEC9,#6C5CE7);">
-                                    <div>
-                                        <i class="bi bi-smartwatch" style="font-size:48px;"></i>
-                                        <h5 class="mt-3">ساعت‌های هوشمند</h5>
-                                        <p class="text-white-50">تکنولوژی روی مچ شما</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
 
                 <li><a href="pages/amazing.html"><i class="bi bi-fire"></i> شگفت‌انگیزها</a></li>
-                <li><a href="pages/compare.html"><i class="bi bi-bar-chart"></i> مقایسه</a></li>
-                <li><a href="pages/blog.html"><i class="bi bi-journal"></i> مجله زمانک</a></li>
+
             </ul>
         </div>
     </nav>
