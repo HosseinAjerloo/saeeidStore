@@ -437,16 +437,16 @@
                                 </div>
                             </div>
 
-                            <div class="grid gap-5 p-5 sm:grid-cols-1 sm:p-7">
+                            <div class="grid  sm:grid-cols-1 sm:p-7">
 
 
-                                <label class="field-group connection-label opacity-0" id="user-connection-label">
+                                <label class="field-group connection-label transition-all invisible opacity-0" id="user-connection-label">
                                     <span class="field-label">
-                                        دامنه را مشخص کنید
+                                        دامنه کاربران را مشخص کنید
                                     </span>
                                     <select class="connection w-full" id="user-connection" multiple="multiple">
                                         @foreach($users as $user)
-                                                <option value="{{$user->id}}">{{$user->fullName??'-'}}</option>
+                                            <option value="{{$user->id}}">{{$user->fullName??'-'}}</option>
 
                                         @endforeach
 
@@ -454,11 +454,14 @@
 
 
                                 </label>
-                                <label class="field-group connection-label opacity-0" id="product-connection-label">
-
+                                <label class="field-group connection-label transition-all invisible opacity-0" id="product-connection-label">
+                                    <span class="field-label">
+                                        دامنه محصولات را مشخص کنید
+                                    </span>
                                     <select class="connection w-full" id="product-connection" multiple="multiple">
                                         @foreach($products as $product)
-                                            <option value="{{$product->id}}">{{$product->name??'-'}}/{{$product?->group->name}}</option>
+                                            <option value="{{$product->id}}">{{$product->name??'-'}}
+                                                /{{$product?->group->name}}</option>
                                         @endforeach
 
                                     </select>
@@ -719,14 +722,19 @@
             const change = (e) => {
                 action(e.target.value)
             }
-            const action = (value)=> {
-                document.querySelectorAll('.connection-label').forEach(function (elme){
+            const action = (value) => {
+                document.querySelectorAll('.connection-label').forEach(function (elme) {
                     elme.querySelector('select').removeAttribute('name')
                     elme.classList.add('opacity-0')
+                    elme.classList.add('invisible')
+                    elme.style.height='0px'
+
                 })
 
-                document.getElementById(value+'-connection-label').classList.remove('opacity-0')
-                document.getElementById(value+'-connection').setAttribute('name','connection[]')
+                document.getElementById(value + '-connection-label').classList.remove('opacity-0')
+                document.getElementById(value + '-connection-label').classList.remove('invisible')
+                document.getElementById(value + '-connection-label').style.height=document.getElementById(value + '-connection-label').scrollHeight+'px';
+                document.getElementById(value + '-connection').setAttribute('name', 'connection[]')
             }
             action(value)
             scope.addEventListener('change', change)

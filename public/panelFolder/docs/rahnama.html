@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>راهنمای قالب زمانک</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 18mm 16mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Vazirmatn', Tahoma, sans-serif;
+      color: #2D3436;
+      line-height: 1.85;
+      font-size: 11.5pt;
+      margin: 0;
+      background: #fff;
+    }
+    .cover {
+      min-height: 250mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a4e 0%, #2d1b69 40%, #6C5CE7 100%);
+      color: #fff;
+      page-break-after: always;
+      padding: 40px;
+      border-radius: 0;
+    }
+    .cover .logo {
+      font-size: 72pt;
+      margin-bottom: 10px;
+    }
+    .cover h1 {
+      font-size: 42pt;
+      font-weight: 900;
+      margin: 0 0 12px;
+      letter-spacing: -1px;
+    }
+    .cover .subtitle {
+      font-size: 16pt;
+      opacity: 0.9;
+      background: rgba(0,0,0,0.25);
+      padding: 10px 28px;
+      border-radius: 50px;
+      margin-bottom: 30px;
+    }
+    .cover .meta {
+      font-size: 11pt;
+      opacity: 0.75;
+      margin-top: 40px;
+    }
+    .cover .features-preview {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cover .feat-box {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 10pt;
+    }
+    h2 {
+      color: #6C5CE7;
+      font-size: 16pt;
+      font-weight: 900;
+      border-right: 4px solid #6C5CE7;
+      padding-right: 12px;
+      margin: 28px 0 14px;
+      page-break-after: avoid;
+    }
+    h3 {
+      color: #2D3436;
+      font-size: 12.5pt;
+      font-weight: 700;
+      margin: 18px 0 8px;
+      page-break-after: avoid;
+    }
+    p { margin: 0 0 10px; text-align: justify; }
+    ul, ol { margin: 0 0 12px; padding-right: 22px; }
+    li { margin-bottom: 5px; }
+    .page { padding: 0; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 10pt;
+    }
+    th, td {
+      border: 1px solid #dfe6e9;
+      padding: 8px 10px;
+      text-align: right;
+    }
+    th {
+      background: #f1f2f6;
+      color: #6C5CE7;
+      font-weight: 700;
+    }
+    tr:nth-child(even) td { background: #fafafa; }
+    code, .path {
+      font-family: Consolas, 'Courier New', monospace;
+      background: #f1f2f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9.5pt;
+      direction: ltr;
+      display: inline-block;
+    }
+    .note {
+      background: #f0eeff;
+      border-right: 4px solid #6C5CE7;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 10.5pt;
+    }
+    .warn {
+      background: #fff8e6;
+      border-right: 4px solid #fdcb6e;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 10.5pt;
+    }
+    .toc a {
+      color: #2D3436;
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dotted #dfe6e9;
+    }
+    .toc a span:last-child { color: #6C5CE7; font-weight: 700; }
+    .badge {
+      display: inline-block;
+      background: #6C5CE7;
+      color: #fff;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 9pt;
+      margin-left: 4px;
+    }
+    .color-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 4px;
+      border: 1px solid #ccc;
+    }
+    .footer-note {
+      text-align: center;
+      color: #636e72;
+      font-size: 9pt;
+      margin-top: 30px;
+      padding-top: 12px;
+      border-top: 1px solid #dfe6e9;
+    }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .cover { min-height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- صفحه جلد -->
+<div class="cover">
+  <div class="logo">⌚</div>
+  <h1>قالب زمانک</h1>
+  <div class="subtitle">قالب HTML فروشگاهی ایرانی — تخصصی ساعت مچی</div>
+  <div class="features-preview">
+    <div class="feat-box">۲۶+ صفحه HTML فارسی</div>
+    <div class="feat-box">Bootstrap 5 RTL</div>
+    <div class="feat-box">طراحی واکنش‌گرا</div>
+    <div class="feat-box">پنل کاربری کامل</div>
+  </div>
+  <div class="meta">راهنمای نصب، سفارشی‌سازی و استفاده<br>نسخه ۱.۰ — ۱۴۰۴</div>
+</div>
+
+<!-- فهرست -->
+<div class="page">
+  <h2>فهرست مطالب</h2>
+  <div class="toc">
+    <a href="#"><span>۱. معرفی قالب</span><span>۳</span></a>
+    <a href="#"><span>۲. ویژگی‌های کلیدی</span><span>۳</span></a>
+    <a href="#"><span>۳. ساختار پوشه‌ها</span><span>۴</span></a>
+    <a href="#"><span>۴. فهرست صفحات</span><span>۵</span></a>
+    <a href="#"><span>۵. نصب و راه‌اندازی</span><span>۷</span></a>
+    <a href="#"><span>۶. سفارشی‌سازی</span><span>۸</span></a>
+    <a href="#"><span>۷. جاوااسکریپت و تعاملات</span><span>۱۰</span></a>
+    <a href="#"><span>۸. تصاویر و رسانه</span><span>۱۱</span></a>
+    <a href="#"><span>۹. واکنش‌گرایی</span><span>۱۲</span></a>
+    <a href="#"><span>۱۰. نکات فنی</span><span>۱۳</span></a>
+    <a href="#"><span>۱۱. پشتیبانی و مجوز</span><span>۱۴</span></a>
+  </div>
+</div>
+
+<!-- معرفی -->
+<div class="page">
+  <h2>۱. معرفی قالب</h2>
+  <p>
+    <strong>زمانک</strong> یک قالب HTML فروشگاهی ایرانی و کاملاً فارسی است که به‌طور تخصصی برای فروشگاه‌های آنلاین <strong>ساعت مچی</strong> طراحی شده است. این قالب شامل صفحات فروشگاهی، پنل کاربری، فرآیند خرید، وبلاگ و بخش‌های اطلاع‌رسانی می‌باشد و با استفاده از <strong>Bootstrap 5 RTL</strong> و استایل سفارشی، تجربه‌ای مدرن و حرفه‌ای ارائه می‌دهد.
+  </p>
+  <p>
+    قالب زمانک به‌صورت استاتیک (HTML/CSS/JS) توسعه یافته و برای استفاده مستقیم، اتصال به بک‌اند (PHP، Node.js، Laravel و...) یا تبدیل به قالب CMS مناسب است.
+  </p>
+
+  <h2>۲. ویژگی‌های کلیدی</h2>
+  <ul>
+    <li><strong>۲۶ صفحه HTML</strong> فارسی با چیدمان راست‌به‌چپ (RTL)</li>
+    <li><strong>مگا منو</strong> چندستونه برای دسته‌بندی ساعت مردانه، زنانه، هوشمند و برندها</li>
+    <li><strong>اسلایدر اصلی</strong> با سه اسلاید تبلیغاتی و بنرهای ویژه</li>
+    <li><strong>کارت محصول</strong> با نشان تخفیف، امتیاز، علاقه‌مندی و افزودن به سبد</li>
+    <li><strong>صفحه محصول</strong> با گالری تصویر، انتخاب رنگ، مشخصات فنی و نظرات</li>
+    <li><strong>سبد خرید</strong> و فرآیند تسویه حساب ۴ مرحله‌ای (آدرس، پرداخت، بررسی، موفقیت)</li>
+    <li><strong>احراز هویت</strong> ورود، ثبت‌نام و تأیید OTP</li>
+    <li><strong>پنل کاربری</strong> پروفایل، سفارشات، علاقه‌مندی‌ها، بازدیدهای اخیر و آدرس‌ها</li>
+    <li><strong>مقایسه محصولات</strong>، شگفت‌انگیزها با تایمر شمارش معکوس</li>
+    <li><strong>مجله وبلاگ</strong> با مقالات و صفحه جزئیات</li>
+    <li><strong>پرسش‌های متداول (FAQ)</strong> با آکاردئون</li>
+    <li><strong>جستجوی زنده</strong> با پیشنهادات</li>
+    <li><strong>طراحی واکنش‌گرا</strong> برای موبایل، تبلت و دسکتاپ</li>
+    <li><strong>فونت فارسی Vazirmatn</strong> (ایران‌یکان) به‌صورت آفلاین</li>
+    <li><strong>تصاویر واقعی محصول</strong> ساعت مردانه، زنانه و هوشمند</li>
+  </ul>
+</div>
+
+<!-- ساختار -->
+<div class="page">
+  <h2>۳. ساختار پوشه‌ها</h2>
+  <table>
+    <tr><th>مسیر</th><th>توضیح</th></tr>
+    <tr><td><code>index.html</code></td><td>صفحه اصلی فروشگاه (نقطه ورود)</td></tr>
+    <tr><td><code>pages/</code></td><td>تمام صفحات داخلی سایت</td></tr>
+    <tr><td><code>css/styles.css</code></td><td>استایل اصلی و متغیرهای رنگی</td></tr>
+    <tr><td><code>js/main.js</code></td><td>جاوااسکریپت تعاملی</td></tr>
+    <tr><td><code>images/products/</code></td><td>تصاویر محصولات ساعت</td></tr>
+    <tr><td><code>images/hero/</code></td><td>تصاویر بنر اسلایدر</td></tr>
+    <tr><td><code>images/blog/</code></td><td>تصاویر مقالات وبلاگ</td></tr>
+    <tr><td><code>fonts/</code></td><td>فونت‌های Vazirmatn (woff2)</td></tr>
+    <tr><td><code>docs/</code></td><td>مستندات و راهنما</td></tr>
+  </table>
+
+  <h3>پالت رنگی پیش‌فرض</h3>
+  <table>
+    <tr><th>متغیر CSS</th><th>رنگ</th><th>کاربرد</th></tr>
+    <tr><td><code>--color-primary</code></td><td><span class="color-swatch" style="background:#6C5CE7"></span> #6C5CE7</td><td>رنگ اصلی برند</td></tr>
+    <tr><td><code>--color-accent</code></td><td><span class="color-swatch" style="background:#00CEC9"></span> #00CEC9</td><td>رنگ تأکیدی</td></tr>
+    <tr><td><code>--color-cta</code></td><td><span class="color-swatch" style="background:#FF6B6B"></span> #FF6B6B</td><td>دکمه‌های خرید و تخفیف</td></tr>
+    <tr><td><code>--color-text</code></td><td><span class="color-swatch" style="background:#2D3436"></span> #2D3436</td><td>متن اصلی</td></tr>
+    <tr><td><code>--bg-main</code></td><td><span class="color-swatch" style="background:#FAFAFA"></span> #FAFAFA</td><td>پس‌زمینه صفحه</td></tr>
+  </table>
+</div>
+
+<!-- فهرست صفحات -->
+<div class="page">
+  <h2>۴. فهرست صفحات</h2>
+
+  <h3>فروشگاه <span class="badge">۸ صفحه</span></h3>
+  <table>
+    <tr><th>فایل</th><th>عنوان</th></tr>
+    <tr><td><code>index.html</code></td><td>صفحه اصلی — اسلایدر، محصولات، دسته‌بندی</td></tr>
+    <tr><td><code>pages/search.html</code></td><td>جستجو و فیلتر محصولات</td></tr>
+    <tr><td><code>pages/product.html</code></td><td>صفحه جزئیات محصول</td></tr>
+    <tr><td><code>pages/product-unavailable.html</code></td><td>محصول ناموجود + اطلاع‌رسانی</td></tr>
+    <tr><td><code>pages/amazing.html</code></td><td>شگفت‌انگیزها / پیشنهاد ویژه</td></tr>
+    <tr><td><code>pages/compare.html</code></td><td>مقایسه محصولات</td></tr>
+    <tr><td><code>pages/cart.html</code></td><td>سبد خرید</td></tr>
+    <tr><td><code>pages/404.html</code></td><td>صفحه خطای ۴۰۴</td></tr>
+  </table>
+
+  <h3>تسویه حساب <span class="badge">۴ صفحه</span></h3>
+  <table>
+    <tr><th>فایل</th><th>عنوان</th></tr>
+    <tr><td><code>pages/checkout-shipping.html</code></td><td>انتخاب آدرس و روش ارسال</td></tr>
+    <tr><td><code>pages/checkout-payment.html</code></td><td>روش پرداخت</td></tr>
+    <tr><td><code>pages/checkout-review.html</code></td><td>بررسی نهایی سفارش</td></tr>
+    <tr><td><code>pages/checkout-success.html</code></td><td>تأیید موفقیت خرید</td></tr>
+  </table>
+
+  <h3>احراز هویت <span class="badge">۳ صفحه</span></h3>
+  <table>
+    <tr><th>فایل</th><th>عنوان</th></tr>
+    <tr><td><code>pages/auth-login.html</code></td><td>ورود با شماره موبایل</td></tr>
+    <tr><td><code>pages/auth-register.html</code></td><td>ثبت‌نام</td></tr>
+    <tr><td><code>pages/auth-verify.html</code></td><td>تأیید کد OTP</td></tr>
+  </table>
+</div>
+
+<div class="page">
+  <h3>پنل کاربری <span class="badge">۶ صفحه</span></h3>
+  <table>
+    <tr><th>فایل</th><th>عنوان</th></tr>
+    <tr><td><code>pages/profile.html</code></td><td>داشبورد پروفایل</td></tr>
+    <tr><td><code>pages/profile-orders.html</code></td><td>لیست سفارشات</td></tr>
+    <tr><td><code>pages/profile-order-detail.html</code></td><td>جزئیات سفارش</td></tr>
+    <tr><td><code>pages/profile-favorites.html</code></td><td>علاقه‌مندی‌ها</td></tr>
+    <tr><td><code>pages/profile-recent.html</code></td><td>بازدیدهای اخیر</td></tr>
+    <tr><td><code>pages/profile-addresses.html</code></td><td>مدیریت آدرس‌ها</td></tr>
+  </table>
+
+  <h3>محتوا و پشتیبانی <span class="badge">۵ صفحه</span></h3>
+  <table>
+    <tr><th>فایل</th><th>عنوان</th></tr>
+    <tr><td><code>pages/blog.html</code></td><td>مجله زمانک — لیست مقالات</td></tr>
+    <tr><td><code>pages/blog-detail.html</code></td><td>صفحه جزئیات مقاله</td></tr>
+    <tr><td><code>pages/faq.html</code></td><td>پرسش‌های متداول</td></tr>
+    <tr><td><code>pages/review.html</code></td><td>ثبت نظر و امتیاز</td></tr>
+  </table>
+</div>
+
+<!-- نصب -->
+<div class="page">
+  <h2>۵. نصب و راه‌اندازی</h2>
+
+  <h3>روش ۱ — باز کردن مستقیم</h3>
+  <ol>
+    <li>پوشه <code>zamank</code> را از فایل فشرده خارج کنید.</li>
+    <li>فایل <code>index.html</code> را در مرورگر (Chrome، Edge، Firefox) باز کنید.</li>
+    <li>تمام لینک‌های داخلی به‌صورت نسبی تنظیم شده‌اند.</li>
+  </ol>
+
+  <h3>روش ۲ — سرور محلی</h3>
+  <p>برای تست دقیق‌تر (به‌ویژه فونت‌ها و مسیرها)، از یک سرور محلی استفاده کنید:</p>
+  <ul>
+    <li><strong>VS Code / Cursor:</strong> افزونه Live Server</li>
+    <li><strong>PHP:</strong> <code>php -S localhost:8000</code> در پوشه zamank</li>
+    <li><strong>Python:</strong> <code>python -m http.server 8000</code></li>
+  </ul>
+
+  <h3>روش ۳ — آپلود روی هاست</h3>
+  <ol>
+    <li>تمام محتویات پوشه <code>zamank</code> را در <code>public_html</code> آپلود کنید.</li>
+    <li>مطمئن شوید فایل <code>index.html</code> در ریشه دامنه قرار دارد.</li>
+    <li>برای اتصال فرم‌ها و سبد خرید به بک‌اند، نیاز به توسعه سمت سرور دارید.</li>
+  </ol>
+
+  <div class="note">
+    <strong>توجه:</strong> این قالب فرانت‌اند استاتیک است. عملکردهایی مانند ورود واقعی، پرداخت و ثبت سفارش به‌صورت نمایشی (Demo) پیاده‌سازی شده‌اند و برای محیط تولید نیاز به بک‌اند دارند.
+  </div>
+
+  <h2>۶. سفارشی‌سازی</h2>
+
+  <h3>تغییر نام و برند</h3>
+  <ul>
+    <li>متن «زمانک» را در فایل‌های HTML جستجو و جایگزین کنید.</li>
+    <li>لوگو در کلاس <code>.header-logo</code> و <code>.footer-logo</code> قرار دارد.</li>
+    <li>عنوان صفحات را در تگ <code>&lt;title&gt;</code> هر فایل تغییر دهید.</li>
+  </ul>
+
+  <h3>تغییر رنگ‌ها</h3>
+  <p>در ابتدای فایل <code>css/styles.css</code>، بخش <code>:root</code> متغیرهای CSS را ویرایش کنید. تمام المان‌ها از این متغیرها استفاده می‌کنند.</p>
+</div>
+
+<div class="page">
+  <h3>افزودن محصول جدید</h3>
+  <ol>
+    <li>تصویر محصول را در <code>images/products/</code> قرار دهید.</li>
+    <li>یک کارت محصول را از <code>index.html</code> یا <code>search.html</code> کپی کنید.</li>
+    <li>نام، برند، قیمت، تصویر و لینک را به‌روزرسانی کنید.</li>
+    <li>برای صفحه اختصاصی، <code>product.html</code> را کپی و محتوا را تغییر دهید.</li>
+  </ol>
+
+  <h3>ویرایش منو و دسته‌بندی</h3>
+  <p>مگا منوها در بخش <code>&lt;nav class="category-nav"&gt;</code> فایل <code>index.html</code> قرار دارند. سه نوع مگا منو موجود است:</p>
+  <ul>
+    <li><code>mega-menu-4col</code> — چهار ستونه (ساعت مردانه)</li>
+    <li><code>mega-menu-3col</code> — سه ستونه (ساعت زنانه)</li>
+    <li><code>mega-menu-2col</code> — دو ستونه (ساعت هوشمند)</li>
+  </ul>
+
+  <h3>تغییر فونت</h3>
+  <p>فونت پیش‌فرض Vazirmatn در <code>css/styles.css</code> با <code>@font-face</code> تعریف شده. برای تعویض، فایل‌های woff2 را در پوشه <code>fonts/</code> قرار دهید و مسیرها را به‌روز کنید.</p>
+</div>
+
+<!-- JS -->
+<div class="page">
+  <h2>۷. جاوااسکریپت و تعاملات</h2>
+  <p>فایل <code>js/main.js</code> شامل توابع زیر است:</p>
+  <table>
+    <tr><th>تابع</th><th>کاربرد</th></tr>
+    <tr><td><code>addToCart()</code></td><td>افزودن به سبد و نمایش Toast</td></tr>
+    <tr><td><code>toggleFavorite()</code></td><td>افزودن/حذف علاقه‌مندی</td></tr>
+    <tr><td><code>changeMainImage()</code></td><td>تغییر تصویر اصلی گالری محصول</td></tr>
+    <tr><td><code>changeQuantity()</code></td><td>تغییر تعداد در سبد خرید</td></tr>
+    <tr><td><code>updateCartTotal()</code></td><td>محاسبه جمع کل سبد</td></tr>
+    <tr><td><code>removeCartItem()</code></td><td>حذف آیتم از سبد</td></tr>
+    <tr><td><code>liveSearch()</code></td><td>جستجوی زنده با پیشنهاد</td></tr>
+    <tr><td><code>startCountdown()</code></td><td>تایمر شگفت‌انگیزها</td></tr>
+    <tr><td><code>toggleFaq()</code></td><td>باز/بسته کردن سوالات FAQ</td></tr>
+    <tr><td><code>validateForm()</code></td><td>اعتبارسنجی فرم‌ها</td></tr>
+    <tr><td><code>showToast()</code></td><td>نمایش پیام اعلان</td></tr>
+  </table>
+
+  <div class="warn">
+    داده‌های سبد خرید و علاقه‌مندی در حافظه مرورگر (Session) نگهداری نمی‌شوند. برای ذخیره‌سازی دائم، LocalStorage یا API سرور اضافه کنید.
+  </div>
+
+  <h2>۸. تصاویر و رسانه</h2>
+  <table>
+    <tr><th>پوشه</th><th>تعداد</th><th>محتوا</th></tr>
+    <tr><td><code>images/products/</code></td><td>۱۳</td><td>ساعت مردانه، زنانه، هوشمند</td></tr>
+    <tr><td><code>images/hero/</code></td><td>۳</td><td>بنرهای اسلایدر صفحه اصلی</td></tr>
+    <tr><td><code>images/blog/</code></td><td>۷</td><td>تصاویر شاخص مقالات</td></tr>
+  </table>
+  <p>برای جایگزینی تصاویر، فایل جدید را با همان نام جایگزین کنید یا مسیر <code>src</code> در HTML را تغییر دهید. فرمت پیشنهادی: PNG یا WebP با پس‌زمینه سفید برای محصولات.</p>
+</div>
+
+<!-- واکنش‌گرایی و فنی -->
+<div class="page">
+  <h2>۹. واکنش‌گرایی</h2>
+  <p>قالب با Grid سیستم Bootstrap 5 و Media Queryهای سفارشی در <code>styles.css</code> برای سه سطح بهینه شده است:</p>
+  <ul>
+    <li><strong>موبایل</strong> (زیر ۷۶۸px): منوی همبرگری، جستجوی جدا، تب‌های محصول</li>
+    <li><strong>تبلت</strong> (۷۶۸–۹۹۲px): چیدمان دو ستونه محصولات</li>
+    <li><strong>دسکتاپ</strong> (بالای ۹۹۲px): مگا منو، جستجوی کامل، ۴ ستونه محصول</li>
+  </ul>
+
+  <h2>۱۰. نکات فنی</h2>
+  <ul>
+    <li><strong>وابستگی‌ها (CDN):</strong> Bootstrap 5.3.2 RTL، Bootstrap Icons 1.11.1 — اتصال اینترنت برای بارگذاری اولیه لازم است.</li>
+    <li><strong>مرورگرها:</strong> Chrome 90+، Firefox 88+، Safari 14+، Edge 90+</li>
+    <li><strong>کدگذاری:</strong> UTF-8 — حتماً فایل‌ها را با این encoding ذخیره کنید.</li>
+    <li><strong>جهت متن:</strong> <code>dir="rtl"</code> و <code>lang="fa"</code> در تگ html</li>
+    <li><strong>مسیر تصاویر:</strong> از ریشه <code>images/</code> — از صفحات داخل pages از <code>../images/</code></li>
+  </ul>
+
+  <h3>اتصال به بک‌اند (پیشنهادی)</h3>
+  <ol>
+    <li>فرم‌های auth را به API ورود/ثبت‌نام متصل کنید.</li>
+    <li>لیست محصولات را از دیتابیس یا JSON بارگذاری کنید.</li>
+    <li>سبد خرید را با Session سرور یا JWT مدیریت کنید.</li>
+    <li>درگاه پرداخت (زرین‌پال، سامان و...) را در checkout-payment پیاده کنید.</li>
+  </ol>
+
+  <h2>۱۱. پشتیبانی و مجوز</h2>
+  <p>
+    قالب زمانک برای استفاده در پروژه‌های شخصی و تجاری فروشگاه ساعت مچی ارائه شده است. بازنشر مجدد قالب به‌صورت خام (Re-distribution) بدون مجوز مجاز نیست.
+  </p>
+  <p>
+    برای گزارش مشکل یا درخواست سفارشی‌سازی با تیم پشتیبانی تماس بگیرید.
+  </p>
+
+  <div class="footer-note">
+    قالب زمانک — راهنمای کاربری نسخه ۱.۰<br>
+    © ۱۴۰۴ — تمامی حقوق محفوظ است
+  </div>
+</div>
+
+</body>
+</html>

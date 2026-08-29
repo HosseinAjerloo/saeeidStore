@@ -80,7 +80,6 @@ Route::prefix('admin')->name('admin.')->group(function (){
        Route::delete('destroy/{discount}',[\App\Http\Controllers\Admin\Discount\DisCountController::class,'destroy'])->name('destroy');
     });
 });
-Route::get('test',function (){
-
-    dd(\App\Models\Discountable::all());
+Route::get('/',function (){
+   return view('panel.index');
 });
