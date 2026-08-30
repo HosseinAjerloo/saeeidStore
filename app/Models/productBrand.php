@@ -42,7 +42,7 @@ class productBrand extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'group_id');
+        return $this->hasMany(Product::class, 'brand_id');
     }
 
     #[Scope]

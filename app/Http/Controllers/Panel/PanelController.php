@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\productBrand;
 use App\Models\ProductGroup;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
 class PanelController extends Controller
@@ -19,8 +21,9 @@ class PanelController extends Controller
         })->whereNotNull('parent_id')
             ->limit(6)
             ->get();
-
-        return view('panel.index',compact('categoriesAll'));
+        $products=ProductVariant::whereHas('variantAttributes')->where('stock',">",1)->orderBy('created_at','DESC')->limit(6)->get();
+        $productBrands=productBrand::whereHas('products')->where('is_active','1')->cursor();
+        return view('panel.index',compact('categoriesAll','productBrands','products'));
     }
 
     /**
