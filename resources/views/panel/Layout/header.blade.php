@@ -26,7 +26,8 @@
                 <div class="search-bar">
                     <input type="text" id="search-input" placeholder="جستجو..." oninput="liveSearch(this)">
                     <button><i class="bi bi-search"></i></button>
-                    <div id="search-suggestions" class="dropdown-menu w-100 show d-none" style="position:absolute; top:100%; right:0; border-radius:12px; box-shadow:0 8px 30px rgba(108,92,231,0.12); padding:8px;">
+                    <div id="search-suggestions" class="dropdown-menu w-100 show d-none"
+                         style="position:absolute; top:100%; right:0; border-radius:12px; box-shadow:0 8px 30px rgba(108,92,231,0.12); padding:8px;">
 
                     </div>
                 </div>
@@ -57,85 +58,31 @@
             <ul>
                 <li><a href="{{route('panel.index')}}"><i class="bi bi-house"></i> خانه</a></li>
 
-                <!-- مگا منو 4 ستونه -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="bi bi-smartwatch"></i> ساعت مردانه
-                    </a>
-                    <div class="dropdown-menu mega-menu mega-menu-4col">
-                        <div class="row g-3">
-                            <div class="col-3">
-                                <h6>برندهای محبوب</h6>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> کاسیو</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> سیتیزن</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> سیکو</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> اورینت</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> تیسوت</a>
-                            </div>
-                            <div class="col-3">
-                                <h6>بر اساس نوع</h6>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> دیجیتال</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> آنالوگ</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> کرونوگراف</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> عقربه‌ای</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> اسپرت</a>
-                            </div>
-                            <div class="col-3">
-                                <h6>بر اساس قیمت</h6>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> زیر ۵۰۰ هزار</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ۵۰۰ تا ۲ میلیون</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ۲ تا ۵ میلیون</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ۵ تا ۱۰ میلیون</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> بالای ۱۰ میلیون</a>
-                            </div>
-                            <div class="col-3">
-                                <a href="pages/search.html" class="mega-menu-img">
-                                    <div>
-                                        <i class="bi bi-tags" style="font-size:48px;"></i>
-                                        <h5 class="mt-3">تخفیف‌های ویژه</h5>
-                                        <p class="text-white-50">تا ۵۰٪ تخفیف</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                @foreach($categories as $category)
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <img style="width: 1rem" src="{{asset($category->image)}}" alt="">
+                            {{$category->name??''}}
+                        </a>
+                        <div class="dropdown-menu mega-menu mega-menu-4col">
+                            <div class="row g-3">
+                                @foreach($category->childs as $child)
+                                    <div class="col-3">
+                                        <a href="pages/search.html" class="mega-item d-block">
+                                            <i class="bi bi-arrow-left-short"></i>
+                                            <img style="width: 3rem" src="{{asset($child->image)}}" alt="">
 
-                <!-- مگا منو 3 ستونه -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="bi bi-heart"></i> ساعت زنانه
-                    </a>
-                    <div class="dropdown-menu mega-menu mega-menu-3col">
-                        <div class="row g-3">
-                            <div class="col-4">
-                                <h6>برندهای زنانه</h6>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> مایکل کورس</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> فسیل</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> اسکاگن</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> دنیل ولینگتون</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> انیکس</a>
-                            </div>
-                            <div class="col-4">
-                                <h6>استایل</h6>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> لوکس و شیک</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> روزمره</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> ورزشی</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> کلاسیک</a>
-                                <a href="pages/search.html" class="mega-item d-block"><i class="bi bi-arrow-left-short"></i> مجلسی</a>
-                            </div>
-                            <div class="col-4">
-                                <a href="pages/search.html" class="mega-menu-img" style="background:linear-gradient(135deg,#FF6B6B,#6C5CE7);">
-                                    <div>
-                                        <i class="bi bi-gem" style="font-size:48px;"></i>
-                                        <h5 class="mt-3">کالکشن لوکس زنانه</h5>
-                                        <p class="text-white-50">بهترین برندهای جهانی</p>
+                                            {{$child->name}}
+                                        </a>
+
                                     </div>
-                                </a>
+                                @endforeach
+
+
                             </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                @endforeach
 
 
                 <li><a href="pages/amazing.html"><i class="bi bi-fire"></i> شگفت‌انگیزها</a></li>

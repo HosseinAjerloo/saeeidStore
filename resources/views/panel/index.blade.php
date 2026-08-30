@@ -235,60 +235,19 @@
                 <a href="pages/search.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
             </div>
             <div class="row g-3">
-                <div class="col-6 col-md-4 col-lg-2">
-                    <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm" style="transition:all .3s;">
-                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);">
-                            <i class="bi bi-person-circle text-white" style="font-size:36px;"></i>
-                        </div>
-                        <h6 class="mb-0">ساعت مردانه</h6>
-                        <small class="text-muted-custom">۱۲۰+ محصول</small>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
-                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#FF6B6B,#ee5253);">
-                            <i class="bi bi-heart text-white" style="font-size:36px;"></i>
-                        </div>
-                        <h6 class="mb-0">ساعت زنانه</h6>
-                        <small class="text-muted-custom">۸۵+ محصول</small>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
-                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#00CEC9,#00b3af);">
-                            <i class="bi bi-smartwatch text-white" style="font-size:36px;"></i>
-                        </div>
-                        <h6 class="mb-0">هوشمند</h6>
-                        <small class="text-muted-custom">۴۵+ محصول</small>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
-                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#fdcb6e,#e17055);">
-                            <i class="bi bi-gem text-white" style="font-size:36px;"></i>
-                        </div>
-                        <h6 class="mb-0">لوکس</h6>
-                        <small class="text-muted-custom">۳۰+ محصول</small>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
-                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#a29bfe,#6C5CE7);">
-                            <i class="bi bi-bicycle text-white" style="font-size:36px;"></i>
-                        </div>
-                        <h6 class="mb-0">اسپرت</h6>
-                        <small class="text-muted-custom">۶۵+ محصول</small>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm">
-                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#2D3436,#636e72);">
-                            <i class="bi bi-stars text-white" style="font-size:36px;"></i>
-                        </div>
-                        <h6 class="mb-0">کلاسیک</h6>
-                        <small class="text-muted-custom">۵۰+ محصول</small>
-                    </a>
-                </div>
+                @foreach($categoriesAll as $category)
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm" style="transition:all .3s;">
+                            <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);">
+                                <img width="50px" src="{{asset($category->image)}}" alt="">
+                            </div>
+                            <h6 class="mb-0">{{$category->name}}</h6>
+                            <small class="text-muted-custom">۱۲۰+ محصول</small>
+                        </a>
+                    </div>
+
+                @endforeach
+
             </div>
         </div>
     </section>
@@ -650,50 +609,7 @@
         </div>
     </section>
 
-    <!-- === آخرین مقالات وبلاگ === -->
-    <section class="py-4">
-        <div class="container">
-            <div class="section-title">
-                <h3>آخرین مقالات مجله زمانک</h3>
-                <a href="pages/blog.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
-            </div>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <div class="content-box h-100">
-                        <div class="rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#6C5CE7,#00CEC9);">
-                            <i class="bi bi-clock-history text-white" style="font-size:64px;"></i>
-                        </div>
-                        <span class="badge bg-soft text-primary-custom mb-2">راهنمای خرید</span>
-                        <h6>چگونه ساعت مچی مناسب استایل خود انتخاب کنیم؟</h6>
-                        <p class="text-muted-custom small">انتخاب ساعت مناسب می‌تواند تاثیر زیادی بر استایل شما داشته باشد. در این مقاله به نکات کلیدی انتخاب ساعت می‌پردازیم...</p>
-                        <a href="pages/blog-detail.html" class="text-primary-custom small fw-bold">ادامه مطلب <i class="bi bi-chevron-left"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="content-box h-100">
-                        <div class="rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#FF6B6B,#ee5253);">
-                            <i class="bi bi-tools text-white" style="font-size:64px;"></i>
-                        </div>
-                        <span class="badge bg-soft text-primary-custom mb-2">راهنمای نگهداری</span>
-                        <h6>راهنمای کامل نگهداری و مراقبت از ساعت مچی</h6>
-                        <p class="text-muted-custom small">برای افزایش طول عمر ساعت مچی خود، رعایت نکات نگهداری بسیار مهم است. در این مقاله جامع به همه نکات می‌پردازیم...</p>
-                        <a href="pages/blog-detail.html" class="text-primary-custom small fw-bold">ادامه مطلب <i class="bi bi-chevron-left"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="content-box h-100">
-                        <div class="rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#2D3436,#636e72);">
-                            <i class="bi bi-stars text-white" style="font-size:64px;"></i>
-                        </div>
-                        <span class="badge bg-soft text-primary-custom mb-2">بررسی محصول</span>
-                        <h6>بررسی کامل اپل واچ سری ۹؛ آیا ارزش خرید دارد؟</h6>
-                        <p class="text-muted-custom small">اپل واچ سری ۹ یکی از محبوب‌ترین ساعت‌های هوشمند بازار است. در این بررسی به تمام ویژگی‌ها و نکات آن می‌پردازیم...</p>
-                        <a href="pages/blog-detail.html" class="text-primary-custom small fw-bold">ادامه مطلب <i class="bi bi-chevron-left"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- === خبرنامه === -->
     <section class="py-4">
@@ -705,8 +621,8 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید" style="border-radius:50px 0 0 50px;">
                             <button class="btn btn-light px-4" style="border-radius:0 50px 50px 0;color:var(--color-primary);font-weight:700;">عضویت</button>
+                            <input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید" style="border-radius:50px 0 0 50px;">
                         </div>
                     </div>
                 </div>
@@ -714,4 +630,22 @@
         </div>
     </section>
 
+@endsection
+@section('script')
+  <script>
+      function randomHexColor() {
+          return '#' + Math.floor(Math.random() * 16777215)
+              .toString(16)
+              .padStart(6, '0');
+      }
+
+
+
+      document.querySelectorAll('.rounded-circle').forEach(function (elem){
+          const color1 = randomHexColor();
+          const color2 = randomHexColor();
+          elem.style.background =
+              `linear-gradient(135deg, ${color1}, ${color2})`
+      });
+  </script>
 @endsection

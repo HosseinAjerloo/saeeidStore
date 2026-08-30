@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductGroup;
 use Illuminate\Http\Request;
 
 class PanelController extends Controller
@@ -12,7 +13,14 @@ class PanelController extends Controller
      */
     public function index()
     {
-        return view('panel.index');
+        $categoriesAll = ProductGroup::whereHas('products.productVariant', function ($query) {
+            $query->where('is_active', 1)
+                ->where('stock', '>', 0);
+        })->whereNotNull('parent_id')
+            ->limit(6)
+            ->get();
+
+        return view('panel.index',compact('categoriesAll'));
     }
 
     /**

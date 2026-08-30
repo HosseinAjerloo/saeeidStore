@@ -108,7 +108,7 @@ class ProductController extends Controller
             {
                 $is_removed=$imageService->basePath(public_path())->removeFile($product->image);
                 if (!$is_removed)
-                    throw new \Exception("Can't remove image ");
+//                    throw new \Exception("Can't remove image ");
 
                  $path = $imageService->setFile($image)->basePath(public_path())->setRootPath('product')->generator();
                  if (!$path)

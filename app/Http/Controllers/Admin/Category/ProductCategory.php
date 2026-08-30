@@ -95,20 +95,24 @@ class ProductCategory extends Controller
             $input = $request->all();
 
             if ($request->hasFile('image')) {
-                $image = $request->file('image');
 
+
+                $image = $request->file('image');
                 $path = $imageService
                     ->setFile($image)
                     ->basePath(public_path())
                     ->setRootPath('category')
                     ->generator();
 
-                if (!$path) {
+                if (!$imageService->basePath(public_path())->removeFile($productGroup->image))
+
+
+                    if (!$path) {
                     throw new \Exception("Can't save image path");
                 }
 
-               if (!$imageService->basePath(public_path())->removeFile($productGroup->image))
-                   throw new \Exception("Can't remove image ");
+
+//                   throw new \Exception("Can't remove image ");
 
                 $input['image'] = $path;
             }
@@ -122,7 +126,7 @@ class ProductCategory extends Controller
                 ]);
 
         } catch (\Exception $exception) {
-
+            dd($exception);
             return redirect()
                 ->back()
                 ->withInput()

@@ -12,5 +12,6 @@
     <link rel="stylesheet" href="{{asset('global/css/bootstrap-icons.css')}}">
     <!-- استایل سفارشی -->
     <link rel="stylesheet" href="{{asset('panelFolder/css/styles.css')}}">
+
     @yield('style')
 </head>
