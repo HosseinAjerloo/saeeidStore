@@ -443,71 +443,84 @@
 
 
                 @foreach($products as $item)
-                    <div class="col-lg-2 col-md-4 col-6">
-                        <div class="product-card">
-                            <span class="product-badge new">جدید</span>
-                            <div class="product-actions">
-                                <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                <button><i class="bi bi-arrow-left-right"></i></button>
-                            </div>
-                            <div class="product-img">
-                                <img src="{{asset($item->product->image)}}" alt=""
-                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                            </div>
-                            <div class="product-info">
-                                <div class="product-brand">{{$item->product?->brand->name??''}}</div>
-                                <h6 class="product-title"><a href="pages/product.html">
-                                        {{$item->product?->name??''}}
-                                    </a>
-                                </h6>
-                                <div class="product-rating">
-                                    <span class="stars">★★★★★</span>
-                                    <span>(۲۲ نظر)</span>
+
+                    @if($item->product->inValidDiscount())
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="product-card">
+                                <span class="product-badge discount">
+                                    @if($item->product->inValidDiscount()->type=='percentage')
+                                        {{numberFormatAble($item->product->inValidDiscount()->value??0)}} %
+                                    @else
+                                        {{numberFormatAble(($item->product->inValidDiscount()->value /10)??0)}} ت
+                                    @endif
+                                </span>
+                                {{--                                <span class="product-badge new">جدید</span>--}}
+                                <div class="product-actions">
+                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                    <button><i class="bi bi-arrow-left-right"></i></button>
                                 </div>
-                                <div class="product-price-row">
-                                    <div class="product-price">{{numberFormatAble(($item->price /10))??0}} <small>ت</small></div>
-                                    <button class="btn-add-to-cart" onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
-                                            class="bi bi-bag-plus"></i></button>
+                                <div class="product-img">
+                                    <img src="{{asset($item->product->image)}}" alt=""
+                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-brand">{{$item->product?->brand->name??''}}</div>
+                                    <h6 class="product-title"><a href="pages/product.html">
+                                            {{$item->product?->name??''}}
+                                        </a>
+                                    </h6>
+                                    <div class="product-rating">
+                                        <span class="stars">★★★★★</span>
+                                        <span>(۲۲ نظر)</span>
+                                    </div>
+                                        <div class="product-old-price">{{numberFormatAble(($item->price /10))??0}}</div>
+                                    <div class="product-price-row">
+                                        <div class="product-price">{{numberFormatAble(($item->countable()/10))??0}}
+                                            <small>ت</small></div>
+                                        <button class="btn-add-to-cart"
+                                                onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
+                                                class="bi bi-bag-plus"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                    @else
+                        <div class="col-lg-2 col-md-4 col-6">
+                            <div class="product-card">
+                                <span class="product-badge new">جدید</span>
+                                <div class="product-actions">
+                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                    <button><i class="bi bi-arrow-left-right"></i></button>
+                                </div>
+                                <div class="product-img">
+                                    <img src="{{asset($item->product->image)}}" alt=""
+                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-brand">{{$item->product?->brand->name??''}}</div>
+                                    <h6 class="product-title"><a href="pages/product.html">
+                                            {{$item->product?->name??''}}
+                                        </a>
+                                    </h6>
+                                    <div class="product-rating">
+                                        <span class="stars">★★★★★</span>
+                                        <span>(۲۲ نظر)</span>
+                                    </div>
+                                    <div class="product-price-row">
+                                        <div class="product-price">{{numberFormatAble(($item->price /10))??0}}
+                                            <small>ت</small></div>
+                                        <button class="btn-add-to-cart"
+                                                onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
+                                                class="bi bi-bag-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    @endif
 
                 @endforeach
-
-
-{{--                <div class="col-lg-2 col-md-4 col-6">--}}
-{{--                    <div class="product-card">--}}
-{{--                        <span class="product-badge discount">۱۰٪</span>--}}
-{{--                        <div class="product-actions">--}}
-{{--                            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>--}}
-{{--                            <button><i class="bi bi-arrow-left-right"></i></button>--}}
-{{--                        </div>--}}
-{{--                        <div class="product-img">--}}
-{{--                            <img src="{{asset('panelFolder/images/products/watch-womens-rose-gold.jpg')}}" alt=""--}}
-{{--                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">--}}
-{{--                        </div>--}}
-{{--                        <div class="product-info">--}}
-{{--                            <div class="product-brand">دنیل ولینگتون</div>--}}
-{{--                            <h6 class="product-title"><a href="pages/product.html">ساعت مچی دنیل ولینگتون مدل Petite--}}
-{{--                                    زنانه</a></h6>--}}
-{{--                            <div class="product-rating">--}}
-{{--                                <span class="stars">★★★★★</span>--}}
-{{--                                <span>(۳۱ نظر)</span>--}}
-{{--                            </div>--}}
-{{--                            <div class="product-price-row">--}}
-{{--                                <div>--}}
-{{--                                    <div class="product-old-price">۳,۸۰۰,۰۰۰</div>--}}
-{{--                                    <div class="product-price">۳,۴۲۰,۰۰۰ <small>ت</small></div>--}}
-{{--                                </div>--}}
-{{--                                <button class="btn-add-to-cart" onclick="addToCart(10, 'ساعت دنیل ولینگتون')"><i--}}
-{{--                                        class="bi bi-bag-plus"></i></button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-
 
 
             </div>

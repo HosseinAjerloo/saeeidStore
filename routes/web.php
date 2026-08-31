@@ -87,3 +87,7 @@ Route::prefix('admin')->name('admin.')->group(function (){
 Route::name('panel.')->group(function (){
    Route::get('/',[App\Http\Controllers\Panel\PanelController::class,'index'])->name('index');
 });
+Route::get('test',function (){
+   $product=\App\Models\Product::first();
+   dd($product->countable);
+});
