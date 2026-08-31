@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Discount;
 use App\Models\productBrand;
 use App\Models\ProductGroup;
 use App\Models\ProductVariant;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PanelController extends Controller
@@ -22,8 +24,28 @@ class PanelController extends Controller
             ->limit(6)
             ->get();
         $products=ProductVariant::whereHas('variantAttributes')->where('stock',">",1)->orderBy('created_at','DESC')->limit(6)->get();
+
+        $dateNow = Carbon::now()->toDateString();
+        $discount=optional(Discount::whereHas('products',function ($queue){
+            $queue->whereNull('discountables.deleted_at');
+        })->where('is_active','1')->where('discounts.starts_at',$dateNow)->where('discounts.expires_at',">=",$dateNow)->first());
+
+        $diffHours=0;
+       if ($discount){
+           $starts = Carbon::parse($discount->starts_at)->startOfDay();
+           $expires = Carbon::parse($discount->expires_at)->endOfDay();
+
+           $diffHours = round($starts->diffInHours($expires,true));
+       }
+
+
+
+        $productsDiscounts=ProductVariant::whereHas('product.discounts',function ($query) use ($discount){
+            $query->where('discounts.id',$discount?->id)->whereNull('discountables.deleted_at');
+        })->where('stock',">",1)->orderBy('created_at','DESC')->limit(3)->get();
+
         $productBrands=productBrand::whereHas('products')->where('is_active','1')->cursor();
-        return view('panel.index',compact('categoriesAll','productBrands','products'));
+        return view('panel.index',compact('categoriesAll','productBrands','products','productsDiscounts','discount','diffHours'));
     }
 
     /**

@@ -114,6 +114,7 @@
     </section>
 
     <!-- === شگفت‌انگیزها === -->
+    @if($discount->exists())
     <section class="pb-4">
         <div class="container">
             <div class="row g-3">
@@ -123,9 +124,9 @@
                         <i class="bi bi-lightning-charge amazing-icon"></i>
                         <h4>شگفت‌انگیزهای روز</h4>
                         <p>فرصت محدود!</p>
-                        <div class="countdown-timer" id="amazing-timer" data-hours="8" data-minutes="0"
+                        <div class="countdown-timer" id="amazing-timer" data-hours="{{$diffHours}}" data-minutes="0"
                              data-seconds="0">
-                            <div class="timer-box"><span id="timer-hours">08</span><small
+                            <div class="timer-box"><span id="timer-hours">{{$diffHours}}</span><small
                                     class="d-block fs-6">ساعت</small></div>
                             <div class="timer-box"><span id="timer-minutes">00</span><small
                                     class="d-block fs-6">دقیقه</small></div>
@@ -139,104 +140,51 @@
                 <!-- محصولات شگفت‌انگیز -->
                 <div class="col-lg-9 col-md-8">
                     <div class="row g-3">
-                        <div class="col-lg-4 col-6">
-                            <div class="product-card">
-                                <span class="product-badge discount">۲۵٪</span>
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                    <button><i class="bi bi-arrow-left-right"></i></button>
-                                </div>
-                                <div class="product-img">
-                                    <img src="{{asset('panelFolder/images/products/watch-mens-gshock-black.jpg')}}"
-                                         alt="ساعت کاسیو"
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">کاسیو</div>
-                                    <h6 class="product-title"><a href="pages/product.html">ساعت مچی کاسیو مدل G-Shock
-                                            GA-1000 مردانه</a></h6>
-                                    <div class="product-rating">
-                                        <span class="stars">★★★★★</span>
-                                        <span>(۴۲ نظر)</span>
+                        @foreach($productsDiscounts as $item)
+                            <div class="col-lg-4 col-6">
+                                <div class="product-card">
+                                     <span class="product-badge discount">
+                                    @if($item->product->inValidDiscount()->type=='percentage')
+                                             {{numberFormatAble($item->product->inValidDiscount()->value??0)}} %
+                                         @else
+                                             {{numberFormatAble(($item->product->inValidDiscount()->value /10)??0)}} ت
+                                         @endif
+                                </span>
+                                    <div class="product-actions">
+                                        <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                        <button><i class="bi bi-arrow-left-right"></i></button>
                                     </div>
-                                    <div class="product-price-row">
-                                        <div>
-                                            <div class="product-old-price">۲,۸۰۰,۰۰۰</div>
-                                            <div class="product-price">۲,۱۰۰,۰۰۰ <small>تومان</small></div>
+                                    <div class="product-img">
+                                        <img src="{{asset($item->product->image)}}"
+                                             alt="{{$item->product->name??''}}"
+                                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                    </div>
+                                    <div class="product-info">
+                                        <div class="product-brand">{{$item->product?->brand->name??''}}</div>
+                                        <h6 class="product-title"><a href="pages/product.html">
+                                              {{$item->product->name??''}}
+                                            </a>
+                                        </h6>
+                                        <div class="product-rating">
+                                            <span class="stars">★★★★★</span>
+                                            <span>(۴۲ نظر)</span>
                                         </div>
-                                        <button class="btn-add-to-cart" onclick="addToCart(1, 'ساعت کاسیو G-Shock')">
-                                            <i class="bi bi-bag-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                        <div class="product-old-price">{{numberFormatAble(($item->price /10))??0}}</div>
+                                        <div class="product-price-row">
+                                            <div class="product-price">{{numberFormatAble(($item->countable()/10))??0}}
+                                                <small>ت</small></div>
+                                            <button class="btn-add-to-cart"
+                                                    onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
+                                                    class="bi bi-bag-plus">
 
-                        <div class="col-lg-4 col-6">
-                            <div class="product-card">
-                                <span class="product-badge discount">۴۰٪</span>
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                    <button><i class="bi bi-arrow-left-right"></i></button>
-                                </div>
-                                <div class="product-img">
-                                    <img src="{{asset('panelFolder/images/products/watch-smartwatch-series.jpg')}}"
-                                         alt="اپل واچ"
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">اپل</div>
-                                    <h6 class="product-title"><a href="pages/product.html">ساعت هوشمند اپل واچ سری ۹
-                                            نسخه ۴۵ میلی‌متری</a></h6>
-                                    <div class="product-rating">
-                                        <span class="stars">★★★★★</span>
-                                        <span>(۸۹ نظر)</span>
-                                    </div>
-                                    <div class="product-price-row">
-                                        <div>
-                                            <div class="product-old-price">۱۸,۰۰۰,۰۰۰</div>
-                                            <div class="product-price">۱۰,۸۰۰,۰۰۰ <small>تومان</small></div>
+                                                </i>
+                                            </button>
                                         </div>
-                                        <button class="btn-add-to-cart" onclick="addToCart(2, 'اپل واچ سری ۹')">
-                                            <i class="bi bi-bag-plus"></i>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-4 col-6">
-                            <div class="product-card">
-                                <span class="product-badge discount">۱۵٪</span>
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                    <button><i class="bi bi-arrow-left-right"></i></button>
-                                </div>
-                                <div class="product-img">
-                                    <img src="{{asset('panelFolder/images/products/watch-mens-tissot-silver.jpg')}}"
-                                         alt="ساعت تیسوت"
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">تیسوت</div>
-                                    <h6 class="product-title"><a href="pages/product.html">ساعت مچی تیسوت مدل PRX 40mm
-                                            مردانه</a></h6>
-                                    <div class="product-rating">
-                                        <span class="stars">★★★★★</span>
-                                        <span>(۲۸ نظر)</span>
-                                    </div>
-                                    <div class="product-price-row">
-                                        <div>
-                                            <div class="product-old-price">۵,۵۰۰,۰۰۰</div>
-                                            <div class="product-price">۴,۶۷۵,۰۰۰ <small>تومان</small></div>
-                                        </div>
-                                        <button class="btn-add-to-cart" onclick="addToCart(3, 'ساعت تیسوت PRX')">
-                                            <i class="bi bi-bag-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
 
 
                     </div>
@@ -244,6 +192,8 @@
             </div>
         </div>
     </section>
+
+    @endif
 
     <!-- === دسته‌بندی محبوب === -->
     <section class="py-4">
@@ -473,13 +423,16 @@
                                         <span class="stars">★★★★★</span>
                                         <span>(۲۲ نظر)</span>
                                     </div>
-                                        <div class="product-old-price">{{numberFormatAble(($item->price /10))??0}}</div>
+                                    <div class="product-old-price">{{numberFormatAble(($item->price /10))??0}}</div>
                                     <div class="product-price-row">
                                         <div class="product-price">{{numberFormatAble(($item->countable()/10))??0}}
                                             <small>ت</small></div>
                                         <button class="btn-add-to-cart"
                                                 onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
-                                                class="bi bi-bag-plus"></i></button>
+                                                class="bi bi-bag-plus">
+
+                                            </i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
