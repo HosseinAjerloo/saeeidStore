@@ -415,7 +415,8 @@
                                 </div>
                                 <div class="product-info">
                                     <div class="product-brand">{{$item->product?->brand->name??''}}</div>
-                                    <h6 class="product-title"><a href="pages/product.html">
+                                    <h6 class="product-title">
+                                        <a href="{{route('panel.show',['product'=>$item->product->slug,'productVariant'=>$item->id])}}">
                                             {{$item->product?->name??''}}
                                         </a>
                                     </h6>
@@ -441,7 +442,9 @@
                     @else
                         <div class="col-lg-2 col-md-4 col-6">
                             <div class="product-card">
-                                <span class="product-badge new">جدید</span>
+                               @if($item->new)
+                                    <span class="product-badge new">جدید</span>
+                                @endif
                                 <div class="product-actions">
                                     <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
                                     <button><i class="bi bi-arrow-left-right"></i></button>
@@ -452,7 +455,8 @@
                                 </div>
                                 <div class="product-info">
                                     <div class="product-brand">{{$item->product?->brand->name??''}}</div>
-                                    <h6 class="product-title"><a href="pages/product.html">
+                                    <h6 class="product-title">
+                                        <a href="{{route('panel.show',['product'=>$item->product->slug,'productVariant'=>$item->id])}}">
                                             {{$item->product?->name??''}}
                                         </a>
                                     </h6>

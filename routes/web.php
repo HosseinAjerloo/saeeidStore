@@ -86,6 +86,7 @@ Route::prefix('admin')->name('admin.')->group(function (){
 
 Route::name('panel.')->group(function (){
    Route::get('/',[App\Http\Controllers\Panel\PanelController::class,'index'])->name('index');
+   Route::get('{product:slug}/{productVariant}',[App\Http\Controllers\Panel\PanelController::class,'show'])->name('show');
 });
 Route::get('test',function (){
    $product=\App\Models\Product::first();

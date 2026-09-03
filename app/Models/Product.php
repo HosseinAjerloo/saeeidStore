@@ -92,7 +92,7 @@ class Product extends Model
     public function inValidDiscount()
     {
         $dateNow = Carbon::now()->toDateString();
-        $discount = $this->discounts()->where('is_active', '1')->where('starts_at', $dateNow)->wherePivotNull('deleted_at')->where('expires_at', '>=', $dateNow)->first();
+        $discount = $this->discounts()->where('is_active', '1')->where('starts_at', "<=",$dateNow)->wherePivotNull('deleted_at')->where('expires_at', '>=', $dateNow)->first();
         return $discount;
     }
 
