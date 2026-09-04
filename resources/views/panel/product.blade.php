@@ -48,19 +48,23 @@
                     </div>
 
                     <!-- ویژگی‌های کلیدی -->
-                    <div class="content-box mt-3">
-                        <h5><i class="bi bi-stars text-primary-custom"></i> ویژگی‌های کلیدی</h5>
+                    @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
 
-                        <div class="d-flex flex-wrap gap-2">
-                            @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal')) ->get() as $variantAttributes)
-                                <span class="feature-pill">
+                        <div class="content-box mt-3">
+                            <h5><i class="bi bi-stars text-primary-custom"></i> ویژگی‌های کلیدی</h5>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal')) ->get() as $variantAttributes)
+                                    <span class="feature-pill">
                                     <i class="bi bi-shield"></i>
                                  {{ $variantAttributes?->attribute->name ?? '' }}:
                                      {{ $variantAttributes?->attributeValue->value ?? '' }}
                                 </span>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
+                    @endif
+
                 </div>
 
                 <!-- اطلاعات محصول -->
@@ -84,20 +88,23 @@
 
                         <hr>
 
-                        <!-- رنگ‌بندی -->
-                        <div class="mb-3">
-                            <label class="fw-bold small mb-2">رنگ:</label>
-                            <div class="d-flex gap-2">
-                                @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color')) ->get() as $variantAttributes)
-                                    <span class="color-swatch selected" style="background: {{ $variantAttributes?->attributeValue->value ?? '' }};"
-                                          onclick="selectColor(this)"></span>
-                                @endforeach
+                        @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color'))->exists())
+                            <div class="mb-3">
+                                <label class="fw-bold small mb-2">رنگ:</label>
+                                <div class="d-flex gap-2">
+                                    @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color')) ->get() as $key=> $variantAttributes)
+                                        <span class="color-swatch @if($key==0) selected  @endif"
+                                              style="background: {{ $variantAttributes?->attributeValue->value ?? '' }};"
+                                              onclick="selectColor(this)"></span>
+
+                                    @endforeach
 
 
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
-                        <!-- گارانتی -->
+                    <!-- گارانتی -->
                         <div class="mb-3 row">
                             @foreach($productVariant->variantAttributes()
                                 ->with('attribute')
@@ -158,34 +165,25 @@
 
                     <!-- دکمه‌ها -->
                         <div class="d-grid gap-2">
-                            <button class="btn btn-cta btn-lg" onclick="addToCart(1, 'ساعت کاسیو G-Shock')">
-                                <i class="bi bi-bag-plus"></i> افزودن به سبد خرید
-                            </button>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-primary-custom flex-fill" onclick="toggleFavorite(this)">
-                                    <i class="bi bi-heart"></i> علاقه‌مندی
+                            @if($productVariant->stock>0)
+                                <button class="btn btn-cta btn-lg" onclick="addToCart(1, 'ساعت کاسیو G-Shock')">
+                                    <i class="bi bi-bag-plus"></i> افزودن به سبد خرید
                                 </button>
+                            @endif
+                            @if(\Illuminate\Support\Facades\Auth::check())
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary-custom flex-fill"
+                                            onclick="toggleFavorite(this)">
+                                        <i class="bi bi-heart"></i> علاقه‌مندی
+                                    </button>
 
-                            </div>
+                                </div>
+                            @endif
                         </div>
 
                         <hr>
 
-                        <!-- اطلاعات ارسال -->
-                        <div class="small">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="bi bi-truck text-success"></i>
-                                <span>ارسال رایگان برای سفارش‌های بالای ۵۰۰ هزار تومان</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="bi bi-clock text-success"></i>
-                                <span>ارسال در کمتر از ۲۴ ساعت در تهران</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-arrow-repeat text-success"></i>
-                                <span>۷ روز ضمانت بازگشت بدون قید و شرط</span>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -209,11 +207,14 @@
                                     aria-selected="false" role="tab" tabindex="-1">توضیحات محصول
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-specs" type="button"
-                                    aria-selected="false" tabindex="-1" role="tab">مشخصات فنی
-                            </button>
-                        </li>
+                        @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-specs" type="button"
+                                        aria-selected="false" tabindex="-1" role="tab">مشخصات فنی
+                                </button>
+                            </li>
+                        @endif
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-comments" type="button"
                                     aria-selected="false" tabindex="-1" role="tab">نظرات کاربران (۴۲)
@@ -232,116 +233,45 @@
                             <div class="content-box">
                                 <h5>توضیحات محصول</h5>
                                 <p>
-                                    ساعت مچی کاسیو مدل G-Shock GA-1000 یکی از محبوب‌ترین و بادوام‌ترین ساعت‌های سری
-                                    جی‌شاک کاسیو است که با طراحی اسپرت و قدرتمند خود، انتخابی ایده‌آل برای افرادی محسوب
-                                    می‌شود که به دنبال ساعت باکیفیت و مقاوم هستند. این ساعت با بدنه‌ی ضدضربه و ضدآب تا
-                                    عمق ۲۰۰ متر، برای استفاده در شرایط سخت و فعالیت‌های ورزشی مناسب است.
+                                    {{$product->description??''}}
                                 </p>
-                                <p>
-                                    یکی از ویژگی‌های برجسته این مدل، داشتن قطب‌نمای دیجیتال است که آن را به ابزاری
-                                    کاربردی برای کوهنوردان و ماجراجویان تبدیل می‌کند. نمایشگر آنالوگ-دیجیتال با
-                                    نورپردازی LED، خواندن اطلاعات را در هر شرایط نوری آسان می‌کند. همچنین، کرونوگراف با
-                                    دقت ۱/۱۰۰ ثانیه، تایمر و ۵ آلارم روزانه از دیگر قابلیت‌های این ساعت هستند.
-                                </p>
-                                <p>
-                                    بند این ساعت از جنس رزین باکیفیت ساخته شده که هم سبک و هم مقاوم است و استفاده
-                                    طولانی‌مدت از آن را راحت می‌کند. طراحی اسپرت و جذاب این ساعت آن را با استایل‌های
-                                    مختلف از روزمره تا ورزشی هماهنگ می‌کند. این محصول با ۱۸ ماه گارانتی زمانک عرضه
-                                    می‌شود.
-                                </p>
-                                <h6 class="mt-4">ویژگی‌های شاخص:</h6>
-                                <ul>
-                                    <li>مقاوم در برابر آب تا عمق ۲۰۰ متر (مناسب شنا و غواصی)</li>
-                                    <li>بدنه ضدضربه با استاندارد MIL-STD-810</li>
-                                    <li>قطب‌نمای دیجیتال داخلی</li>
-                                    <li>نمایشگر آنالوگ-دیجیتال با نورپردازی LED</li>
-                                    <li>کرونوگراف با دقت ۱/۱۰۰ ثانیه</li>
-                                    <li>۵ آلارم روزانه و تایمر</li>
-                                    <li>تقویم خودکار تا سال ۲۰۹۹</li>
-                                    <li>بند رزینی سبک و مقاوم</li>
-                                    <li>باتری با عمر حداقل ۲ سال</li>
-                                </ul>
+
+
                             </div>
                         </div>
 
-                        <!-- مشخصات -->
-                        <div class="tab-pane fade mobile-tab-content" id="tab-specs" role="tabpanel">
-                            <div class="content-box product-specs-box">
-                                <div class="section-head-row">
-                                    <h5 class="mb-0 border-0 pb-0">مشخصات فنی</h5>
-                                    <span class="badge bg-soft text-primary-custom">۱۴ ویژگی</span>
-                                </div>
-                                <p class="text-muted-custom small mb-3">برای مقایسه بهتر، مشخصات در سه گروه اصلی نمایش
-                                    داده شده است.</p>
+                        @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
 
-                                <div class="spec-highlight-grid">
-                                    <div class="spec-highlight-item">
-                                        <i class="bi bi-droplet-half"></i>
-                                        <div>
-                                            <small>مقاومت در آب</small>
-                                            <strong>۲۰۰ متر</strong>
-                                        </div>
+                            <div class="tab-pane fade mobile-tab-content" id="tab-specs" role="tabpanel">
+                                <div class="content-box product-specs-box">
+                                    <div class="section-head-row">
+                                        <h5 class="mb-0 border-0 pb-0">مشخصات فنی</h5>
+                                        <span class="badge bg-soft text-primary-custom">۱۴ ویژگی</span>
                                     </div>
-                                    <div class="spec-highlight-item">
-                                        <i class="bi bi-cpu"></i>
-                                        <div>
-                                            <small>نوع موتور</small>
-                                            <strong>کوارتز</strong>
-                                        </div>
-                                    </div>
-                                    <div class="spec-highlight-item">
-                                        <i class="bi bi-arrows-angle-expand"></i>
-                                        <div>
-                                            <small>قطر بدنه</small>
-                                            <strong>۵۰.۸ میلی‌متر</strong>
-                                        </div>
-                                    </div>
-                                    <div class="spec-highlight-item">
-                                        <i class="bi bi-shield-check"></i>
-                                        <div>
-                                            <small>گارانتی</small>
-                                            <strong>۱۸ ماه</strong>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <p class="text-muted-custom small mb-3">
+                                        برای مقایسه بهتر، مشخصات نمایش داده شده است.
+                                    </p>
 
-                                <div class="spec-group">
-                                    <h6><i class="bi bi-info-circle text-primary-custom"></i> اطلاعات کلی</h6>
-                                    <div class="spec-list">
-                                        <div class="spec-row"><span>برند</span><strong>کاسیو (Casio)</strong></div>
-                                        <div class="spec-row"><span>مدل</span><strong>G-Shock GA-1000</strong></div>
-                                        <div class="spec-row"><span>مناسب برای</span><strong>مردانه</strong></div>
-                                        <div class="spec-row"><span>کشور مبدا</span><strong>ژاپن</strong></div>
-                                    </div>
-                                </div>
 
-                                <div class="spec-group">
-                                    <h6><i class="bi bi-smartwatch text-primary-custom"></i> طراحی و ساخت</h6>
-                                    <div class="spec-list">
-                                        <div class="spec-row"><span>نوع نمایشگر</span><strong>آنالوگ-دیجیتال</strong>
-                                        </div>
-                                        <div class="spec-row"><span>جنس بدنه</span><strong>رزین</strong></div>
-                                        <div class="spec-row"><span>جنس بند</span><strong>رزین</strong></div>
-                                        <div class="spec-row"><span>قطر بدنه</span><strong>۵۰.۸ میلی‌متر</strong></div>
-                                        <div class="spec-row"><span>ضخامت بدنه</span><strong>۱۶.۹ میلی‌متر</strong>
-                                        </div>
-                                        <div class="spec-row"><span>وزن</span><strong>۸۰ گرم</strong></div>
+                                    <div class="spec-group">
+                                        <h6><i class="bi bi-info-circle text-primary-custom"></i> اطلاعات کلی</h6>
+                                        @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->get() as $variantAttribute)
+                                            <div class="spec-list mt-2">
+                                                <div class="spec-row">
+                                                    <span>{{$variantAttribute->attribute->name??''}}</span>
+                                                    <strong>{{$variantAttribute->attributeValue->value??''}}</strong>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                </div>
 
-                                <div class="spec-group mb-0">
-                                    <h6><i class="bi bi-speedometer2 text-primary-custom"></i> عملکرد و دوام</h6>
-                                    <div class="spec-list">
-                                        <div class="spec-row"><span>مقاومت در آب</span><strong>۲۰۰ متر</strong></div>
-                                        <div class="spec-row"><span>نوع موتور</span><strong>کوارتز</strong></div>
-                                        <div class="spec-row"><span>عمر باتری</span><strong>حدود ۲ سال</strong></div>
-                                        <div class="spec-row"><span>گارانتی</span><strong>۱۸ ماه زمانک</strong></div>
-                                    </div>
+
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- نظرات -->
+                    @endif
+
+                    <!-- نظرات -->
                         <div class="tab-pane fade mobile-tab-content" id="tab-comments" role="tabpanel">
                             <div class="content-box">
                                 <div class="section-head-row">

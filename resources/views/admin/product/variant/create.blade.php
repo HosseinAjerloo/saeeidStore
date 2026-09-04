@@ -153,119 +153,794 @@
 @section('script')
 
     <script>
-        const definitions =@json($attributeWithAttributesValue);
-        console.log(definitions)
+        const definitions = @json($attributeWithAttributesValue);
+
+        console.log(definitions);
+
         const configs = document.getElementById('attributeConfigs');
         const body = document.getElementById('variantTableBody');
 
-        const toFa = value => String(value).replace(/\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit]);
-        const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        })[char]);
+        const toFa = value =>
+            String(value).replace(/\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit]);
 
-        function addAttribute(id, checkedCount = 2) {
+        const escapeHtml = value =>
+            String(value).replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            })[char]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | افزودن ویژگی
+        |--------------------------------------------------------------------------
+        */
+
+        function addAttribute(id) {
+
             const item = definitions[id];
-            if (!item || configs.querySelector(`[data-attribute-id="${id}"]`)) return;
-            const values = item.values.map((value, index) => `<label class="attribute-value-choice"><input type="checkbox" value="${value.id}" data-label="${escapeHtml(value.label)}" data-code="${value.code}" ${index < checkedCount ? 'checked' : ''}><span>${item.type === 'color' ? `<i class="attribute-color-dot" style="background:${value.value}"></i>` : ''}${escapeHtml(value.label)}</span></label>`).join('');
-            configs.insertAdjacentHTML('beforeend', `<div class="attribute-config" data-attribute-id="${item.id}" data-attribute-name="${escapeHtml(item.name)}"><div class="attribute-config-head"><div><b class="block text-xs text-white">${escapeHtml(item.name)}</b><small class="text-[9px] text-slate-600">مقدارهای قابل فروش را انتخاب کنید</small></div><button type="button" class="remove-attribute rounded-lg px-2 py-1 text-xs text-rose hover:bg-rose/10">حذف</button></div><div class="attribute-values">${values}</div></div>`);
-            const option = document.querySelector(`#variantAttributeSelect option[value="${id}"]`);
-            option.disabled = true;
-            const next = Array.from(option.parentElement.options).find(entry => !entry.disabled);
-            if (next) option.parentElement.value = next.value;
+
+            if (!item) return;
+
+            // اگر قبلاً اضافه شده، دوباره اضافه نشود
+            if (configs.querySelector(`[data-attribute-id="${id}"]`)) {
+                return;
+            }
+
+            const values = item.values.map(value => {
+
+                return `
+                <label class="attribute-value-choice">
+
+                    <input
+                        type="checkbox"
+                        value="${value.id}"
+                        data-label="${escapeHtml(value.label)}"
+                        data-code="${escapeHtml(value.code)}"
+                    >
+
+                    <span>
+                        ${
+                    item.type === 'color'
+                        ? `<i
+                                    class="attribute-color-dot"
+                                    style="background:${value.value}"
+                                   ></i>`
+                        : ''
+                }
+
+                        ${escapeHtml(value.label)}
+                    </span>
+
+                </label>
+            `;
+
+            }).join('');
+
+
+            configs.insertAdjacentHTML(
+                'beforeend',
+
+                `
+            <div
+                class="attribute-config"
+                data-attribute-id="${item.id}"
+                data-attribute-name="${escapeHtml(item.name)}"
+            >
+
+                <div class="attribute-config-head">
+
+                    <div>
+                        <b class="block text-xs text-white">
+                            ${escapeHtml(item.name)}
+                        </b>
+
+                        <small class="text-[9px] text-slate-600">
+                            مقدارهای قابل فروش را انتخاب کنید
+                        </small>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="remove-attribute rounded-lg px-2 py-1 text-xs text-rose hover:bg-rose/10"
+                    >
+                        حذف
+                    </button>
+
+                </div>
+
+                <div class="attribute-values">
+                    ${values}
+                </div>
+
+            </div>
+            `
+            );
+
+
+            // غیرفعال کردن گزینه انتخاب شده
+            const option = document.querySelector(
+                `#variantAttributeSelect option[value="${id}"]`
+            );
+
+            if (option) {
+
+                option.disabled = true;
+
+                const next = Array
+                    .from(option.parentElement.options)
+                    .find(entry => !entry.disabled);
+
+                if (next) {
+                    option.parentElement.value = next.value;
+                }
+            }
+
+
             generateVariants();
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | گرفتن ویژگی‌ها و مقدارهای انتخاب شده
+        |--------------------------------------------------------------------------
+        */
 
         function groups() {
-            return Array.from(configs.querySelectorAll('.attribute-config')).map(config => ({
-                id: Number(config.dataset.attributeId),
-                name: config.dataset.attributeName,
-                values: Array.from(config.querySelectorAll('input:checked')).map(input => ({
-                    id: Number(input.value),
-                    label: input.dataset.label,
-                    code: input.dataset.code
-                }))
-            }));
+
+            return Array
+                .from(configs.querySelectorAll('.attribute-config'))
+                .map(config => ({
+
+                    id: Number(config.dataset.attributeId),
+
+                    name: config.dataset.attributeName,
+
+                    values: Array
+                        .from(config.querySelectorAll('input:checked'))
+                        .map(input => ({
+
+                            id: Number(input.value),
+
+                            label: input.dataset.label,
+
+                            code: input.dataset.code
+
+                        }))
+
+                }));
         }
 
-        function combinations(items) {
-            return items.reduce((result, group) => result.flatMap(combo => group.values.map(value => [...combo, {
-                attributeId: group.id,
-                attributeName: group.name, ...value
-            }])), [[]]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | نگهداری اطلاعات فعلی مدل
+        |--------------------------------------------------------------------------
+        */
+
+        function currentVariant() {
+
+            const row = body.querySelector('[data-variant-row]');
+
+            if (!row) {
+                return {};
+            }
+
+            return {
+
+                sku: row.querySelector('.variant-sku')?.value || '',
+
+                price: row.querySelector('.variant-price')?.value || '',
+
+                stock: row.querySelector('.variant-stock')?.value || '0',
+
+                active: row.querySelector('.variant-active')?.checked ?? true
+
+            };
         }
 
-        function currentRows() {
-            const values = new Map();
-            body.querySelectorAll('[data-variant-row]').forEach(row => values.set(row.dataset.key, {
-                sku: row.querySelector('.variant-sku').value,
-                price: row.querySelector('.variant-price').value,
-                stock: row.querySelector('.variant-stock').value,
-                active: row.querySelector('.variant-active').checked
-            }));
-            return values;
-        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | ساخت مدل
+        |
+        | مهم:
+        | تمام ویژگی‌ها و تمام مقدارهای انتخاب شده
+        | داخل یک tr قرار می‌گیرند.
+        |--------------------------------------------------------------------------
+        */
 
         function generateVariants() {
-            const previous = currentRows();
+
+            const previous = currentVariant();
+
             const selected = groups();
-            const combos = selected.some(group => !group.values.length) ? [] : combinations(selected);
-            body.innerHTML = combos.map((combo, index) => {
-                const key = combo.map(item => `${item.attributeId}:${item.id}`).join('|') || 'simple';
-                const saved = previous.get(key) || {};
-                const sku = saved.sku || [...combo.map(item => item.code)].join('-');
-                const labels = combo.length ? combo.map(item => `<span class="chip ${item.attributeName === 'رنگ' ? 'bg-aqua-500/10 text-aqua-300' : 'bg-brand-500/10 text-brand-300'}">${escapeHtml(item.label)}</span>`).join('') : '<span class="chip bg-white/5 text-slate-400">محصول ساده</span>';
-                const hidden = combo.map((item, attrIndex) => `<input type="hidden" name="variants[${index}][attributes][${attrIndex}][attribute_id]" value="${item.attributeId}"><input type="hidden" name="variants[${index}][attributes][${attrIndex}][attribute_value_id]" value="${item.id}">`).join('');
-                return `<tr data-variant-row data-key="${key}"><td><div class="flex flex-wrap gap-1.5">${labels}</div>${hidden}</td><td><input name="variants[${index}][sku]" value="${escapeHtml(sku)}" required dir="ltr" class="variant-table-input variant-sku min-w-36 text-left"></td><td><input name="variants[${index}][price]" value="${escapeHtml(saved.price || '')}" required type="number" min="0" step="0.001" dir="ltr" placeholder="0.000" class="variant-table-input variant-price min-w-32 text-left"></td><td><input name="variants[${index}][stock]" value="${escapeHtml(saved.stock ?? '0')}" type="number" min="0" dir="ltr" class="variant-table-input variant-stock min-w-24 text-left"></td><td><label class="flex cursor-pointer items-center gap-2"><span class="relative"><input name="variants[${index}][is_active]" type="checkbox" value="1" ${saved.active === false ? '' : 'checked'} class="variant-active peer sr-only"><span class="block h-5 w-9 rounded-full bg-ink-600 peer-checked:bg-brand-500"></span><span class="absolute right-1 top-1 h-3 w-3 rounded-full bg-white transition-transform peer-checked:-translate-x-3"></span></span></label></td><td><button type="button" class="remove-variant table-action delete">⌫</button></td></tr>`;
-            }).join('');
-            document.getElementById('variantEmpty').classList.toggle('hidden', combos.length > 0);
-            document.getElementById('variantTableWrap').classList.toggle('hidden', combos.length === 0);
-            document.getElementById('bulkTools').classList.toggle('hidden', combos.length === 0);
-            document.getElementById('matrixNotice').textContent = combos.length ? `${toFa(combos.length)} مدل آماده شد؛ تغییرات به‌صورت خودکار اعمال می‌شوند.` : 'برای هر ویژگی حداقل یک مقدار انتخاب کنید.';
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | اگر یک ویژگی داشته باشیم که هیچ مقداری انتخاب نشده
+            |--------------------------------------------------------------------------
+            */
+
+            const hasEmptyGroup =
+                selected.some(group => group.values.length === 0);
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | تمام مقدارهای انتخاب شده را یکی می‌کنیم
+            |--------------------------------------------------------------------------
+            */
+
+            const values = selected.flatMap(group =>
+
+                group.values.map(value => ({
+
+                    attributeId: group.id,
+
+                    attributeName: group.name,
+
+                    ...value
+
+                }))
+
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | اگر ویژگی داریم ولی یکی از آنها مقدار ندارد
+            |--------------------------------------------------------------------------
+            */
+
+            if (hasEmptyGroup) {
+
+                body.innerHTML = '';
+
+                document
+                    .getElementById('variantEmpty')
+                    .classList.remove('hidden');
+
+                document
+                    .getElementById('variantTableWrap')
+                    .classList.add('hidden');
+
+                document
+                    .getElementById('bulkTools')
+                    .classList.add('hidden');
+
+                document
+                    .getElementById('matrixNotice')
+                    .textContent =
+                    'برای هر ویژگی حداقل یک مقدار انتخاب کنید.';
+
+                updateSummary();
+
+                return;
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ساخت کلید مدل
+            |--------------------------------------------------------------------------
+            */
+
+            const key = values
+                .map(item => `${item.attributeId}:${item.id}`)
+                .join('|') || 'simple';
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SKU پیش فرض
+            |--------------------------------------------------------------------------
+            */
+
+            const sku =
+                previous.sku ||
+                values
+                    .map(item => item.code)
+                    .filter(Boolean)
+                    .join('-');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | نمایش Chip ها
+            |--------------------------------------------------------------------------
+            */
+
+            const labels = values.length
+
+                ? values
+                    .map(item => `
+                    <span
+                        class="chip ${
+                        item.attributeName === 'رنگ'
+                            ? 'bg-aqua-500/10 text-aqua-300'
+                            : 'bg-brand-500/10 text-brand-300'
+                    }"
+                    >
+                        ${escapeHtml(item.attributeName)}:
+                        ${escapeHtml(item.label)}
+                    </span>
+                `)
+                    .join('')
+
+                : `
+                <span class="chip bg-white/5 text-slate-400">
+                    محصول ساده
+                </span>
+            `;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | hidden inputs
+            |--------------------------------------------------------------------------
+            |
+            | همه attribute ها داخل همان variants[0]
+            |--------------------------------------------------------------------------
+            */
+
+            const hidden = values
+                .map((item, attrIndex) => `
+
+                <input
+                    type="hidden"
+                    name="variants[0][attributes][${attrIndex}][attribute_id]"
+                    value="${item.attributeId}"
+                >
+
+                <input
+                    type="hidden"
+                    name="variants[0][attributes][${attrIndex}][attribute_value_id]"
+                    value="${item.id}"
+                >
+
+            `)
+                .join('');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | فقط یک TR
+            |--------------------------------------------------------------------------
+            */
+
+            body.innerHTML = `
+
+            <tr
+                data-variant-row
+                data-key="${escapeHtml(key)}"
+            >
+
+                <!-- ویژگی‌ها -->
+                <td>
+
+                    <div class="flex flex-wrap gap-1.5">
+
+                        ${labels}
+
+                    </div>
+
+                    ${hidden}
+
+                </td>
+
+
+                <!-- SKU -->
+                <td>
+
+                    <input
+                        name="variants[0][sku]"
+                        value="${escapeHtml(sku)}"
+                        required
+                        dir="ltr"
+                        class="variant-table-input variant-sku min-w-36 text-left"
+                    >
+
+                </td>
+
+
+                <!-- قیمت -->
+                <td>
+
+                    <input
+                        name="variants[0][price]"
+                        value="${escapeHtml(previous.price)}"
+                        required
+                        type="number"
+                        min="0"
+                        step="0.001"
+                        dir="ltr"
+                        placeholder="0.000"
+                        class="variant-table-input variant-price min-w-32 text-left"
+                    >
+
+                </td>
+
+
+                <!-- موجودی -->
+                <td>
+
+                    <input
+                        name="variants[0][stock]"
+                        value="${escapeHtml(previous.stock ?? '0')}"
+                        type="number"
+                        min="0"
+                        dir="ltr"
+                        class="variant-table-input variant-stock min-w-24 text-left"
+                    >
+
+                </td>
+
+
+                <!-- وضعیت -->
+                <td>
+
+                    <label class="flex cursor-pointer items-center gap-2">
+
+                        <span class="relative">
+
+                            <input
+                                name="variants[0][is_active]"
+                                type="checkbox"
+                                value="1"
+                                ${
+                previous.active === false
+                    ? ''
+                    : 'checked'
+            }
+                                class="variant-active peer sr-only"
+                            >
+
+                            <span
+                                class="block h-5 w-9 rounded-full bg-ink-600 peer-checked:bg-brand-500"
+                            ></span>
+
+                            <span
+                                class="absolute right-1 top-1 h-3 w-3 rounded-full bg-white transition-transform peer-checked:-translate-x-3"
+                            ></span>
+
+                        </span>
+
+                    </label>
+
+                </td>
+
+
+                <!-- حذف -->
+                <td>
+
+                    <button
+                        type="button"
+                        class="remove-variant table-action delete"
+                    >
+                        ⌫
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | نمایش جدول
+            |--------------------------------------------------------------------------
+            */
+
+            document
+                .getElementById('variantEmpty')
+                .classList.toggle('hidden', values.length > 0);
+
+
+            document
+                .getElementById('variantTableWrap')
+                .classList.toggle('hidden', values.length === 0);
+
+
+            document
+                .getElementById('bulkTools')
+                .classList.toggle('hidden', values.length === 0);
+
+
+            document
+                .getElementById('matrixNotice')
+                .textContent =
+                values.length
+                    ? 'مدل آماده شد؛ تمام ویژگی‌های انتخاب شده در همین مدل قرار گرفتند.'
+                    : 'برای ایجاد مدل، ویژگی و مقدارهای آن را انتخاب کنید.';
+
+
             updateSummary();
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Summary
+        |--------------------------------------------------------------------------
+        */
 
         function updateSummary() {
-            const rows = Array.from(body.querySelectorAll('[data-variant-row]'));
-            const stock = rows.reduce((sum, row) => sum + (Number(row.querySelector('.variant-stock').value) || 0), 0);
-            const prices = rows.map(row => Number(row.querySelector('.variant-price').value)).filter(value => Number.isFinite(value) && value > 0);
-            const count = `${toFa(rows.length)} مدل`;
-            document.getElementById('variantCount').textContent = toFa(rows.length);
-            document.getElementById('totalStock').textContent = `${stock.toLocaleString('fa-IR')} عدد`;
-            document.getElementById('minimumPrice').textContent = prices.length ? `${Math.min(...prices).toLocaleString('fa-IR')} تومان` : '—';
-            document.getElementById('headerVariantCount').textContent = count;
-            document.getElementById('selectedVariantCount').textContent = count;
+
+            const rows = Array.from(
+                body.querySelectorAll('[data-variant-row]')
+            );
+
+
+            const stock = rows.reduce(
+                (sum, row) =>
+                    sum +
+                    (Number(
+                        row.querySelector('.variant-stock')?.value
+                    ) || 0),
+                0
+            );
+
+
+            const prices = rows
+                .map(row =>
+                    Number(
+                        row.querySelector('.variant-price')?.value
+                    )
+                )
+                .filter(
+                    value =>
+                        Number.isFinite(value) &&
+                        value > 0
+                );
+
+
+            const count =
+                `${toFa(rows.length)} مدل`;
+
+
+            document
+                .getElementById('variantCount')
+                .textContent =
+                toFa(rows.length);
+
+
+            document
+                .getElementById('totalStock')
+                .textContent =
+                `${stock.toLocaleString('fa-IR')} عدد`;
+
+
+            document
+                .getElementById('minimumPrice')
+                .textContent =
+                prices.length
+                    ? `${Math.min(...prices).toLocaleString('fa-IR')} تومان`
+                    : '—';
+
+
+            document
+                .getElementById('headerVariantCount')
+                .textContent =
+                count;
+
+
+            document
+                .getElementById('selectedVariantCount')
+                .textContent =
+                count;
         }
 
-        document.getElementById('addVariantAttribute').addEventListener('click', () => addAttribute(Number(document.getElementById('variantAttributeSelect').value)));
-        configs.addEventListener('change', generateVariants);
-        configs.addEventListener('click', event => {
-            const button = event.target.closest('.remove-attribute');
-            if (!button) return;
-            const config = button.closest('.attribute-config');
-            document.querySelector(`#variantAttributeSelect option[value="${config.dataset.attributeId}"]`).disabled = false;
-            config.remove();
-            generateVariants();
-        });
-        body.addEventListener('input', updateSummary);
-        body.addEventListener('change', updateSummary);
-        body.addEventListener('click', event => {
-            const button = event.target.closest('.remove-variant');
-            if (!button) return;
-            button.closest('[data-variant-row]').remove();
-            updateSummary();
-        });
-        document.querySelectorAll('[data-bulk]').forEach(button => button.addEventListener('click', () => {
-            const type = button.dataset.bulk;
-            const input = document.getElementById(type === 'price' ? 'bulkPrice' : 'bulkStock');
-            if (!input.value) return;
-            body.querySelectorAll(type === 'price' ? '.variant-price' : '.variant-stock').forEach(field => field.value = input.value);
-            updateSummary();
-        }));
 
+        /*
+        |--------------------------------------------------------------------------
+        | افزودن ویژگی
+        |--------------------------------------------------------------------------
+        */
+
+        document
+            .getElementById('addVariantAttribute')
+            .addEventListener('click', () => {
+
+                const select =
+                    document.getElementById(
+                        'variantAttributeSelect'
+                    );
+
+                addAttribute(
+                    Number(select.value)
+                );
+
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | تغییر checkbox های ویژگی
+        |--------------------------------------------------------------------------
+        */
+
+        configs.addEventListener(
+            'change',
+            event => {
+
+                if (
+                    event.target.matches(
+                        '.attribute-value-choice input'
+                    )
+                ) {
+
+                    generateVariants();
+
+                }
+
+            }
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | حذف ویژگی
+        |--------------------------------------------------------------------------
+        */
+
+        configs.addEventListener(
+            'click',
+            event => {
+
+                const button =
+                    event.target.closest(
+                        '.remove-attribute'
+                    );
+
+                if (!button) return;
+
+
+                const config =
+                    button.closest(
+                        '.attribute-config'
+                    );
+
+
+                const attributeId =
+                    config.dataset.attributeId;
+
+
+                const option =
+                    document.querySelector(
+                        `#variantAttributeSelect option[value="${attributeId}"]`
+                    );
+
+
+                if (option) {
+                    option.disabled = false;
+                }
+
+
+                config.remove();
+
+
+                generateVariants();
+
+            }
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | تغییر قیمت / موجودی
+        |--------------------------------------------------------------------------
+        */
+
+        body.addEventListener(
+            'input',
+            updateSummary
+        );
+
+
+        body.addEventListener(
+            'change',
+            updateSummary
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | حذف مدل
+        |--------------------------------------------------------------------------
+        */
+
+        body.addEventListener(
+            'click',
+            event => {
+
+                const button =
+                    event.target.closest(
+                        '.remove-variant'
+                    );
+
+                if (!button) return;
+
+
+                const row =
+                    button.closest(
+                        '[data-variant-row]'
+                    );
+
+
+                row.remove();
+
+
+                updateSummary();
+
+            }
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Bulk Price / Stock
+        |--------------------------------------------------------------------------
+        */
+
+        document
+            .querySelectorAll('[data-bulk]')
+            .forEach(button => {
+
+                button.addEventListener(
+                    'click',
+                    () => {
+
+                        const type =
+                            button.dataset.bulk;
+
+
+                        const input =
+                            document.getElementById(
+                                type === 'price'
+                                    ? 'bulkPrice'
+                                    : 'bulkStock'
+                            );
+
+
+                        if (!input.value) return;
+
+
+                        body
+                            .querySelectorAll(
+                                type === 'price'
+                                    ? '.variant-price'
+                                    : '.variant-stock'
+                            )
+                            .forEach(field => {
+
+                                field.value =
+                                    input.value;
+
+                            });
+
+
+                        updateSummary();
+
+                    }
+                );
+
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | حالت اولیه
+        |--------------------------------------------------------------------------
+        */
+
+        generateVariants();
 
     </script>
 @endsection

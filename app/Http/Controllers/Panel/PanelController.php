@@ -105,4 +105,7 @@ class PanelController extends Controller
     {
         //
     }
+    public function faq(){
+        return view('panel.faq');
+    }
 }

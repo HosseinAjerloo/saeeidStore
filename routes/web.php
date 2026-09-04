@@ -87,8 +87,12 @@ Route::prefix('admin')->name('admin.')->group(function (){
 Route::name('panel.')->group(function (){
    Route::get('/',[App\Http\Controllers\Panel\PanelController::class,'index'])->name('index');
    Route::get('{product:slug}/{productVariant}',[App\Http\Controllers\Panel\PanelController::class,'show'])->name('show');
+   Route::get('faq',[App\Http\Controllers\Panel\PanelController::class,'faq'])->name('faq');
+
+   Route::name('cart.')->prefix('cart')->group(function (){
+      Route::get('/',[App\Http\Controllers\Panel\Cart\CartController::class,'index'])->name('index');
+   });
 });
 Route::get('test',function (){
-   $product=\App\Models\Product::first();
-   dd($product->countable);
+
 });

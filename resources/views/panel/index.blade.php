@@ -161,7 +161,7 @@
                                     </div>
                                     <div class="product-info">
                                         <div class="product-brand">{{$item->product?->brand->name??''}}</div>
-                                        <h6 class="product-title"><a href="pages/product.html">
+                                        <h6 class="product-title"><a href="{{route('panel.show',['product'=>$item->product->slug,'productVariant'=>$item->id])}}">
                                               {{$item->product->name??''}}
                                             </a>
                                         </h6>

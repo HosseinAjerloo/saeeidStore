@@ -228,6 +228,7 @@ class ProductController extends Controller
         ProductVariant $productVariant,
     ) {
         try {
+
             DB::beginTransaction();
 
                 $productVariant->variantAttributes()->delete();
@@ -285,7 +286,6 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-
         return view('admin.product.variant.show', compact('product'));
     }
 }

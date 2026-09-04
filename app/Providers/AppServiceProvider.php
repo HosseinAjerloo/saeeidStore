@@ -21,14 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Illuminate\Support\Facades\View::composer('*',function (View $view){
-            $categories = ProductGroup::whereHas('childs.products.productVariant', function ($query) {
-                $query->where('is_active', 1)
-                    ->where('stock', '>', 0);
-            })->whereNull('parent_id')
-                ->limit(3)
-                ->get();
-            $view->with(['categories'=>$categories]);
+        \view()->composer('panel.Layout.header',function (View $view){
+           $categories=ProductGroup::whereHas('childs.products.productVariant')->whereNull('parent_id')->where('is_active','1')->limit(3)->get();
+           $view->with(['categories'=>$categories]);
         });
     }
 }
