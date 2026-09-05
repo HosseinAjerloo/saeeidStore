@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         \view()->composer('panel.Layout.header',function (View $view){
-           $categories=ProductGroup::whereNull('parent_id')->where('is_active','1')->limit(3)->get();
+           $categories=ProductGroup::whereNull('parent_id')->wherehas('childs')->where('is_active','1')->limit(3)->get();
            $view->with(['categories'=>$categories]);
         });
     }

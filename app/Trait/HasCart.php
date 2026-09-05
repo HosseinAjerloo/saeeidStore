@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 trait HasCart
 {
     protected function addCart(){
+            $cart=$this->generateCart();
+            dd($cart);
+    }
+    protected function generateCart(){
         $this->setSessionCart();
         if ($user=$this->isLogin()){
             $cart=Cart::firstOrCreate(['user_id'=>$user->id],[
@@ -19,7 +23,9 @@ trait HasCart
                 'status'=>'active'
             ]);
         }
+        return $cart;
     }
+
     protected function isLogin(){
         return Auth::user();
     }

@@ -3,7 +3,7 @@
    =================================== */
 
 // === افزودن به سبد خرید ===
-function addToCart(productId, productName) {
+async function addToCart(productId, productName) {
   // به‌روزرسانی شمارنده سبد خرید
   const cartBadge = document.querySelector('#cart-count');
   if (cartBadge) {
@@ -16,6 +16,10 @@ function addToCart(productId, productName) {
   showToast(productName + ' به سبد خرید اضافه شد', 'success');
 }
 
+async function sendRequestAddToCart  () {
+
+}
+
 // === افزودن به علاقه‌مندی ===
 function toggleFavorite(btn) {
   const icon = btn.querySelector('i');
@@ -24,7 +28,7 @@ function toggleFavorite(btn) {
     icon.classList.add('bi-heart-fill');
     btn.classList.add('active');
     showToast('به لیست علاقه‌مندی‌ها اضافه شد', 'success');
-    
+
     const favBadge = document.querySelector('#fav-count');
     if (favBadge) {
       let count = parseInt(favBadge.textContent) || 0;
@@ -48,24 +52,24 @@ function showToast(message, type = 'success') {
     toast.className = 'custom-toast';
     document.body.appendChild(toast);
   }
-  
+
   const iconMap = {
     success: 'bi-check-circle-fill',
     info: 'bi-info-circle-fill',
     error: 'bi-x-circle-fill',
     warning: 'bi-exclamation-triangle-fill'
   };
-  
+
   const colorMap = {
     success: 'var(--color-success)',
     info: 'var(--color-primary)',
     error: 'var(--color-danger)',
     warning: 'var(--color-warning)'
   };
-  
+
   toast.innerHTML = '<i class="bi ' + (iconMap[type] || iconMap.success) + '" style="color:' + (colorMap[type] || colorMap.success) + '"></i><span>' + message + '</span>';
   toast.style.borderRightColor = colorMap[type] || colorMap.success;
-  
+
   setTimeout(() => toast.classList.add('show'), 50);
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
@@ -178,10 +182,10 @@ function updateCartTotal() {
       total += price * qty;
     }
   });
-  
+
   const totalEl = document.querySelector('#cart-total');
   if (totalEl) totalEl.textContent = total.toLocaleString('fa-IR') + ' تومان';
-  
+
   const totalItemsEl = document.querySelector('#cart-items-count');
   if (totalItemsEl) {
     let count = 0;
@@ -221,11 +225,11 @@ function initBrandCarousel() {
 function startCountdown() {
   const timer = document.querySelector('#amazing-timer');
   if (!timer) return;
-  
+
   let hours = parseInt(timer.dataset.hours) || 8;
   let minutes = parseInt(timer.dataset.minutes) || 0;
   let seconds = parseInt(timer.dataset.seconds) || 0;
-  
+
   const interval = setInterval(() => {
     if (seconds > 0) {
       seconds--;
@@ -240,7 +244,7 @@ function startCountdown() {
       clearInterval(interval);
       return;
     }
-    
+
     const hEl = document.querySelector('#timer-hours');
     const mEl = document.querySelector('#timer-minutes');
     const sEl = document.querySelector('#timer-seconds');
@@ -293,7 +297,7 @@ function selectAddress(card) {
 function validateForm(formId) {
   const form = document.getElementById(formId);
   if (!form) return true;
-  
+
   let valid = true;
   form.querySelectorAll('[required]').forEach(field => {
     if (!field.value.trim()) {
@@ -303,11 +307,11 @@ function validateForm(formId) {
       field.style.borderColor = 'var(--color-border)';
     }
   });
-  
+
   if (!valid) {
     showToast('لطفاً تمام فیلدهای الزامی را پر کنید', 'error');
   }
-  
+
   return valid;
 }
 
@@ -506,12 +510,12 @@ function liveSearch(input) {
   const query = input.value.trim().toLowerCase();
   const results = document.querySelector('#search-suggestions');
   if (!results) return;
-  
+
   if (query.length < 2) {
     results.classList.add('d-none');
     return;
   }
-  
+
   // شبیه‌سازی نتایج
   const mockResults = [
     'ساعت مچی کاسیو',
@@ -519,10 +523,10 @@ function liveSearch(input) {
     'ساعت دیجیتال مردانه',
     'ساعت آنالوگ زنانه'
   ];
-  
+
   const filtered = mockResults.filter(r => r.includes(query));
   if (filtered.length > 0) {
-    results.innerHTML = filtered.map(r => 
+    results.innerHTML = filtered.map(r =>
       '<div class="search-suggestion-item" onclick="selectSuggestion(this)"><i class="bi bi-search"></i> ' + r + '</div>'
     ).join('');
     results.classList.remove('d-none');
@@ -547,20 +551,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // شروع تایمر شگفت‌انگیز
   startCountdown();
-  
+
   // راه‌اندازی OTP
   setupOtpInputs();
-  
+
   // راه‌اندازی ستاره‌گذاری
   setupStarRating();
-  
+
   // بستن Toast با کلیک
   document.addEventListener('click', function(e) {
     if (e.target.classList.contains('custom-toast') || e.target.closest('.custom-toast')) {
       e.target.closest('.custom-toast')?.classList.remove('show');
     }
   });
-  
+
   // بستن پیشنهادات جستجو با کلیک خارج
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.search-bar')) {
@@ -568,7 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (results) results.classList.add('d-none');
     }
   });
-  
+
   // مدیریت فرم‌ها
   document.querySelectorAll('form[data-validate]').forEach(form => {
     form.addEventListener('submit', function(e) {

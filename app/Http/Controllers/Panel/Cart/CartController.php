@@ -10,6 +10,6 @@ class CartController extends Controller
     use HasCart;
     public function index(){
 
-//        return view('panel.cart.index');
+        return view('panel.cart.index');
     }
 }

@@ -91,6 +91,7 @@ Route::name('panel.')->group(function (){
 
    Route::name('cart.')->prefix('cart')->group(function (){
       Route::get('/',[App\Http\Controllers\Panel\Cart\CartController::class,'index'])->name('index');
+      Route::post('/addCart',[App\Http\Controllers\Panel\Cart\CartController::class,'addCart'])->name('addCart');
    });
 });
 Route::get('test',function (){
