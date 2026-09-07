@@ -542,6 +542,9 @@
 
 @endsection
 @section('script')
+
+
+
     <script src="{{asset('global/js/swiper-bundle.min.js')}}"></script>
     <script>
         const brandsSwiper = new Swiper('.brandsSwiper', {
@@ -590,3 +593,4 @@
         });
     </script>
 @endsection
+

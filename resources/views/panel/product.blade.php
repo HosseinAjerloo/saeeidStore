@@ -93,7 +93,7 @@
                                 <label class="fw-bold small mb-2">رنگ:</label>
                                 <div class="d-flex gap-2">
                                     @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color')) ->get() as $key=> $variantAttributes)
-                                        <span class="color-swatch @if($key==0) selected  @endif"
+                                        <span data-value="{{$variantAttributes->attribute_value_id}}" class="color-swatch @if($key==0) selected  @endif"
                                               style="background: {{ $variantAttributes?->attributeValue->value ?? '' }};"
                                               onclick="selectColor(this)"></span>
 
@@ -631,4 +631,46 @@
 
 
 @endsection
+@section('script')
+    <script>
+       async function addToCart(productId, productName) {
+            const cartBadge = document.querySelector('#cart-count');
+            if (cartBadge) {
+                let count = parseInt(cartBadge.textContent) || 0;
+                count++;
+                cartBadge.textContent = count;
+                cartBadge.style.display = 'flex';
+                // syncBottomCartBadge();
+                // showToast(' به سبد خرید اضافه شد', 'success');
+                sendAddToCartRequest().then(result=>{
+                    console.log(result)
+                })
+            }
 
+        }
+       async function sendAddToCartRequest() {
+           const promise = new Promise(function (resolve, reject) {
+               const request = new XMLHttpRequest();
+               request.open('POST', "{{route('panel.cart.addCart')}}",true)
+               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
+               request.setRequestHeader('Content-Type', 'application/json');
+               const body = JSON.stringify({
+                   variant_attribute_ids,
+                   productVariant: "{{$productVariant->id}}"
+               })
+               request.onload = function () {
+                   if (request.status === 200) {
+                       resolve(true)
+                   } else
+                   {
+                       reject(false)
+                   }
+               }
+               request.send(body);
+           })
+           return promise;
+       }
+
+    </script>
+
+@endsection

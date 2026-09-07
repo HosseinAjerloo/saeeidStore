@@ -89,7 +89,7 @@ Route::name('panel.')->group(function (){
    Route::get('{product:slug}/{productVariant}',[App\Http\Controllers\Panel\PanelController::class,'show'])->name('show');
    Route::get('faq',[App\Http\Controllers\Panel\PanelController::class,'faq'])->name('faq');
 
-   Route::name('cart.')->prefix('cart')->group(function (){
+   Route::prefix('cart')->name('cart.')->group(function (){
       Route::get('/',[App\Http\Controllers\Panel\Cart\CartController::class,'index'])->name('index');
       Route::post('/addCart',[App\Http\Controllers\Panel\Cart\CartController::class,'addCart'])->name('addCart');
    });

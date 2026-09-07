@@ -12,8 +12,8 @@ class Cart extends Model
         'cart_token',
         'discount_id',
         'discount_type',
-        'discount_amount',
-        'status'
+        'status',
+        'final_price'
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -21,12 +21,13 @@ class Cart extends Model
     public function discount(){
         return $this->belongsTo(Discount::class);
     }
-    public function generateToken(){
+    public static function  generateToken(){
         do{
             $token=Str::random(12);
         }while(Cart::where('cart_token',$token)->exists());
         return $token;
     }
+
 }
 
 

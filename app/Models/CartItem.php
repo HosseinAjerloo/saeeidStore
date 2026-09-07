@@ -8,22 +8,41 @@ class CartItem extends Model
 {
     protected $fillable = [
         'cart_id',
-        'variant_attributes_id',
+        'variant_id',
+        'variant_attribute_ids',
         'quantity',
         'discount_id',
         'discount_amount',
         'discount_type',
         'unit_price',
+        'discount_type',
         'final_unit_price',
-
     ];
 
     public function cart()
     {
         return $this->belongsTo(Cart::class);
     }
-    public function variant_attributes_id()
+
+    public function productVariant()
     {
-        return $this->belongsTo(Varia::class);
+        return $this->belongsTo(ProductVariant::class);
+    }
+
+    public static function isAddToCartAllowed($variant_id, $quantity)
+    {
+        $productVariant = ProductVariant::find($variant_id);
+        $stock = $productVariant->stock;
+        if ($stock < $quantity)
+            return false;
+
+        $sumQuantity = CartItem::whereHas('cart', function ($query) {
+            $query->where('status', 'checkout');
+        })->where('variant_id', $variant_id)->sum('quantity');
+
+        if ($stock < ($quantity + $sumQuantity))
+            return false;
+
+        return true;
     }
 }
