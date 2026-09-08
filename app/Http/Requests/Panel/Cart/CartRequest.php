@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Override;
 
 class CartRequest extends FormRequest
 {
@@ -16,6 +17,12 @@ class CartRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+ public function prepareForValidation(): void
+    {
+        $this->merge([
+            'variant_attribute_ids' => $this->input('variant_attribute_ids', null),
+        ]);
     }
     protected function failedValidation(Validator $validator)
     {
@@ -32,7 +39,7 @@ class CartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'variant_attribute_ids' => 'sometimes|exists:attribute_values,id',
+            'variant_attribute_ids' => 'nullable|exists:attribute_values,id',
             'productVariant' => 'required|exists:product_variants,id'
         ];
     }

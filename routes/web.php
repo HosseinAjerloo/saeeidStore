@@ -96,4 +96,9 @@ Route::name('panel.')->group(function (){
 });
 Route::get('test',function (){
 
+    session(['name'=>'hossein']);
+});
+
+Route::get('test1',function (){
+   dd(session('name'));
 });

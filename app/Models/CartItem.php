@@ -45,4 +45,12 @@ class CartItem extends Model
 
         return true;
     }
+    public static function isForProduct($cart, $variant_id, $variant_attribute_ids):bool
+    {
+        $hasInCartItem = $cart->cartItem()->where('variant_id', $variant_id);
+        if (isset($variant_attribute_ids))
+            $hasInCartItem->whereJsonContains('variant_attribute_ids', $variant_attribute_ids);
+
+        return $hasInCartItem->exists();
+    }
 }

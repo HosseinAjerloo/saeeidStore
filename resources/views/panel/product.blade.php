@@ -652,8 +652,9 @@
            const promise = new Promise(function (resolve, reject) {
                const request = new XMLHttpRequest();
                request.open('POST', "{{route('panel.cart.addCart')}}",true)
-               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
                request.setRequestHeader('Content-Type', 'application/json');
+               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
+               request.withCredentials = true;
                const body = JSON.stringify({
                    variant_attribute_ids,
                    productVariant: "{{$productVariant->id}}"

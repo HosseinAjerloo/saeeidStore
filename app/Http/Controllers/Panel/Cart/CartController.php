@@ -9,13 +9,18 @@ use App\Service\Cart\CartService;
 use Illuminate\Http\Request;
 class CartController extends Controller
 {
+    protected ?Cart $clientCart=null;
+    protected $message='';
+    protected $statusCode=200;
+    protected $status=true;
     public function index(){
 
         return view('panel.cart.index');
     }
     public function addCart(CartRequest $request,CartService $cartService){
         $cartService->cart();
-        dd(session()->get('cart'));
+
+        return response()->json(['success'=>true]);
 
     }
 }

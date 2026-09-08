@@ -22,12 +22,12 @@ class AttributeController extends Controller
         $totalAttributeValues = AttributeValue::count();
 
         $details = collect([
-            'totalAttribute'=> $totalAttribute,
-            'totalAttributeNormal'=>$totalAttributeNormal,
-            'totalAttributeColor'=> $totalAttributeColor,
-            'totalAttributeValues'=>$totalAttributeValues
+            'totalAttribute' => $totalAttribute,
+            'totalAttributeNormal' => $totalAttributeNormal,
+            'totalAttributeColor' => $totalAttributeColor,
+            'totalAttributeValues' => $totalAttributeValues
         ]);
-        return view('admin.attribute.index', compact('details','attributes'));
+        return view('admin.attribute.index', compact('details', 'attributes'));
     }
 
     /**
@@ -50,24 +50,20 @@ class AttributeController extends Controller
             return redirect()->route('admin.attribute.index')->with(['success' => 'ویژگی جدید با موفیقت ساخته شد']);
         } catch (\Exception $exception) {
             return redirect()->back()->withInput()->withErrors(['attributeGenerateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
-
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Attribute $attribute)
-    {
-    }
+    public function show(Attribute $attribute) {}
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Attribute $attribute)
     {
-        return view('admin.attribute.edit',compact('attribute'));
-
+        return view('admin.attribute.edit', compact('attribute'));
     }
 
     /**
@@ -77,22 +73,20 @@ class AttributeController extends Controller
     {
         try {
             $inputs = $request->all();
-             $attribute->update($inputs);
-             $attributeRemoved=[];
-            foreach ($inputs['values'] as $key => $value){
-                $attributeValueID=$attribute->attributeValues()->updateOrCreate([
-                    'id'=>$key
-                ],$value);
-                array_push($attributeRemoved,$attributeValueID->id);
-
+            $attribute->update($inputs);
+            $attributeRemoved = [];
+            foreach ($inputs['values'] as $key => $value) {
+                $attributeValueID = $attribute->attributeValues()->updateOrCreate([
+                    'id' => $key
+                ], $value);
+                array_push($attributeRemoved, $attributeValueID->id);
             }
             $attribute->attributeValues()
-                    ->whereNotIn('id', $attributeRemoved)
-                    ->delete();
+                ->whereNotIn('id', $attributeRemoved)
+                ->delete();
             return redirect()->route('admin.attribute.index')->with(['success' => 'ویژگی  با موفیقت ویرایش شد']);
         } catch (\Exception $exception) {
             return redirect()->back()->withInput()->withErrors(['attributeGenerateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
-
         }
     }
 
@@ -105,9 +99,7 @@ class AttributeController extends Controller
             $attribute->attributeValues()->delete();
             $attribute->delete();
             return redirect()->route('admin.attribute.index')->with(['success' => 'ویژگی  با موفیقت حذف شد']);
-
-        }catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return redirect()->back()->withInput()->withErrors(['attributeDestroy' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
         }
     }
