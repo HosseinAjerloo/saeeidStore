@@ -637,13 +637,16 @@
             const cartBadge = document.querySelector('#cart-count');
             if (cartBadge) {
                 let count = parseInt(cartBadge.textContent) || 0;
-                count++;
-                cartBadge.textContent = count;
-                cartBadge.style.display = 'flex';
-                // syncBottomCartBadge();
-                // showToast(' به سبد خرید اضافه شد', 'success');
+
                 sendAddToCartRequest().then(result=>{
-                    console.log(result)
+                    count++;
+                    cartBadge.textContent = count;
+                    cartBadge.style.display = 'flex';
+                    syncBottomCartBadge();
+                    showToast(result?.message, 'success');
+                }).catch(result=>{
+                    showToast(result?.message, 'error');
+
                 })
             }
 
@@ -660,11 +663,12 @@
                    productVariant: "{{$productVariant->id}}"
                })
                request.onload = function () {
+                   const response=JSON.parse(request.response);
                    if (request.status === 200) {
-                       resolve(true)
+                       resolve(response)
                    } else
                    {
-                       reject(false)
+                       reject(response)
                    }
                }
                request.send(body);

@@ -82,11 +82,11 @@
                                         <a href="{{route('admin.tag.syncProduct',$product)}}" class="table-action text-aqua-300" title="تنوع‌ها">
                                             #
                                         </a>
-                                        <a href="{{route('admin.product.variant.show',$product)}}" class="table-action text-aqua-300" title="تنوع‌ها">
+                                        <a href="{{route('admin.product.variant.show',[$product])}}" class="table-action text-aqua-300" title="تنوع‌ها">
                                             ≡
                                         </a>
                                         <a href="{{route('admin.product.edit',$product)}}" class="table-action edit">✎</a>
-                                        <button data-delete="هدفون بی‌سیم سونی" class="table-action delete">⌫</button>
+                                        <button data-delete="{{$product->name??''}}" class="table-action delete">⌫</button>
                                     </div>
                                 </td>
                             </tr>

@@ -15,7 +15,6 @@ class CartItem extends Model
         'discount_amount',
         'discount_type',
         'unit_price',
-        'discount_type',
         'final_unit_price',
     ];
 
@@ -47,7 +46,7 @@ class CartItem extends Model
     }
     public static function isForProduct($cart, $variant_id, $variant_attribute_ids):bool
     {
-        $hasInCartItem = $cart->cartItem()->where('variant_id', $variant_id);
+        $hasInCartItem = $cart->cartItems()->where('variant_id', $variant_id);
         if (isset($variant_attribute_ids))
             $hasInCartItem->whereJsonContains('variant_attribute_ids', $variant_attribute_ids);
 

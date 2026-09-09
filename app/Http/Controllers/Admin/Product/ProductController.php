@@ -228,21 +228,17 @@ class ProductController extends Controller
         ProductVariant $productVariant,
     ) {
         try {
-
             DB::beginTransaction();
-
+            $variants=$request->input('variants');
+            $variant=array_merge(...$variants);
+            $productVariant->update([
+                'sku' => $variant['sku'],
+                'price' => $variant['price'],
+                'stock' => $variant['stock'],
+                'is_active' => $variant['is_active'] ?? 0,
+            ]);
                 $productVariant->variantAttributes()->delete();
-                $productVariant->delete();
-            foreach ($request->input('variants') as $variant) {
-
-                $productVariant=ProductVariant::create([
-                    'sku' => $variant['sku'],
-                    'price' => $variant['price'],
-                    'stock' => $variant['stock'],
-                    'is_active' => $variant['is_active'] ?? 0,
-                    'product_id'=>$product->id
-                ]);
-
+            foreach ($variants as $variant) {
 
                 foreach ($variant['attributes'] as $attribute) {
                     $productVariant->variantAttributes()->create([
@@ -259,7 +255,6 @@ class ProductController extends Controller
                 ->with('success', 'ویژگی‌های محصول با موفقیت بروزرسانی شد');
 
         } catch (\Exception $e) {
-        dd($e->getMessage());
             DB::rollBack();
 
             return redirect()

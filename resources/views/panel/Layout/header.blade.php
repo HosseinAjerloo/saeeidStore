@@ -28,9 +28,13 @@
                             <span class="badge-count" id="fav-count" style="display:none">0</span>
                         </a>
                     @endif
-                    <a href="{{route('panel.cart.index')}}" class="header-icon d-none d-sm-flex">
+                    <a href="{{route('panel.cart.index')}}" class="header-icon @if(!$cart) d-none @endif d-sm-flex">
                         <i class="bi bi-bag"></i>
-                        <span class="badge-count" id="cart-count" style="display:none">0</span>
+                        <span class="badge-count" id="cart-count" style="@if(!$cart) display:none @endif ">
+                            @if($cart)
+                                {{$cart->cartItems()->count()}}
+                            @endif
+                        </span>
                     </a>
                 </div>
             </div>

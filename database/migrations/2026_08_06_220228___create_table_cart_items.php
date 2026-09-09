@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('quantity')->default(1);
             $table->foreignId('discount_id')->nullable()->constrained('discounts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->decimal('discount_amount', 20, 3)->default(0);
-            $table->enum('discount_type', ['percentage','fixed'])->default('percentage');
+            $table->enum('discount_type', ['percentage','fixed'])->nullable();
             $table->decimal('unit_price', 20, 3);
             $table->decimal('final_unit_price', 20, 3);
             $table->timestamps();

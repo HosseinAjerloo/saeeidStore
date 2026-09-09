@@ -27,8 +27,8 @@ class Cart extends Model
         }while(Cart::where('cart_token',$token)->exists());
         return $token;
     }
-    public function cartItem(){
-        return $this->hasOne(CartItem::class,'cart_id');
+    public function cartItems(){
+        return $this->hasMany(CartItem::class,'cart_id');
     }
 
 }
