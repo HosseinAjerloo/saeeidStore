@@ -15,37 +15,32 @@
             <!-- لیست محصولات -->
             <div class="col-lg-8">
                 <!-- آیتم 1 -->
-                @isset($cart)
-                    @foreach($cart->cartItems as $item)
-                        <div class="cart-item">
-                            <div class="cart-item-img">
-                                <img src="../images/products/watch-mens-gshock-black.jpg" alt="ساعت کاسیو G-Shock">
+                <div class="cart-item">
+                    <div class="cart-item-img">
+                        <img src="../images/products/watch-mens-gshock-black.jpg" alt="ساعت کاسیو G-Shock">
+                    </div>
+                    <div class="cart-item-info">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6>ساعت مچی کاسیو مدل G-Shock GA-1000 مردانه</h6>
+                                <div class="brand">برند: کاسیو | رنگ: مشکی</div>
+                                <span class="badge bg-success-subtle text-success"><i class="bi bi-check-circle"></i> موجود</span>
                             </div>
-                            <div class="cart-item-info">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <h6>ساعت مچی کاسیو مدل G-Shock GA-1000 مردانه</h6>
-                                        <div class="brand">برند: کاسیو | رنگ: مشکی</div>
-                                        <span class="badge bg-success-subtle text-success"><i class="bi bi-check-circle"></i> موجود</span>
-                                    </div>
-                                    <button class="btn btn-sm btn-link text-danger" onclick="removeCartItem(this)"><i class="bi bi-trash"></i></button>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-end mt-3">
-                                    <div class="cart-quantity">
-                                        <button onclick="changeQuantity(this.nextElementSibling, 1)"><i class="bi bi-plus"></i></button>
-                                        <input type="text" value="1" readonly="">
-                                        <button onclick="changeQuantity(this.previousElementSibling, -1)"><i class="bi bi-dash"></i></button>
-                                    </div>
-                                    <div class="text-end">
-                                        <div class="text-muted-custom text-decoration-line-through small">۲,۸۰۰,۰۰۰</div>
-                                        <div class="price fw-bold text-primary-custom" data-price="2100000"><span class="item-price" data-price="2100000">۲,۱۰۰,۰۰۰</span> تومان</div>
-                                    </div>
-                                </div>
+                            <button class="btn btn-sm btn-link text-danger" onclick="removeCartItem(this)"><i class="bi bi-trash"></i></button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-end mt-3">
+                            <div class="cart-quantity">
+                                <button onclick="changeQuantity(this.nextElementSibling, 1)"><i class="bi bi-plus"></i></button>
+                                <input type="text" value="1" readonly="">
+                                <button onclick="changeQuantity(this.previousElementSibling, -1)"><i class="bi bi-dash"></i></button>
+                            </div>
+                            <div class="text-end">
+                                <div class="text-muted-custom text-decoration-line-through small">۲,۸۰۰,۰۰۰</div>
+                                <div class="price fw-bold text-primary-custom" data-price="2100000"><span class="item-price" data-price="2100000">۲,۱۰۰,۰۰۰</span> تومان</div>
                             </div>
                         </div>
-                    @endforeach
-                @endisset
-
+                    </div>
+                </div>
 
 
 
