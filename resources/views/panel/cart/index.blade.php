@@ -15,32 +15,65 @@
             <!-- لیست محصولات -->
             <div class="col-lg-8">
                 <!-- آیتم 1 -->
-                <div class="cart-item">
-                    <div class="cart-item-img">
-                        <img src="../images/products/watch-mens-gshock-black.jpg" alt="ساعت کاسیو G-Shock">
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6>ساعت مچی کاسیو مدل G-Shock GA-1000 مردانه</h6>
-                                <div class="brand">برند: کاسیو | رنگ: مشکی</div>
-                                <span class="badge bg-success-subtle text-success"><i class="bi bi-check-circle"></i> موجود</span>
+                @isset($cart)
+                    @foreach($cart->cartItems as $item)
+                        <div class="cart-item">
+                            <div class="cart-item-img">
+                                <img src="{{$item->productVariant?->product?->image}}" alt="ساعت کاسیو G-Shock">
                             </div>
-                            <button class="btn btn-sm btn-link text-danger" onclick="removeCartItem(this)"><i class="bi bi-trash"></i></button>
+                            <div class="cart-item-info">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6>{{$item->productVariant?->product?->name??''}}</h6>
+                                        <div class="brand">
+                                            برند:{{$item->productVariant?->product?->brand?->name??''}}</div>
+                                        <span class="badge bg-success-subtle text-success">
+                                            <i class="bi bi-check-circle"></i>
+                                            موجود
+                                        </span>
+                                    </div>
+                                    <button class="btn btn-sm btn-link text-danger" onclick="removeCartItem(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end mt-3">
+                                    <div class="cart-quantity">
+                                        <button onclick="changeQuantity(this.nextElementSibling, 1)">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                        <input type="text" value="1" readonly="">
+                                        <button onclick="changeQuantity(this.previousElementSibling, -1)">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
+                                    </div>
+                                    @if($item->productVariant->product->inValidDiscount())
+                                        <div class="text-end">
+                                            <div class="text-muted-custom text-decoration-line-through small">
+                                                {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
+                                            </div>
+                                            <div class="price fw-bold text-primary-custom" data-price="{{$item->productVariant->countable()}}">
+                                                <span class="item-price" data-price="{{$item->productVariant->countable()}}">
+                                                {{ numberFormatAble(($item->productVariant->countable()) / 10) }}
+                                                </span>
+                                                تومان
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="text-end">
+                                            <div class="price fw-bold text-primary-custom" data-price="{{$item->productVariant?->price }}">
+                                                <span class="item-price" data-price="{{$item->productVariant?->price}}">
+                                                {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
+                                                </span>
+                                                تومان
+                                            </div>
+                                        </div>
+
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between align-items-end mt-3">
-                            <div class="cart-quantity">
-                                <button onclick="changeQuantity(this.nextElementSibling, 1)"><i class="bi bi-plus"></i></button>
-                                <input type="text" value="1" readonly="">
-                                <button onclick="changeQuantity(this.previousElementSibling, -1)"><i class="bi bi-dash"></i></button>
-                            </div>
-                            <div class="text-end">
-                                <div class="text-muted-custom text-decoration-line-through small">۲,۸۰۰,۰۰۰</div>
-                                <div class="price fw-bold text-primary-custom" data-price="2100000"><span class="item-price" data-price="2100000">۲,۱۰۰,۰۰۰</span> تومان</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
+                @endisset
 
 
 
@@ -52,7 +85,9 @@
                             <input type="text" class="form-control" placeholder="کد تخفیف خود را وارد کنید">
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-primary-custom w-100" onclick="showToast('کد تخفیف اعمال شد','success')">اعمال کد</button>
+                            <button class="btn btn-primary-custom w-100"
+                                    onclick="showToast('کد تخفیف اعمال شد','success')">اعمال کد
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -66,19 +101,21 @@
             <!-- خلاصه سفارش -->
             <div class="col-lg-4">
                 <div class="content-box sticky-top" style="top:90px;">
-                    <h5 class="fw-bold mb-3"><i class="bi bi-receipt text-primary-custom"></i> خلاصه سفارش</h5>
-
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-receipt text-primary-custom"></i>
+                        خلاصه سفارش
+                    </h5>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">تعداد محصولات:</span>
-                        <span class="fw-bold" id="cart-items-count">۲</span>
+                        <span class="fw-bold" id="cart-items-count">{{$cart->cartItems()->count()}}</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">جمع کل:</span>
-                        <span class="fw-bold">۱۲,۹۰۰,۰۰۰ ت</span>
+                        <span class="fw-bold">{{numberFormatAble(($cart->final_price /10)??0)}} ت</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">تخفیف:</span>
-                        <span class="text-success fw-bold">۷,۹۰۰,۰۰۰ ت</span>
+                        <span class="text-success fw-bold">{{numberFormatAble($cart->calculateTotalDiscount() / 10)??0}}ت</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">هزینه ارسال:</span>
@@ -89,7 +126,7 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         <span class="fw-bold">مبلغ قابل پرداخت:</span>
-                        <span class="fw-bold text-primary-custom fs-5" id="cart-total">۱۲,۹۰۰,۰۰۰ تومان</span>
+                        <span class="fw-bold text-primary-custom fs-5" id="cart-total">{{numberFormatAble($cart->final_price / 10)??0}} تومان</span>
                     </div>
 
                     <!-- تخفیف سبد -->

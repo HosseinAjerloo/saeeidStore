@@ -25,7 +25,7 @@ class CartItem extends Model
 
     public function productVariant()
     {
-        return $this->belongsTo(ProductVariant::class);
+        return $this->belongsTo(ProductVariant::class,'variant_id');
     }
 
     public static function isAddToCartAllowed($variant_id, $quantity)
@@ -51,5 +51,11 @@ class CartItem extends Model
             $hasInCartItem->whereJsonContains('variant_attribute_ids', $variant_attribute_ids);
 
         return $hasInCartItem->exists();
+    }
+    public function calculateDiscountAmount(){
+        if (isset($this->discount_type) && isset($this->cart?->discount_id)){
+            return $this->unit_price - $this->final_unit_price;
+        }
+        return 0;
     }
 }

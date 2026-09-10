@@ -31,6 +31,18 @@ class Cart extends Model
         return $this->hasMany(CartItem::class,'cart_id');
     }
 
+    public function calculateTotalDiscount()
+    {
+        $totalDiscount=0;
+        $totalDiscount= $this->cartItems->sum(function ($item) {
+            if (isset($item->discount_type) && !isset($this->discount_id)){
+                return $item->unit_price - $item->final_unit_price;
+            }
+            return 0;
+        });
+        return $totalDiscount;
+    }
+
 }
 
 
