@@ -161,13 +161,7 @@ function setProductsView(mode) {
 }
 
 // === تغییر تعداد در سبد خرید ===
-function changeQuantity(input, delta) {
-    let value = parseInt(input.value) || 1;
-    value += delta;
-    if (value < 1) value = 1;
-    input.value = value;
-    updateCartTotal();
-}
+
 
 // === به‌روزرسانی جمع کل سبد ===
 function updateCartTotal() {

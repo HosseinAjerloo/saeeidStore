@@ -41,8 +41,8 @@
                                         <button onclick="changeQuantity(this.nextElementSibling, 1)">
                                             <i class="bi bi-plus"></i>
                                         </button>
-                                        <input type="text" value="1" readonly="">
-                                        <button onclick="changeQuantity(this.previousElementSibling, -1)">
+                                        <input type="text" value="1" readonly="" data-value="{{$item->id}}">
+                                        <button  onclick="changeQuantity(this.previousElementSibling, -1)">
                                             <i class="bi bi-dash"></i>
                                         </button>
                                     </div>
@@ -162,4 +162,46 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+
+<script>
+    function changeQuantity(input, delta) {
+    let value = parseInt(input.value) || 1;
+    value += delta;
+    if (value < 1) value = 1;
+    input.value = value;
+    updateCartTotal();
+    sendAddToCartRequest(input.dataset.value,value)
+    
+}
+       async function sendAddToCartRequest(cartItem,quantity) {
+        
+           const promise = new Promise(function (resolve, reject) {
+               const request = new XMLHttpRequest();
+               request.open('PATCH', '{{route("panel.cart.updateQuantity","__ID__")}}'.replace('__ID__',cartItem),true)
+               request.setRequestHeader('Content-Type', 'application/json');
+               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
+               request.setRequestHeader('Accept', 'application/json');
+               request.withCredentials = true;
+               const body = JSON.stringify({
+                   quantity,
+               })
+               request.onload = function () {
+                   const response=JSON.parse(request.response);
+                   if (request.status === 200) {
+                       resolve(response)
+                   } else
+                   {
+                       reject(response)
+                   }
+               }
+               request.send(body);
+           })
+           return promise;
+       }
+
+
+    </script>
 @endsection

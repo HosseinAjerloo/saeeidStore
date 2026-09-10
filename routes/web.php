@@ -92,6 +92,7 @@ Route::name('panel.')->group(function (){
    Route::prefix('cart')->name('cart.')->group(function (){
       Route::get('/',[App\Http\Controllers\Panel\Cart\CartController::class,'index'])->name('index');
       Route::post('/addCart',[App\Http\Controllers\Panel\Cart\CartController::class,'addCart'])->name('addCart');
+      Route::patch('/items/{cartItem}/quantity',[App\Http\Controllers\Panel\Cart\CartController::class,'updateQuantity'])->name('updateQuantity');
    });
 });
 Route::get('test',function (){

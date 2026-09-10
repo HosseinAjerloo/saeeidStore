@@ -50,7 +50,7 @@ class CartService
         $productVariant = ProductVariant::find($inputs['productVariant']);
         $this->clientCart->cartItems()->create([
             'variant_id' => $productVariant->id,
-            'variant_attribute_ids' => $inputs['variant_attribute_ids'],
+            'variant_attribute_ids' => [$inputs['variant_attribute_ids']]??null,
             'quantity' => 1,
             'discount_id' => $productVariant->product->inValidDiscount()?->id,
             'discount_amount' => $productVariant->product->inValidDiscount()->value ?? 0,
@@ -125,6 +125,14 @@ class CartService
             $this->clientCart->final_price = $totalPrice;
             $this->clientCart->save();
         }
+    }
+    public function updateCartItemQuantity(CartItem $cartItem,$quantity){
+        if($this->canAddToCart($cartItem->variant_id,$quantity))
+            {
+                $cartItem->update([
+                    'quantity'=>$quantity
+                    ]);
+            }
     }
 
 }

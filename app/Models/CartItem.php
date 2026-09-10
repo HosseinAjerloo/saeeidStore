@@ -17,6 +17,10 @@ class CartItem extends Model
         'unit_price',
         'final_unit_price',
     ];
+    
+    protected $casts=[
+        'variant_attribute_ids'=>'array'
+    ];
 
     public function cart()
     {
@@ -47,9 +51,9 @@ class CartItem extends Model
     public static function isForProduct($cart, $variant_id, $variant_attribute_ids):bool
     {
         $hasInCartItem = $cart->cartItems()->where('variant_id', $variant_id);
-        if (isset($variant_attribute_ids))
+        if (!empty($variant_attribute_ids))
             $hasInCartItem->whereJsonContains('variant_attribute_ids', $variant_attribute_ids);
-
+        
         return $hasInCartItem->exists();
     }
     public function calculateDiscountAmount(){
