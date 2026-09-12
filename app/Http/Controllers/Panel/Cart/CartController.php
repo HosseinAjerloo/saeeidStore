@@ -31,9 +31,9 @@ class CartController extends Controller
         $cartService->addToCart();
         return $cartService->responseHttpClient();
     }
-    public function updateQuantity(CartItem $cartItem, Request $request,CartService $cartService)
+    public function updateQuantity(CartItem $cartItem, Request $request, CartService $cartService)
     {
-       $request->validate(
+        $request->validate(
             [
                 'quantity' => 'required|integer|min:1',
             ],
@@ -43,8 +43,7 @@ class CartController extends Controller
                 'quantity.min' => 'تعداد محصول باید حداقل ۱ عدد باشد.',
             ]
         );
-     
-            $cartService->updateCartItemQuantity($cartItem,$request->input('quantity'));
-        
+        $cartService->updateCartItemQuantity($cartItem, $request->input('quantity'));
+        return $cartService->responseHttpClient();
     }
 }

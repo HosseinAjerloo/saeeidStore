@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <nav class="breadcrumb-custom">
-            <a href="{{route('panel.index')}}">خانه</a>
+            <a href="{{ route('panel.index') }}">خانه</a>
             <span class="separator">/</span>
             <span class="active">سبد خرید</span>
         </nav>
@@ -16,17 +16,17 @@
             <div class="col-lg-8">
                 <!-- آیتم 1 -->
                 @isset($cart)
-                    @foreach($cart->cartItems as $item)
+                    @foreach ($cart->cartItems as $item)
                         <div class="cart-item">
                             <div class="cart-item-img">
-                                <img src="{{$item->productVariant?->product?->image}}" alt="ساعت کاسیو G-Shock">
+                                <img src="{{ $item->productVariant?->product?->image }}" alt="ساعت کاسیو G-Shock">
                             </div>
                             <div class="cart-item-info">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <h6>{{$item->productVariant?->product?->name??''}}</h6>
+                                        <h6>{{ $item->productVariant?->product?->name ?? '' }}</h6>
                                         <div class="brand">
-                                            برند:{{$item->productVariant?->product?->brand?->name??''}}</div>
+                                            برند:{{ $item->productVariant?->product?->brand?->name ?? '' }}</div>
                                         <span class="badge bg-success-subtle text-success">
                                             <i class="bi bi-check-circle"></i>
                                             موجود
@@ -41,33 +41,38 @@
                                         <button onclick="changeQuantity(this.nextElementSibling, 1)">
                                             <i class="bi bi-plus"></i>
                                         </button>
-                                        <input type="text" value="1" readonly="" data-value="{{$item->id}}">
-                                        <button  onclick="changeQuantity(this.previousElementSibling, -1)">
+                                        <input type="number" min="0"
+                                            max="{{ $item->calculateRemainingStock($item->productVariant->id) }}"
+                                            class="text-center" style="appearance: none" value="{{ $item->quantity ?? 1 }}"
+                                            readonly="" data-unitPrice="{{$item->final_unit_price}}" data-unitDiscountPrice="{{ $item->calculateDiscount() }}"
+                                            data-value="{{ $item->id }}" />
+                                        <button onclick="changeQuantity(this.previousElementSibling, -1)">
                                             <i class="bi bi-dash"></i>
                                         </button>
                                     </div>
-                                    @if($item->productVariant->product->inValidDiscount())
+                                    @if ($item->productVariant->product->inValidDiscount())
                                         <div class="text-end">
                                             <div class="text-muted-custom text-decoration-line-through small">
                                                 {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
                                             </div>
-                                            <div class="price fw-bold text-primary-custom" data-price="{{$item->productVariant->countable()}}">
-                                                <span class="item-price" data-price="{{$item->productVariant->countable()}}">
-                                                {{ numberFormatAble(($item->productVariant->countable()) / 10) }}
+                                            <div class="price fw-bold text-primary-custom"
+                                                data-price="{{ $item->productVariant->countable() }}">
+                                                <span class="item-price" data-price="{{ $item->productVariant->countable() }}">
+                                                    {{ numberFormatAble($item->productVariant->countable() / 10) }}
                                                 </span>
                                                 تومان
                                             </div>
                                         </div>
                                     @else
                                         <div class="text-end">
-                                            <div class="price fw-bold text-primary-custom" data-price="{{$item->productVariant?->price }}">
-                                                <span class="item-price" data-price="{{$item->productVariant?->price}}">
-                                                {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
+                                            <div class="price fw-bold text-primary-custom"
+                                                data-price="{{ $item->productVariant?->price }}">
+                                                <span class="item-price" data-price="{{ $item->productVariant?->price }}">
+                                                    {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
                                                 </span>
                                                 تومان
                                             </div>
                                         </div>
-
                                     @endif
                                 </div>
                             </div>
@@ -86,7 +91,7 @@
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-primary-custom w-100"
-                                    onclick="showToast('کد تخفیف اعمال شد','success')">اعمال کد
+                                onclick="showToast('کد تخفیف اعمال شد','success')">اعمال کد
                             </button>
                         </div>
                     </div>
@@ -107,26 +112,28 @@
                     </h5>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">تعداد محصولات:</span>
-                        <span class="fw-bold" id="cart-items-count">{{$cart->cartItems()->count()}}</span>
+                        <span class="fw-bold">{{ $cart->cartItems()->count() }}</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">جمع کل:</span>
-                        <span class="fw-bold">{{numberFormatAble(($cart->final_price /10)??0)}} ت</span>
+                        <span class="fw-bold" id="totalShow">{{ numberFormatAble($cart->final_price / 10 ?? 0) }} تومان</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">تخفیف:</span>
-                        <span class="text-success fw-bold">{{numberFormatAble($cart->calculateTotalDiscount() / 10)??0}}ت</span>
+                        <span class="text-success fw-bold"
+                            id="calculateShow">{{ numberFormatAble($cart->calculateTotalDiscount() / 10) ?? 0 }}تومان</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">هزینه ارسال:</span>
-                        <span class="text-success fw-bold">رایگان</span>
+                        <span class="text-success fw-bold">محاسبه در مرحله ثبت سفارش</span>
                     </div>
 
                     <hr>
 
                     <div class="d-flex justify-content-between mb-3">
                         <span class="fw-bold">مبلغ قابل پرداخت:</span>
-                        <span class="fw-bold text-primary-custom fs-5" id="cart-total">{{numberFormatAble($cart->final_price / 10)??0}} تومان</span>
+                        <span class="fw-bold text-primary-custom fs-5"
+                            id="cart-total">{{ numberFormatAble($cart->final_price / 10) ?? 0 }} تومان</span>
                     </div>
 
                     <!-- تخفیف سبد -->
@@ -165,43 +172,100 @@
 @endsection
 
 @section('script')
+    <script>
+        let calculateDiscount = 0;
+        let totalPrice = 0;
 
-<script>
-    function changeQuantity(input, delta) {
-    let value = parseInt(input.value) || 1;
-    value += delta;
-    if (value < 1) value = 1;
-    input.value = value;
-    updateCartTotal();
-    sendAddToCartRequest(input.dataset.value,value)
-    
-}
-       async function sendAddToCartRequest(cartItem,quantity) {
-        
-           const promise = new Promise(function (resolve, reject) {
-               const request = new XMLHttpRequest();
-               request.open('PATCH', '{{route("panel.cart.updateQuantity","__ID__")}}'.replace('__ID__',cartItem),true)
-               request.setRequestHeader('Content-Type', 'application/json');
-               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
-               request.setRequestHeader('Accept', 'application/json');
-               request.withCredentials = true;
-               const body = JSON.stringify({
-                   quantity,
-               })
-               request.onload = function () {
-                   const response=JSON.parse(request.response);
-                   if (request.status === 200) {
-                       resolve(response)
-                   } else
-                   {
-                       reject(response)
-                   }
-               }
-               request.send(body);
-           })
-           return promise;
-       }
+        function changeQuantity(input, delta) {
+
+            let value = parseInt(input.value) || 1;
+            value += delta;
+
+            if (value < 1)
+                value = 1;
+
+            if (value > input.max) {
+                showToast(' موجودی این محصول برای تعداد درخواستی کافی نیست', 'error');
+                value = input.max;
+            }
+            input.value = value;
 
 
+            sendAddToCartRequest(input.dataset.value, value).then(result => {
+                if (result.status) {
+                    updateCartTotal();
+                    calculateDiscountFunc()
+
+                }
+
+
+            }).catch(result => {
+                showToast(result?.message, 'error');
+            })
+
+        }
+        async function sendAddToCartRequest(cartItem, quantity) {
+
+            const promise = new Promise(function(resolve, reject) {
+                const request = new XMLHttpRequest();
+                request.open('PATCH', '{{ route('panel.cart.updateQuantity', '__ID__') }}'.replace('__ID__',
+                    cartItem), true)
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}")
+                request.setRequestHeader('Accept', 'application/json');
+                request.withCredentials = true;
+                const body = JSON.stringify({
+                    quantity,
+                })
+                request.onload = function() {
+                    const response = JSON.parse(request.response);
+                    if (request.status === 200) {
+                        resolve(response)
+                    } else {
+                        reject(response)
+                    }
+                }
+                request.send(body);
+            })
+            return promise;
+        }
+
+        function calculateDiscountFunc() {
+            document.querySelectorAll('input[data-unitDiscountPrice]').forEach(element => {
+
+                if (element instanceof HTMLElement) {
+                    const calculater = Number(element.dataset.unitdiscountprice * element.value);
+                  
+                    calculateDiscount += calculater;
+                    const total=Number(element.dataset.unitprice * element.value)
+                    totalPrice+=total;
+                    
+
+                }
+
+
+            })
+            if (calculateDiscount > 0) {
+                calculateDiscount = calculateDiscount / 10;
+            }
+             if (totalPrice > 0) {
+                totalPrice = totalPrice / 10;
+            }
+            const numberFormat=new Intl.NumberFormat('fa-IR');
+           
+            const DiscountToalFormatted =numberFormat.format(calculateDiscount).replaceAll('٬', '.');
+           
+            const totalPriceFormatted = numberFormat.format(totalPrice).replaceAll('٬', '.');
+
+            // formatted+=' ت';
+            document.getElementById('calculateShow').innerText = DiscountToalFormatted + ' تومان';
+           
+            document.getElementById('totalShow').innerText = totalPriceFormatted + ' تومان';
+
+            calculateDiscount = 0;
+            totalPrice = 0;
+
+        }
+        calculateDiscountFunc();
     </script>
 @endsection

@@ -12,10 +12,14 @@ use function Pest\Laravel\json;
 class CartService
 {
     protected ?Cart $clientCart = null;
+
     protected $message = '';
+
     protected $statusCode = 200;
 
     protected $status = true;
+
+    protected $data = [];
 
     public function addToCart()
     {
@@ -50,7 +54,7 @@ class CartService
         $productVariant = ProductVariant::find($inputs['productVariant']);
         $this->clientCart->cartItems()->create([
             'variant_id' => $productVariant->id,
-            'variant_attribute_ids' => [$inputs['variant_attribute_ids']]??null,
+            'variant_attribute_ids' => [$inputs['variant_attribute_ids']] ?? null,
             'quantity' => 1,
             'discount_id' => $productVariant->product->inValidDiscount()?->id,
             'discount_amount' => $productVariant->product->inValidDiscount()->value ?? 0,
@@ -112,11 +116,12 @@ class CartService
 
     public function responseHttpClient()
     {
-        return response()->json(['status' => $this->status, 'message' => $this->message], $this->statusCode);
+        return response()->json(['status' => $this->status, 'message' => $this->message, 'data' => $this->data], $this->statusCode);
     }
 
     public function calculateCartTotal()
     {
+        $this->clientCart = $this->resolveCart();
         $totalPrice = 0;
         if ($this->clientCart) {
             foreach ($this->clientCart->cartItems as $item) {
@@ -126,13 +131,20 @@ class CartService
             $this->clientCart->save();
         }
     }
-    public function updateCartItemQuantity(CartItem $cartItem,$quantity){
-        if($this->canAddToCart($cartItem->variant_id,$quantity))
-            {
-                $cartItem->update([
-                    'quantity'=>$quantity
-                    ]);
-            }
-    }
+    public function updateCartItemQuantity(CartItem $cartItem, $quantity)
+    {
+        if ($this->canAddToCart($cartItem->variant_id, $quantity)) {
+            $cartItem->update([
+                'quantity' => $quantity
+            ]);
+            $this->calculateCartTotal();
+            $this->status = true;
+            return;
+        }
 
+        $this->message = 'موجودی این محصول برای تعداد درخواستی کافی نیست.';
+        $this->statusCode = 422;
+        $this->status = false;
+        return;
+    }
 }

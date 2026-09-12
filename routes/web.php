@@ -97,6 +97,6 @@ Route::name('panel.')->group(function (){
 });
 Route::get('test',function (){
 
-    session(['name'=>'hossein']);
+    dd(session('cart_item'));
 });
 
