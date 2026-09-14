@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'google' => [
+    'client_id' => 'REDACTED',
+    'client_secret' => 'REDACTED',
+    'redirect' => '/auth/google/callback',
+],
+
 ];

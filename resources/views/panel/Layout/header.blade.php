@@ -13,26 +13,35 @@
                     <input type="text" id="search-input" placeholder="جستجو..." oninput="liveSearch(this)">
                     <button><i class="bi bi-search"></i></button>
                     <div id="search-suggestions" class="dropdown-menu w-100 show d-none"
-                         style="position:absolute; top:100%; right:0; border-radius:12px; box-shadow:0 8px 30px rgba(108,92,231,0.12); padding:8px;"></div>
+                        style="position:absolute; top:100%; right:0; border-radius:12px; box-shadow:0 8px 30px rgba(108,92,231,0.12); padding:8px;">
+                    </div>
                 </div>
             </div>
             <!-- آیکون‌ها -->
             <div class="col-lg-3 col-2">
                 <div class="d-flex align-items-center justify-content-end gap-2">
-                    <a href="pages/auth-login.html" class="header-icon">
-                        <i class="bi bi-person"></i>
-                    </a>
-                    @if(\Illuminate\Support\Facades\Auth::check())
+
+                    @guest
+                        <a href="{{ route('auth.viewLogin') }}" class="header-icon d-none d-sm-flex">
+                            <i class="bi bi-person"></i>
+                            <span class="d-none d-md-inline fs-6">ورود | ثبت‌نام</span>
+                        </a>
+                    @endguest
+
+
+                    @if (\Illuminate\Support\Facades\Auth::check())
                         <a href="pages/profile-favorites.html" class="header-icon d-none d-sm-flex">
                             <i class="bi bi-heart"></i>
                             <span class="badge-count" id="fav-count" style="display:none">0</span>
                         </a>
                     @endif
-                    <a href="{{route('panel.cart.index')}}" class="header-icon @if(!$cart) d-none @endif d-sm-flex">
+                    <a href="{{ route('panel.cart.index') }}"
+                        class="header-icon @if (!$cart) d-none @endif d-sm-flex">
                         <i class="bi bi-bag"></i>
-                        <span class="badge-count" id="cart-count" style="@if(!$cart) display:none @endif ">
-                            @if($cart)
-                                {{$cart->cartItems()->count()}}
+                        <span class="badge-count" id="cart-count"
+                            style="@if (!$cart) display:none @endif ">
+                            @if ($cart)
+                                {{ $cart->cartItems()->count() }}
                             @endif
                         </span>
                     </a>
@@ -46,29 +55,27 @@
     <nav class="category-nav d-none d-lg-block">
         <div class="container">
             <ul>
-                <li><a href="{{route('panel.index')}}"><i class="bi bi-house"></i> خانه</a></li>
+                <li><a href="{{ route('panel.index') }}"><i class="bi bi-house"></i> خانه</a></li>
 
-                @foreach($categories as $category)
+                @foreach ($categories as $category)
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded="true">
-                            <img style="width: 1rem" src="{{asset($category->image)}}" alt="{{$category->name}}">
-                            {{$category->name??''}}
+                            <img style="width: 1rem" src="{{ asset($category->image) }}" alt="{{ $category->name }}">
+                            {{ $category->name ?? '' }}
                         </a>
                         <div class="dropdown-menu mega-menu mega-menu-4col " data-popper-placement="bottom-end"
-                             style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 42px);">
+                            style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 42px);">
                             <div class="row g-3">
-                                @foreach($category->childs()->whereHas('childs.products.productVariant')->limit(3)->cursor() as $categoryChild)
-
+                                @foreach ($category->childs()->whereHas('childs.products.productVariant')->limit(3)->cursor() as $categoryChild)
                                     <div class="col-3">
-                                        <h6>{{$categoryChild->name??''}}</h6>
-                                        @foreach($categoryChild->childs as $child)
+                                        <h6>{{ $categoryChild->name ?? '' }}</h6>
+                                        @foreach ($categoryChild->childs as $child)
                                             <a href="pages/search.html" class="mega-item d-block">
                                                 <i class="bi bi-arrow-left-short"></i>
-                                                {{$child->name??''}}
+                                                {{ $child->name ?? '' }}
                                             </a>
                                         @endforeach
                                     </div>
-
                                 @endforeach
                             </div>
                         </div>

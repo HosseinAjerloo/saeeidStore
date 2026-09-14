@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->enum('gender',['male','female'])->nullable();
             $table->enum('type',['admin','customer'])->default('customer');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('date_of_birth')->nullable();

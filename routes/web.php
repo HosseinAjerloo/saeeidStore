@@ -2,6 +2,7 @@
 
 use App\Models\Discount;
 use App\Models\ProductGroup;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //admin
@@ -82,6 +83,18 @@ Route::prefix('admin')->name('admin.')->group(function (){
     });
 });
 
+
+//auth
+
+
+Route::middleware('guest')->prefix('auth')->name('auth.')->group(function(){
+    Route::get('login',[App\Http\Controllers\Auth\AuthController::class,'viewLogin'])->name('viewLogin');
+    Route::get('register',[App\Http\Controllers\Auth\AuthController::class,'viewRegister'])->name('viewRegister');
+    Route::get('google/redirect',[App\Http\Controllers\Auth\AuthController::class,'redirectGoogle'])->name('redirectGoogle');
+    Route::get('google/callback',[App\Http\Controllers\Auth\AuthController::class,'googleCallBack'])->name('googleCallBack');
+});
+
+
 //panel
 
 Route::name('panel.')->group(function (){
@@ -97,7 +110,6 @@ Route::name('panel.')->group(function (){
    });
 });
 Route::get('test',function (){
-
-    dd(session('cart_item'));
+    dd(Auth::user());
 });
 
