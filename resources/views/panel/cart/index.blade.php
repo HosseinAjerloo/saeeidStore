@@ -32,7 +32,8 @@
                                             موجود
                                         </span>
                                     </div>
-                                    <button class="btn btn-sm btn-link text-danger" onclick="removeCartItem(this)">
+                                    <button class="btn btn-sm btn-link text-danger" data-value="{{ $item->id }}"
+                                        onclick="removeCartItem(this)">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -44,7 +45,8 @@
                                         <input type="number" min="0"
                                             max="{{ $item->calculateRemainingStock($item->productVariant->id) }}"
                                             class="text-center" style="appearance: none" value="{{ $item->quantity ?? 1 }}"
-                                            readonly="" data-unitPrice="{{$item->final_unit_price}}" data-unitDiscountPrice="{{ $item->calculateDiscount() }}"
+                                            readonly="" data-unitPrice="{{ $item->final_unit_price }}"
+                                            data-unitDiscountPrice="{{ $item->calculateDiscount() }}"
                                             data-value="{{ $item->id }}" />
                                         <button onclick="changeQuantity(this.previousElementSibling, -1)">
                                             <i class="bi bi-dash"></i>
@@ -116,7 +118,8 @@
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">جمع کل:</span>
-                        <span class="fw-bold" id="totalShow">{{ numberFormatAble($cart->final_price / 10 ?? 0) }} تومان</span>
+                        <span class="fw-bold" id="totalShow">{{ numberFormatAble($cart->final_price / 10 ?? 0) }}
+                            تومان</span>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-muted-custom">تخفیف:</span>
@@ -190,8 +193,13 @@
             }
             input.value = value;
 
-
-            sendAddToCartRequest(input.dataset.value, value).then(result => {
+            const route = '{{ route('panel.cart.updateQuantity', '__ID__') }}'.replace('__ID__', input.dataset.value);
+            sendAddToCartRequest({
+                cartItem: input.dataset.value,
+                quantity: value,
+                route,
+                method: 'PATCH'
+            }).then(result => {
                 if (result.status) {
                     updateCartTotal();
                     calculateDiscountFunc()
@@ -204,12 +212,17 @@
             })
 
         }
-        async function sendAddToCartRequest(cartItem, quantity) {
+        async function sendAddToCartRequest({
+            cartItem = null,
+            quantity = null,
+            route = null,
+            method = null
+        }) {
+            console.log(method);
 
             const promise = new Promise(function(resolve, reject) {
                 const request = new XMLHttpRequest();
-                request.open('PATCH', '{{ route('panel.cart.updateQuantity', '__ID__') }}'.replace('__ID__',
-                    cartItem), true)
+                request.open(method, route, true)
                 request.setRequestHeader('Content-Type', 'application/json');
                 request.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}")
                 request.setRequestHeader('Accept', 'application/json');
@@ -231,15 +244,21 @@
         }
 
         function calculateDiscountFunc() {
+            calculateDiscount = 0;
+            totalPrice = 0;
             document.querySelectorAll('input[data-unitDiscountPrice]').forEach(element => {
 
                 if (element instanceof HTMLElement) {
                     const calculater = Number(element.dataset.unitdiscountprice * element.value);
-                  
+
                     calculateDiscount += calculater;
-                    const total=Number(element.dataset.unitprice * element.value)
-                    totalPrice+=total;
-                    
+
+
+
+                    const total = Number(element.dataset.unitprice * element.value)
+
+                    totalPrice += total;
+
 
                 }
 
@@ -248,24 +267,62 @@
             if (calculateDiscount > 0) {
                 calculateDiscount = calculateDiscount / 10;
             }
-             if (totalPrice > 0) {
+            if (totalPrice > 0) {
                 totalPrice = totalPrice / 10;
             }
-            const numberFormat=new Intl.NumberFormat('fa-IR');
-           
-            const DiscountToalFormatted =numberFormat.format(calculateDiscount).replaceAll('٬', '.');
-           
+            const numberFormat = new Intl.NumberFormat('fa-IR');
+
+            const DiscountToalFormatted = numberFormat.format(calculateDiscount).replaceAll('٬', '.');
+
             const totalPriceFormatted = numberFormat.format(totalPrice).replaceAll('٬', '.');
 
-            // formatted+=' ت';
             document.getElementById('calculateShow').innerText = DiscountToalFormatted + ' تومان';
-           
+
             document.getElementById('totalShow').innerText = totalPriceFormatted + ' تومان';
 
-            calculateDiscount = 0;
-            totalPrice = 0;
+            document.getElementById('cart-total').innerText = totalPriceFormatted + ' تومان';
+
+
 
         }
         calculateDiscountFunc();
+
+
+
+        function removeCartItem(btn) {
+
+            const route = '{{ route('panel.cart.destroy', '__ID__') }}'.replace('__ID__', btn.dataset.value);
+            const item = btn.closest('.cart-item');
+
+
+            if (item) {
+                sendAddToCartRequest({
+                    cartItem: btn.dataset.value,
+                    route,
+                    method: "DELETE"
+                }).then(result => {
+                    if (result.status) {
+
+
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateX(-100%)';
+                        setTimeout(() => {
+                            item.remove();
+                            updateCartTotal();
+                            showToast('محصول از سبد حذف شد', 'info');
+
+                            updateCartTotal();
+                            calculateDiscountFunc()
+                        }, 300);
+
+
+                    }
+                }).catch(result => {
+                    showToast(result?.message, 'error');
+
+                })
+
+            }
+        }
     </script>
 @endsection

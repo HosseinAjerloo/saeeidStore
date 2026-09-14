@@ -176,8 +176,6 @@ function updateCartTotal() {
         }
     });
 
-    const totalEl = document.querySelector('#cart-total');
-    if (totalEl) totalEl.textContent = total.toLocaleString('fa-IR') + ' تومان';
 
     const totalItemsEl = document.querySelector('#cart-items-count');
     if (totalItemsEl) {
@@ -189,19 +187,7 @@ function updateCartTotal() {
     }
 }
 
-// === حذف آیتم سبد ===
-function removeCartItem(btn) {
-    const item = btn.closest('.cart-item');
-    if (item) {
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-100%)';
-        setTimeout(() => {
-            item.remove();
-            updateCartTotal();
-            showToast('محصول از سبد حذف شد', 'info');
-        }, 300);
-    }
-}
+
 
 // === FAQ آکاردئون ===
 function toggleFaq(header) {

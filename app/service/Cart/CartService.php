@@ -5,8 +5,11 @@ namespace App\Service\Cart;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\ProductVariant;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 use function Pest\Laravel\json;
 
 class CartService
@@ -146,5 +149,25 @@ class CartService
         $this->statusCode = 422;
         $this->status = false;
         return;
+    }
+
+    public function removeItem(CartItem $cartItem)
+    {
+        try {
+            DB::beginTransaction();
+            $cartItem->delete();
+            $this->message = 'محصول از سبد خرید شما پاک شد.';
+            $this->status = true;
+            $this->statusCode = 200;
+              $this->calculateCartTotal();
+
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            $this->message = 'متأسفانه خطایی رخ داد. لطفاً موضوع را به پشتیبانی اطلاع دهید.';
+            $this->status = false;
+            $this->statusCode = 500;
+        }
     }
 }

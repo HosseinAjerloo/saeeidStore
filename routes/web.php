@@ -93,6 +93,7 @@ Route::name('panel.')->group(function (){
       Route::get('/',[App\Http\Controllers\Panel\Cart\CartController::class,'index'])->name('index');
       Route::post('/addCart',[App\Http\Controllers\Panel\Cart\CartController::class,'addCart'])->name('addCart');
       Route::patch('/items/{cartItem}/quantity',[App\Http\Controllers\Panel\Cart\CartController::class,'updateQuantity'])->name('updateQuantity');
+      Route::delete('/items/{cartItem}/destroy',[App\Http\Controllers\Panel\Cart\CartController::class,'destroy'])->name('destroy');
    });
 });
 Route::get('test',function (){

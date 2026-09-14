@@ -9,6 +9,7 @@ use App\Models\CartItem;
 use App\Service\Cart\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -44,6 +45,11 @@ class CartController extends Controller
             ]
         );
         $cartService->updateCartItemQuantity($cartItem, $request->input('quantity'));
+        return $cartService->responseHttpClient();
+    }
+    public function destroy(Request $request, CartItem $cartItem, CartService $cartService)
+    {
+        $cartService->removeItem($cartItem);
         return $cartService->responseHttpClient();
     }
 }
