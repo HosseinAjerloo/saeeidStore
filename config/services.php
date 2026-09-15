@@ -41,3 +41,4 @@ return [
         'redirect' => env('GOOGLECALLBACK'),
     ],
 ];
+
