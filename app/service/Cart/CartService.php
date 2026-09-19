@@ -159,7 +159,7 @@ class CartService
             $this->message = 'محصول از سبد خرید شما پاک شد.';
             $this->status = true;
             $this->statusCode = 200;
-              $this->calculateCartTotal();
+            $this->calculateCartTotal();
 
             DB::commit();
         } catch (Exception $exception) {
@@ -168,6 +168,20 @@ class CartService
             $this->message = 'متأسفانه خطایی رخ داد. لطفاً موضوع را به پشتیبانی اطلاع دهید.';
             $this->status = false;
             $this->statusCode = 500;
+        }
+    }
+
+    public function applyDiscountCode()
+    {
+        $code = request()->input('quantity');
+        $user = Auth::user();
+        $cart=$this->resolveCart();
+        $copen = $user->getUserDiscountCode()->where('code',$code)->first();
+        if ($copen and $user) {
+
+            if ($copen->min_order_amount) {
+                dd('s');
+            }
         }
     }
 }

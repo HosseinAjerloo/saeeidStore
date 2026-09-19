@@ -30,6 +30,11 @@
 
 
                     @if (\Illuminate\Support\Facades\Auth::check())
+
+                        <a href="{{ route('auth.viewLogin') }}" class="header-icon d-none d-sm-flex">
+                            <i class="bi bi-person"></i>
+                        </a>
+
                         <a href="pages/profile-favorites.html" class="header-icon d-none d-sm-flex">
                             <i class="bi bi-heart"></i>
                             <span class="badge-count" id="fav-count" style="display:none">0</span>

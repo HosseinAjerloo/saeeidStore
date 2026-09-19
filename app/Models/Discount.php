@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class Discount extends Model
 {
     use SoftDeletes;
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'type',
         'code',
@@ -37,28 +37,29 @@ class Discount extends Model
     public function getActive(): Attribute
     {
         return Attribute::make(
-            get: fn($value) =>$this->is_active=='1'?'فعال':'غیرفعال'
+            get: fn($value) => $this->is_active == '1' ? 'فعال' : 'غیرفعال'
         );
     }
-    public function products(){
-        return $this->morphedByMany(Product::class,'discountable')->using(Discountable::class)->wherePivotNull('deleted_at')->withPivot('used');
+    public function products()
+    {
+        return $this->morphedByMany(Product::class, 'discountable')->using(Discountable::class)->wherePivotNull('deleted_at')->withPivot('used');
     }
 
 
-    public function users(){
-        return $this->morphedByMany(User::class,'discountable')->using(Discountable::class)->wherePivotNull('deleted_at')->withPivot('used');
+    public function users()
+    {
+        return $this->morphedByMany(User::class, 'discountable')->using(Discountable::class)->wherePivotNull('deleted_at')->withPivot('used');
     }
     #[Scope]
-    public function scopeSearch(Builder $builder){
-        $builder->when(request()->query('q'),function ($query,$value){
-            if ($value=='کاربر')
-            {
-                $value='user';
-            }elseif ($value=='محصول'){
-                $value='product';
+    public function scopeSearch(Builder $builder)
+    {
+        $builder->when(request()->query('q'), function ($query, $value) {
+            if ($value == 'کاربر') {
+                $value = 'user';
+            } elseif ($value == 'محصول') {
+                $value = 'product';
             }
-            $query->where('name','like',"%{$value}%")->orWhere('scope',$value);
+            $query->where('name', 'like', "%{$value}%")->orWhere('scope', $value);
         });
     }
-
 }

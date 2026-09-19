@@ -482,7 +482,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid gap-5 p-5 sm:grid-cols-2 sm:p-7">
+                            <div class=" gap-5 p-5 sm:grid-cols-2 sm:p-7">
 
 
                                 <label class="field-group">
@@ -511,32 +511,7 @@
                                     </small>
                                 </label>
 
-                                {{-- Maximum --}}
-                                <label class="field-group">
-                                    <span class="field-label">
-                                        حداکثر مبلغ سفارش
-                                    </span>
-
-                                    <span class="field-shell">
-                                        <input
-                                            id="maxOrder"
-                                            name="max_order_amount"
-                                            type="text"
-                                            min="0"
-                                            step="0.001"
-                                            placeholder="مثلاً 20000000"
-                                            value="{{old('max_order_amount',$discount->max_order_amount)}}"
-                                        >
-
-                                        <span class="ml-4 text-xs text-slate-500">
-                                            ریال
-                                        </span>
-                                    </span>
-
-                                    <small class="field-hint">
-                                        خالی بماند یعنی بدون سقف مبلغ سفارش.
-                                    </small>
-                                </label>
+                    
 
                                 <p
                                     id="amountError"
@@ -569,6 +544,7 @@
                                         <input
                                             id="startsAt"
                                             type="text"
+                                            value="{{$discount->starts_at}}"
                                         >
                                              <input
                                                  id="start-discount"
@@ -593,6 +569,7 @@
                                         <input
                                             id="expiresAt"
                                             type="text"
+                                            value="{{$discount->expires_at}}"
                                         >
                                         <input
                                             id="end-discount"
@@ -675,11 +652,7 @@
                                         <b id="previewMin">بدون محدودیت</b>
                                     </div>
 
-                                    <div class="preview-row">
-                                        <span>حداکثر سفارش</span>
-                                        <b id="previewMax">بدون محدودیت</b>
-                                    </div>
-
+                        
 
                                 </div>
                             </div>
@@ -778,7 +751,6 @@
             scope: document.getElementById('previewScope'),
             status: document.getElementById('previewStatus'),
             min: document.getElementById('previewMin'),
-            max: document.getElementById('previewMax'),
             date: document.getElementById('previewDate'),
         };
 
@@ -860,9 +832,6 @@
                 ? `${faNumber(fields.min.value)} ریال`
                 : 'بدون محدودیت';
 
-            preview.max.textContent = fields.max.value
-                ? `${faNumber(fields.max.value)} ریال`
-                : 'بدون محدودیت';
 
 
 

@@ -92,7 +92,8 @@ Route::middleware('guest')->prefix('auth')->name('auth.')->group(function(){
     Route::get('register',[App\Http\Controllers\Auth\AuthController::class,'viewRegister'])->name('viewRegister');
     Route::get('google/redirect',[App\Http\Controllers\Auth\AuthController::class,'redirectGoogle'])->name('redirectGoogle');
     Route::get('google/callback',[App\Http\Controllers\Auth\AuthController::class,'googleCallBack'])->name('googleCallBack');
-});
+    });
+    Route::get('logout',[App\Http\Controllers\Auth\AuthController::class,'logout'])->name('logout');
 
 
 //panel
@@ -106,10 +107,12 @@ Route::name('panel.')->group(function (){
       Route::get('/',[App\Http\Controllers\Panel\Cart\CartController::class,'index'])->name('index');
       Route::post('/addCart',[App\Http\Controllers\Panel\Cart\CartController::class,'addCart'])->name('addCart');
       Route::patch('/items/{cartItem}/quantity',[App\Http\Controllers\Panel\Cart\CartController::class,'updateQuantity'])->name('updateQuantity');
+      Route::post('discount',[App\Http\Controllers\Panel\Cart\CartController::class,'applyDiscount'])->name('applyDiscount');
       Route::delete('/items/{cartItem}/destroy',[App\Http\Controllers\Panel\Cart\CartController::class,'destroy'])->name('destroy');
    });
 });
 Route::get('test',function (){
-    dd(Auth::user());
+    $user=Auth::user();
+    dd($user->getUserDiscountCode());
 });
 

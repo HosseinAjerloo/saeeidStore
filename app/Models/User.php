@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,11 +15,12 @@ use Morilog\Jalali\Jalalian;
 use function Pest\Laravel\get;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable,SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -72,25 +75,40 @@ class User extends Authenticatable
     public function prGender(): Attribute
     {
         return Attribute::make(
-            get: fn($value) =>$value=='male'?'مرد' : 'زن'
+            get: fn($value) => $value == 'male' ? 'مرد' : 'زن'
         );
     }
     public function ofBirth(): Attribute
     {
         return Attribute::make(
-            get: fn($value) =>Jalalian::forge($this->date_of_birth)->format('Y/m/d')
+            get: fn($value) => Jalalian::forge($this->date_of_birth)->format('Y/m/d')
         );
     }
     public function getActive(): Attribute
     {
         return Attribute::make(
-            get: fn($value) =>$this->is_active=='1'?'فعال':'غیرفعال'
+            get: fn($value) => $this->is_active == '1' ? 'فعال' : 'غیرفعال'
         );
     }
     #[Scope]
-    public function scopeSearch(Builder $builder){
-        $builder->when(request()->query('q'),function ($query,$value){
-            $query->where('name','like',"%{$value}%")->orWhere('email',$value)->orWhere('mobile',$value);
+    public function scopeSearch(Builder $builder)
+    {
+        $builder->when(request()->query('q'), function ($query, $value) {
+            $query->where('name', 'like', "%{$value}%")->orWhere('email', $value)->orWhere('mobile', $value);
         });
+    }
+
+    public function discounts()
+    {
+        return $this->morphToMany(Discount::class, 'discountable')->using(Discountable::class)->withPivot('used');
+    }
+
+    public function getUserDiscountCode(): ?Collection
+    {
+
+        $discount = null;
+        $dateNow = Carbon::now()->toDateString();
+        $discount = $this->discounts()->where('is_active', '1')->where('starts_at', "<=", $dateNow)->wherePivot('used','0')->wherePivotNull('deleted_at')->where('expires_at', '>=', $dateNow)->get();
+        return $discount;
     }
 }

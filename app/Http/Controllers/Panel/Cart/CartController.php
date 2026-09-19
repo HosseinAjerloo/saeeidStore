@@ -25,6 +25,8 @@ class CartController extends Controller
             })
             ->where('status', 'active')
             ->first();
+            if(!isset($cart))
+                return redirect()->route('panel.index')->with(['error'=>'سبد خرید شما خالی میباشد']);
         return view('panel.cart.index', compact('cart'));
     }
     public function addCart(CartRequest $request, CartService $cartService)
@@ -51,5 +53,18 @@ class CartController extends Controller
     {
         $cartService->removeItem($cartItem);
         return $cartService->responseHttpClient();
+    }
+
+    public function applyDiscount(Request $request,CartService $cartService){
+     
+        $request->validate([
+            'quantity'=>'required|exists:discounts,code'
+        ],[
+            'quantity.required'=>'وارد کردن کپن تخفیف الزامی است',
+            'quantity.exists'=>'کد تخفیف وارد شده صحیح  نمیباشد',
+        ]);
+        $cartService->applyDiscountCode();
+
+
     }
 }

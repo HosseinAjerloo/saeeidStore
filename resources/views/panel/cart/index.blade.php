@@ -47,6 +47,7 @@
                                             class="text-center" style="appearance: none" value="{{ $item->quantity ?? 1 }}"
                                             readonly="" data-unitPrice="{{ $item->final_unit_price }}"
                                             data-unitDiscountPrice="{{ $item->calculateDiscount() }}"
+                                            data-unitPriceWithoutDiscount="{{ $item->productVariant->price }}"
                                             data-value="{{ $item->id }}" />
                                         <button onclick="changeQuantity(this.previousElementSibling, -1)">
                                             <i class="bi bi-dash"></i>
@@ -85,19 +86,20 @@
 
 
                 <!-- کد تخفیف -->
-                <div class="content-box mt-3">
-                    <h6 class="fw-bold mb-3"><i class="bi bi-ticket-perforated text-primary-custom"></i> کد تخفیف</h6>
-                    <div class="row g-2">
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" placeholder="کد تخفیف خود را وارد کنید">
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-primary-custom w-100"
-                                onclick="showToast('کد تخفیف اعمال شد','success')">اعمال کد
-                            </button>
+                @if (Auth::user() and isset($cart))
+                    <div class="content-box mt-3">
+                        <h6 class="fw-bold mb-3"><i class="bi bi-ticket-perforated text-primary-custom"></i> کد تخفیف</h6>
+                        <div class="row g-2">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="کد تخفیف خود را وارد کنید">
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary-custom w-100" onclick="calculateUserDiscount(event)">اعمال کد
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
                 <!-- ادامه خرید -->
                 <div class="mt-3">
@@ -154,7 +156,7 @@
 
                     <hr>
 
-                    <div class="small">
+                    {{-- <div class="small">
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <i class="bi bi-truck text-success"></i>
                             <span>ارسال رایگان برای این سفارش</span>
@@ -167,7 +169,7 @@
                             <i class="bi bi-shield-check text-success"></i>
                             <span>ضمانت اصالت کالا</span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -178,6 +180,7 @@
     <script>
         let calculateDiscount = 0;
         let totalPrice = 0;
+        let isUserSpecificDiscount = false;
 
         function changeQuantity(input, delta) {
 
@@ -212,13 +215,28 @@
             })
 
         }
+
+
+        function calculateUserDiscount(event) {
+            const inputDiscountUser = event.currentTarget.parentElement.previousElementSibling.querySelector('input');
+            if (inputDiscountUser.value.trim()) {
+                sendAddToCartRequest({
+                    quantity: inputDiscountUser.value.trim(),
+                    route: "{{ route('panel.cart.applyDiscount') }}",
+                    method: 'POST'
+                }).then(result => {
+
+                }).catch(result => {
+                    showToast(result?.message, 'error')
+                })
+            }
+        }
         async function sendAddToCartRequest({
             cartItem = null,
             quantity = null,
             route = null,
             method = null
         }) {
-            console.log(method);
 
             const promise = new Promise(function(resolve, reject) {
                 const request = new XMLHttpRequest();

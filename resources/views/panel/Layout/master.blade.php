@@ -9,6 +9,8 @@
 @include('panel.Layout.footer')
 
 @include('panel.Layout.script')
+@include('panel.toast.error')
+@include('panel.toast.success')
 @yield('script')
 </body>
 </html>
