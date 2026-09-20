@@ -113,6 +113,7 @@ Route::name('panel.')->group(function (){
 });
 Route::get('test',function (){
     $user=Auth::user();
-    dd($user->getUserDiscountCode());
+    $session=session('cart_item');
+    dd($session);
 });
 

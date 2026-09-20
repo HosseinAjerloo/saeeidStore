@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\User;
+use App\Service\Cart\CartService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,12 +48,65 @@ class AuthController extends Controller
                         'password' => null
                     ]
                 );
+                $sessionValue = Session::get('cart_item');
                 Auth::login($newUser, true);
-                $cart = Cart::where('user_id', $newUser->id)->where('status', 'active')->first();
+
+                if ($sessionValue) {
+                    Session::put('cart_item', $sessionValue);
+
+                    $cart = Cart::where('cart_token', $sessionValue)->latest()->first();
+                    if ($cart) {
+                        $cart->user_id = $newUser->id;
+                        $cart->save();
+                    }
+                }
+
+                $cart = $newUser->carts()->whereHas('cartItems')
+                    ->where('status', 'active')
+                    ->latest()->with('cartItems')
+                    ->first();
+
+                $outherCarts = $newUser->carts()->where(function ($query) use ($cart) {
+
+                    $query->when($cart, function ($query) use ($cart) {
+
+                        $query->where('id', '!=', $cart->id)->where('status', 'active');
+                    });
+                })->whereHas('cartItems')->with('cartItems');
+
+                $userCarts = $outherCarts->get();
+
+                if ($userCarts->isNotEmpty()) {
+                    $currentItems = $cart->cartItems;
+
+                    $otherItems = $userCarts->flatMap->cartItems;
+
+                    $differenceCartItems = $otherItems->filter(function ($otherItem) use ($currentItems) {
+                        return !$currentItems->contains(function ($currentItem) use ($otherItem) {
+
+                            if ($currentItem->variant_id != $otherItem->variant_id) {
+                                return false;
+                            }
+
+                            return empty(array_diff(
+                                $otherItem->variant_attribute_ids,
+                                $currentItem->variant_attribute_ids
+                            ));
+                        });
+                    });
+                    $outherCarts->delete();
+                    $cart->cartItems()->createMany($differenceCartItems->toArray());
+                }
 
                 if ($cart) {
+                    $cartService = new CartService();
+                    $cartService->calculateCartTotal();
                     Session::put('cart_item', $cart->cart_token);
                 }
+
+
+
+
                 return redirect()->route('panel.index');
             }
         } catch (Exception $e) {

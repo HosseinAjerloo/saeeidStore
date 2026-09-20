@@ -94,6 +94,7 @@ class CartService
 
     protected function generateToken()
     {
+    
         if (session('cart_item'))
             return session('cart_item');
 

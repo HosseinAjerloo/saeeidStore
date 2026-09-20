@@ -84,6 +84,12 @@ class User extends Authenticatable
             get: fn($value) => Jalalian::forge($this->date_of_birth)->format('Y/m/d')
         );
     }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'user_id');
+    }
+
     public function getActive(): Attribute
     {
         return Attribute::make(
@@ -108,7 +114,7 @@ class User extends Authenticatable
 
         $discount = null;
         $dateNow = Carbon::now()->toDateString();
-        $discount = $this->discounts()->where('is_active', '1')->where('starts_at', "<=", $dateNow)->wherePivot('used','0')->wherePivotNull('deleted_at')->where('expires_at', '>=', $dateNow)->get();
+        $discount = $this->discounts()->where('is_active', '1')->where('starts_at', "<=", $dateNow)->wherePivot('used', '0')->wherePivotNull('deleted_at')->where('expires_at', '>=', $dateNow)->get();
         return $discount;
     }
 }

@@ -16,17 +16,29 @@ class CartController extends Controller
 
     public function index()
     {
-        $cart = Cart::query()
-            ->when(Auth::user(), function ($query, $user) {
-                $query->where('user_id', $user->id);
-            })
-            ->when(session('cart_item'), function ($query, $cartToken) {
-                $query->where('cart_token', $cartToken);
-            })
-            ->where('status', 'active')
-            ->first();
-            if(!isset($cart))
-                return redirect()->route('panel.index')->with(['error'=>'سبد خرید شما خالی میباشد']);
+        $cart = null;
+
+        $userId = Auth::id();
+        $cartToken = session('cart_item');
+
+        if ($userId || $cartToken) {
+            $cart = Cart::query()
+                ->where('status', 'active')
+                ->where(function ($query) use ($userId, $cartToken) {
+
+                    $query->when($userId, function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    });
+
+                    $query->when($cartToken, function ($query) use ($cartToken) {
+                        $query->orWhere('cart_token', $cartToken);
+                    });
+                })
+                ->first();
+        }
+
+        if (!isset($cart))
+            return redirect()->route('panel.index')->with(['error' => 'سبد خرید شما خالی میباشد']);
         return view('panel.cart.index', compact('cart'));
     }
     public function addCart(CartRequest $request, CartService $cartService)
@@ -55,16 +67,15 @@ class CartController extends Controller
         return $cartService->responseHttpClient();
     }
 
-    public function applyDiscount(Request $request,CartService $cartService){
-     
+    public function applyDiscount(Request $request, CartService $cartService)
+    {
+
         $request->validate([
-            'quantity'=>'required|exists:discounts,code'
-        ],[
-            'quantity.required'=>'وارد کردن کپن تخفیف الزامی است',
-            'quantity.exists'=>'کد تخفیف وارد شده صحیح  نمیباشد',
+            'quantity' => 'required|exists:discounts,code'
+        ], [
+            'quantity.required' => 'وارد کردن کپن تخفیف الزامی است',
+            'quantity.exists' => 'کد تخفیف وارد شده صحیح  نمیباشد',
         ]);
         $cartService->applyDiscountCode();
-
-
     }
 }

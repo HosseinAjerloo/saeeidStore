@@ -25,19 +25,30 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        \view()->composer('panel.Layout.header',function (View $view){
-            $cart = Cart::query()
-                ->when(Auth::user(), function ($query, $user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->when(session('cart_item'), function ($query, $cartToken) {
-                    $query->where('cart_token', $cartToken);
-                })
-                ->where('status', 'active')
-                ->first();
-            
-           $categories=ProductGroup::whereNull('parent_id')->wherehas('childs')->where('is_active','1')->limit(3)->get();
-           $view->with(['categories'=>$categories,'cart'=>$cart]);
+        \view()->composer('panel.Layout.header', function (View $view) {
+            $cart = null;
+
+            $userId = Auth::id();
+            $cartToken = session('cart_item');
+
+            if ($userId || $cartToken) {
+                $cart = Cart::query()
+                    ->where('status', 'active')
+                    ->where(function ($query) use ($userId, $cartToken) {
+
+                        $query->when($userId, function ($query) use ($userId) {
+                            $query->where('user_id', $userId);
+                        });
+
+                        $query->when($cartToken, function ($query) use ($cartToken) {
+                            $query->orWhere('cart_token', $cartToken);
+                        });
+                    })
+                    ->first();
+            }
+
+            $categories = ProductGroup::whereNull('parent_id')->wherehas('childs')->where('is_active', '1')->limit(3)->get();
+            $view->with(['categories' => $categories, 'cart' => $cart]);
         });
     }
 }
