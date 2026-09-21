@@ -56,7 +56,8 @@
                                     </div>
                                     @if ($item->productVariant->validDiscount())
                                         <div class="text-end">
-                                            <div class="text-muted-custom product-reserve-count text-decoration-line-through small">
+                                            <div
+                                                class="through-price text-muted-custom product-reserve-count text-decoration-line-through small">
                                                 {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
                                             </div>
                                             <div class="price fw-bold text-primary-custom"
@@ -179,6 +180,7 @@
 
 @section('script')
     <script>
+        const numberFormat = new Intl.NumberFormat('fa-IR');
         let calculateDiscount = 0;
         let totalPrice = 0;
         let isUserSpecificDiscount = false;
@@ -219,6 +221,7 @@
 
 
         function calculateUserDiscount(event) {
+            let totlaPriceWithOutDiscount = 0;
             const inputDiscountUser = event.currentTarget.parentElement.previousElementSibling.querySelector('input');
             if (inputDiscountUser.value.trim()) {
                 sendAddToCartRequest({
@@ -226,7 +229,39 @@
                     route: "{{ route('panel.cart.applyDiscount') }}",
                     method: 'POST'
                 }).then(result => {
+                    if (result && result?.data?.value) {
+                        let = value = result?.data?.value;
 
+                        const inputsHasUnitPricewithoutdiscount = document.querySelectorAll(
+                            'input[data-unitpricewithoutdiscount]');
+                        inputsHasUnitPricewithoutdiscount.forEach(input => {
+
+                            totlaPriceWithOutDiscount += (Number(input.dataset.unitpricewithoutdiscount *
+                                input.value));
+                        })
+                        const calc = Number(totlaPriceWithOutDiscount - value) / 10;
+
+                        if (calc > 0) {
+
+
+                            document.querySelectorAll('.through-price').forEach(elem=>{
+                                elem.remove()
+                            })
+                            value = Number(value / 10);
+                            totlaPriceWithOutDiscount = Number(totlaPriceWithOutDiscount / 10)
+                            const priceString = numberFormat.format(calc).replace(',', '.');
+                            const valueString = numberFormat.format(value).replace(',', '.');
+                            const totlaPriceWithOutDiscountString = numberFormat.format(totlaPriceWithOutDiscount)
+                                .replace(',', '.');
+                            document.getElementById('cart-total').innerText = priceString + ' تومان';
+                            document.getElementById('totalShow').innerText = totlaPriceWithOutDiscountString +
+                                ' تومان';
+                            document.getElementById('calculateShow').innerText = valueString + ' تومان';
+                            showToast(result?.message, 'success')
+                        }
+
+
+                    }
                 }).catch(result => {
                     showToast(result?.message, 'error')
                 })
@@ -289,7 +324,7 @@
             if (totalPrice > 0) {
                 totalPrice = totalPrice / 10;
             }
-            const numberFormat = new Intl.NumberFormat('fa-IR');
+
 
             const DiscountToalFormatted = numberFormat.format(calculateDiscount).replaceAll('٬', '.');
 
@@ -340,7 +375,7 @@
                                 count--
                                 cartBadge.textContent = count;
                                 cartBadge.style.display = 'flex';
-                                document.querySelector('.text-muted-custom').innerText=count;
+                                document.querySelector('.text-muted-custom').innerText = count;
                             }
                             syncBottomCartBadge();
                             showToast(result?.message, 'success');

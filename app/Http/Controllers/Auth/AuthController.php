@@ -110,7 +110,7 @@ class AuthController extends Controller
                 return redirect()->route('panel.index');
             }
         } catch (Exception $e) {
-            return redirect()->route('panel.index');
+            return redirect()->route('panel.index')->with(['error'=>'خطایی رخ داد لطفا با پشتیبانی تماس گبیرید']);
         }
     }
 

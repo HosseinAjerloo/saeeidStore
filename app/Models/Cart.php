@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -35,7 +36,13 @@ class Cart extends Model
         return $this->hasMany(CartItem::class, 'cart_id');
     }
 
-
+public function getDiscountCode(): ?Discount
+    {
+        $discount = null;
+        $dateNow = Carbon::now()->toDateString();
+        $discount = $this->discount()->where('is_active', '1')->where('starts_at', "<=", $dateNow)->where('expires_at', '>=', $dateNow)->first();
+        return $discount;
+    }
 
     public function calculateTotalDiscount()
     {

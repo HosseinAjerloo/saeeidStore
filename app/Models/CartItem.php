@@ -78,7 +78,7 @@ class CartItem extends Model
         $cart = $this->cart;
 
         $unitDiscountPrice = 0;
-        if (isset($this->discount_type) && !isset($cart->discount_id)) {
+        if (isset($this->discount_type)) {
            $unitDiscountPrice= $this->unit_price - $this->final_unit_price;
         }
         return $unitDiscountPrice;

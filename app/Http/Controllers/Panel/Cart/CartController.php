@@ -78,5 +78,6 @@ class CartController extends Controller
             'quantity.exists' => 'کد تخفیف وارد شده صحیح  نمیباشد',
         ]);
         $cartService->applyDiscountCode();
+        return $cartService->responseHttpClient();
     }
 }

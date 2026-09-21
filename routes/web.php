@@ -114,9 +114,12 @@ Route::name('panel.')->group(function (){
 });
 Route::get('test',function (){
     //   $cartService = new CartService();
-                    // $cartService->calculateCartTotal();
-    $user=Auth::user();
+    //   $cartService->name='hossein';
+
+    //                 $cartService->applyDiscountCode();
+    // $user=Auth::user();
     $session=session('cart_item');
-    dd($session,$user);
+    $discount=Discount::find(1);
+    dd($discount->products);
 });
 
