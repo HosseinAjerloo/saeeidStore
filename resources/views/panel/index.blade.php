@@ -174,7 +174,7 @@
                                             <div class="product-price">{{numberFormatAble(($item->countable()/10))??0}}
                                                 <small>ت</small></div>
                                             <button class="btn-add-to-cart"
-                                                    onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
+                                                    onclick='addToCart("{{$item->id}}","{{$item->product?->name??''}}")'><i
                                                     class="bi bi-bag-plus">
 
                                                 </i>
@@ -394,14 +394,14 @@
 
                 @foreach($products as $item)
 
-                    @if($item->product->inValidDiscount())
+                    @if($item->validDiscount())
                         <div class="col-lg-2 col-md-4 col-6">
                             <div class="product-card">
                                 <span class="product-badge discount">
-                                    @if($item->product->inValidDiscount()->type=='percentage')
-                                        {{numberFormatAble($item->product->inValidDiscount()->value??0)}} %
+                                    @if($item->validDiscount()->type=='percentage')
+                                        {{numberFormatAble($item->validDiscount()->value??0)}} %
                                     @else
-                                        {{numberFormatAble(($item->product->inValidDiscount()->value /10)??0)}} ت
+                                        {{numberFormatAble(($item->validDiscount()->value /10)??0)}} ت
                                     @endif
                                 </span>
                                 {{--                                <span class="product-badge new">جدید</span>--}}
@@ -429,7 +429,7 @@
                                         <div class="product-price">{{numberFormatAble(($item->countable()/10))??0}}
                                             <small>ت</small></div>
                                         <button class="btn-add-to-cart"
-                                                onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
+                                                onclick="addToCart('{{$item->id}}','{{$item->product?->name??''}}')"><i
                                                 class="bi bi-bag-plus">
 
                                             </i>
@@ -468,8 +468,9 @@
                                         <div class="product-price">{{numberFormatAble(($item->price /10))??0}}
                                             <small>ت</small></div>
                                         <button class="btn-add-to-cart"
-                                                onclick="addToCart({{$item->id}},{{$item->product?->name??''}})"><i
-                                                class="bi bi-bag-plus"></i></button>
+                                                onclick='addToCart({{$item->id}},"{{$item->product?->name}}")'>
+                                                <i  class="bi bi-bag-plus"></i>
+                                            </button>
                                     </div>
                                 </div>
                             </div>
@@ -591,6 +592,56 @@
             elem.style.background =
                 `linear-gradient(135deg, ${color1}, ${color2})`
         });
+
+
+
+        
+    </script>
+
+
+    <script>
+       async function addToCart(productId, productName) {
+            const cartBadge = document.querySelector('#cart-count');
+            if (cartBadge) {
+                let count = parseInt(cartBadge.textContent) || 0;
+
+                sendAddToCartRequest({productVariant:productId}).then(result=>{
+                    count++;
+                    cartBadge.textContent = count;
+                    cartBadge.style.display = 'flex';
+                    syncBottomCartBadge();
+                    showToast(result?.message, 'success');
+                }).catch(result=>{
+                    showToast(result?.message, 'error');
+
+                })
+            }
+
+        }
+       async function sendAddToCartRequest({productVariant}) {
+           const promise = new Promise(function (resolve, reject) {
+               const request = new XMLHttpRequest();
+               request.open('POST', "{{route('panel.cart.addCart')}}",true)
+               request.setRequestHeader('Content-Type', 'application/json');
+               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
+               request.withCredentials = true;
+               const body = JSON.stringify({
+                   productVariant
+               })
+               request.onload = function () {
+                   const response=JSON.parse(request.response);
+                   if (request.status === 200) {
+                       resolve(response)
+                   } else
+                   {
+                       reject(response)
+                   }
+               }
+               request.send(body);
+           })
+           return promise;
+       }
+
     </script>
 @endsection
 

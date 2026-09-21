@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class CartController extends Controller
 {
 
-    public function index()
+    public function index(CartService $cartService)
     {
         $cart = null;
 
@@ -35,6 +35,7 @@ class CartController extends Controller
                     });
                 })
                 ->first();
+            $cartService->calculateCartTotal();
         }
 
         if (!isset($cart))

@@ -2,6 +2,7 @@
 
 use App\Models\Discount;
 use App\Models\ProductGroup;
+use App\Service\Cart\CartService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -112,8 +113,10 @@ Route::name('panel.')->group(function (){
    });
 });
 Route::get('test',function (){
+    //   $cartService = new CartService();
+                    // $cartService->calculateCartTotal();
     $user=Auth::user();
     $session=session('cart_item');
-    dd($session);
+    dd($session,$user);
 });
 

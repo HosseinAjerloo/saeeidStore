@@ -89,8 +89,8 @@ class AuthController extends Controller
                             }
 
                             return empty(array_diff(
-                                $otherItem->variant_attribute_ids,
-                                $currentItem->variant_attribute_ids
+                                $otherItem->variant_attribute_ids??[],
+                                $currentItem->variant_attribute_ids??[]
                             ));
                         });
                     });

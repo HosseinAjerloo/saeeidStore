@@ -45,17 +45,18 @@
                                         <input type="number" min="0"
                                             max="{{ $item->calculateRemainingStock($item->productVariant->id) }}"
                                             class="text-center" style="appearance: none" value="{{ $item->quantity ?? 1 }}"
-                                            readonly="" data-unitPrice="{{ $item->final_unit_price }}"
-                                            data-unitDiscountPrice="{{ $item->calculateDiscount() }}"
+                                            readonly=""
+                                            data-unitPrice="{{ $item->productVariant->validDiscount() ? $item->productVariant->countable() : $item->productVariant->price }}"
+                                            data-unitDiscountPrice="{{ $item->productVariant->validDiscount() ? $item->calculateDiscount() : 0 }}"
                                             data-unitPriceWithoutDiscount="{{ $item->productVariant->price }}"
                                             data-value="{{ $item->id }}" />
                                         <button onclick="changeQuantity(this.previousElementSibling, -1)">
                                             <i class="bi bi-dash"></i>
                                         </button>
                                     </div>
-                                    @if ($item->productVariant->product->inValidDiscount())
+                                    @if ($item->productVariant->validDiscount())
                                         <div class="text-end">
-                                            <div class="text-muted-custom text-decoration-line-through small">
+                                            <div class="text-muted-custom product-reserve-count text-decoration-line-through small">
                                                 {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
                                             </div>
                                             <div class="price fw-bold text-primary-custom"
@@ -319,6 +320,12 @@
                     route,
                     method: "DELETE"
                 }).then(result => {
+
+                    const cartBadge = document.querySelector('#cart-count');
+
+
+
+
                     if (result.status) {
 
 
@@ -328,7 +335,15 @@
                             item.remove();
                             updateCartTotal();
                             showToast('محصول از سبد حذف شد', 'info');
-
+                            if (cartBadge) {
+                                let count = parseInt(cartBadge.textContent) || 0;
+                                count--
+                                cartBadge.textContent = count;
+                                cartBadge.style.display = 'flex';
+                                document.querySelector('.text-muted-custom').innerText=count;
+                            }
+                            syncBottomCartBadge();
+                            showToast(result?.message, 'success');
                             updateCartTotal();
                             calculateDiscountFunc()
                         }, 300);

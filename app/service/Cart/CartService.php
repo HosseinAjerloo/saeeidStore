@@ -57,11 +57,11 @@ class CartService
         $productVariant = ProductVariant::find($inputs['productVariant']);
         $this->clientCart->cartItems()->create([
             'variant_id' => $productVariant->id,
-            'variant_attribute_ids' => [$inputs['variant_attribute_ids']] ?? null,
+            'variant_attribute_ids' => isset($inputs['variant_attribute_ids']) ? [$inputs['variant_attribute_ids']]: null,
             'quantity' => 1,
-            'discount_id' => $productVariant->product->inValidDiscount()?->id,
-            'discount_amount' => $productVariant->product->inValidDiscount()->value ?? 0,
-            'discount_type' => $productVariant->product->inValidDiscount()?->type,
+            'discount_id' => $productVariant->validDiscount()?->id,
+            'discount_amount' => $productVariant->validDiscount()->value ?? 0,
+            'discount_type' => $productVariant->validDiscount()?->type,
             'unit_price' => $productVariant->price,
             'final_unit_price' => $productVariant->countable(),
         ]);
@@ -129,7 +129,17 @@ class CartService
         $totalPrice = 0;
         if ($this->clientCart) {
             foreach ($this->clientCart->cartItems as $item) {
-                $totalPrice += ($item->final_unit_price * $item->quantity);
+
+            $item->final_unit_price= $item->productVariant->countable();
+            $item->unit_price= $item->productVariant->price;
+            $item->discount_id = $item->productVariant->validDiscount()?->id;
+            $item->discount_amount= $item->productVariant->validDiscount()->value ?? 0;
+            $item->discount_type= $item->productVariant->validDiscount()?->type;
+            $item->save();
+
+
+                $totalPrice += ($item->productVariant->countable() * $item->quantity);
+
             }
             $this->clientCart->final_price = $totalPrice;
             $this->clientCart->save();

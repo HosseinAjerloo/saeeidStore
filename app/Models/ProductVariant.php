@@ -31,10 +31,14 @@ class ProductVariant extends Model
             get: fn($value) => $this->is_active == '1' ? 'فعال' : 'غیرفعال'
         );
     }
+    public function validDiscount()
+    {
+        return  $this->product->inValidDiscount();
+    }
 
     public function countable()
     {
-        $discount = $this->product->inValidDiscount();
+        $discount = $this->validDiscount();
 
         $price = $this->price;
         if (!$discount)
