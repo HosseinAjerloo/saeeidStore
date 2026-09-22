@@ -104,6 +104,9 @@ class CartService
 
     public function setSessionCart()
     {
+        if ($this->isLogin())
+            session(['cart_item' => $this->isLogin()->carts()->latest()->first()->cart_token]);
+
         session(['cart_item' => $this->generateToken()]);
     }
 

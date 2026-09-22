@@ -31,7 +31,7 @@
 
                     @if (\Illuminate\Support\Facades\Auth::check())
 
-                        <a href="{{ route('auth.viewLogin') }}" class="header-icon d-none d-sm-flex">
+                        <a href="{{ route('panel.profile.index') }}" class="header-icon d-none d-sm-flex">
                             <i class="bi bi-person"></i>
                         </a>
 
