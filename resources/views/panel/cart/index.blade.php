@@ -62,7 +62,8 @@
                                             </div>
                                             <div class="price fw-bold text-primary-custom"
                                                 data-price="{{ $item->productVariant->countable() }}">
-                                                <span class="item-price" data-price="{{ $item->productVariant->countable() }}">
+                                                <span class="item-price" data-price="{{ $item->productVariant->countable() }}"
+                                                    data-unitPriceWithoutDiscount="{{ $item->productVariant->price }}">
                                                     {{ numberFormatAble($item->productVariant->countable() / 10) }}
                                                 </span>
                                                 تومان
@@ -71,8 +72,10 @@
                                     @else
                                         <div class="text-end">
                                             <div class="price fw-bold text-primary-custom"
-                                                data-price="{{ $item->productVariant?->price }}">
-                                                <span class="item-price" data-price="{{ $item->productVariant?->price }}">
+                                                data-price="{{ $item->productVariant->price }}">
+                                                <span class="item-price"
+                                                    data-unitPriceWithoutDiscount="{{ $item->productVariant->price }}"
+                                                    data-price="{{ $item->productVariant->price }}">
                                                     {{ numberFormatAble(($item->productVariant?->price ?? 0) / 10) }}
                                                 </span>
                                                 تومان
@@ -93,10 +96,13 @@
                         <h6 class="fw-bold mb-3"><i class="bi bi-ticket-perforated text-primary-custom"></i> کد تخفیف</h6>
                         <div class="row g-2">
                             <div class="col-md-8">
-                                <input type="text" class="form-control" placeholder="کد تخفیف خود را وارد کنید">
+                                <input type="text" id="discountUser" class="form-control"
+                                    placeholder="کد تخفیف خود را وارد کنید" value="{{ $cart->discount?->code }}">
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-primary-custom w-100" onclick="calculateUserDiscount(event)">اعمال کد
+                                <button data-type="{{ $cart->discount_id ? 'remove' : 'add' }}"
+                                    class="btn btn-primary-custom w-100" onclick="calculateUserDiscount(event)">
+                                    {{ $cart->discount ? 'حذف کد تخفیف' : 'اعمال کد' }}
                                 </button>
                             </div>
                         </div>
@@ -183,7 +189,11 @@
         const numberFormat = new Intl.NumberFormat('fa-IR');
         let calculateDiscount = 0;
         let totalPrice = 0;
-        let isUserSpecificDiscount = false;
+        let totalPriceWidouthDiscount = 0;
+        let isUserSpecificDiscount = Boolean({{ $cart->discount_id ? 1 : 0 }});
+        let = value = {{ $cart?->calculateDiscountAmount() }};
+
+        const userDiscount = document.querySelector('#discountUser');
 
         function changeQuantity(input, delta) {
 
@@ -207,8 +217,11 @@
                 method: 'PATCH'
             }).then(result => {
                 if (result.status) {
+
                     updateCartTotal();
                     calculateDiscountFunc()
+                    toggleDiscountAmount()
+
 
                 }
 
@@ -221,50 +234,50 @@
 
 
         function calculateUserDiscount(event) {
-            let totlaPriceWithOutDiscount = 0;
+            let bun = event.currentTarget;
+
             const inputDiscountUser = event.currentTarget.parentElement.previousElementSibling.querySelector('input');
             if (inputDiscountUser.value.trim()) {
-                sendAddToCartRequest({
-                    quantity: inputDiscountUser.value.trim(),
-                    route: "{{ route('panel.cart.applyDiscount') }}",
-                    method: 'POST'
-                }).then(result => {
-                    if (result && result?.data?.value) {
-                        let = value = result?.data?.value;
+                if (bun.dataset.type == 'add') {
+                    sendAddToCartRequest({
+                        quantity: inputDiscountUser.value.trim(),
+                        route: "{{ route('panel.cart.applyDiscount') }}",
+                        method: 'POST'
+                    }).then(result => {
+                        if (result && result?.data?.value) {
+                            value = result?.data?.value;
+                            bun.setAttribute('data-type', 'remove')
+                            bun.innerText = 'حذف  کد تخفیف'
+                            isUserSpecificDiscount = true
 
-                        const inputsHasUnitPricewithoutdiscount = document.querySelectorAll(
-                            'input[data-unitpricewithoutdiscount]');
-                        inputsHasUnitPricewithoutdiscount.forEach(input => {
-
-                            totlaPriceWithOutDiscount += (Number(input.dataset.unitpricewithoutdiscount *
-                                input.value));
-                        })
-                        const calc = Number(totlaPriceWithOutDiscount - value) / 10;
-
-                        if (calc > 0) {
-
-
-                            document.querySelectorAll('.through-price').forEach(elem=>{
-                                elem.remove()
-                            })
-                            value = Number(value / 10);
-                            totlaPriceWithOutDiscount = Number(totlaPriceWithOutDiscount / 10)
-                            const priceString = numberFormat.format(calc).replace(',', '.');
-                            const valueString = numberFormat.format(value).replace(',', '.');
-                            const totlaPriceWithOutDiscountString = numberFormat.format(totlaPriceWithOutDiscount)
-                                .replace(',', '.');
-                            document.getElementById('cart-total').innerText = priceString + ' تومان';
-                            document.getElementById('totalShow').innerText = totlaPriceWithOutDiscountString +
-                                ' تومان';
-                            document.getElementById('calculateShow').innerText = valueString + ' تومان';
-                            showToast(result?.message, 'success')
                         }
+                        calculateDiscountFunc()
+                    }).catch(result => {
+                        showToast(result?.message, 'error')
+                    })
+                } else {
 
 
-                    }
-                }).catch(result => {
-                    showToast(result?.message, 'error')
-                })
+                    sendAddToCartRequest({
+                        quantity: inputDiscountUser.value.trim(),
+                        route: "{{ route('panel.cart.deleteDiscount') }}",
+                        method: 'POST'
+                    }).then(result => {
+                        if (result) {
+                            bun.setAttribute('data-type', 'add')
+                            bun.innerText = 'اعمال کدتخفیف'
+                            showToast(result?.message, 'success')
+                            inputDiscountUser.value = ''
+                            isUserSpecificDiscount = false
+                            showToast(result?.message, 'success')
+
+
+                        }
+                           calculateDiscountFunc()
+                    }).catch(result => {
+                        showToast(result?.message, 'error')
+                    })
+                }
             }
         }
         async function sendAddToCartRequest({
@@ -297,48 +310,83 @@
             return promise;
         }
 
-        function calculateDiscountFunc() {
-            calculateDiscount = 0;
-            totalPrice = 0;
-            document.querySelectorAll('input[data-unitDiscountPrice]').forEach(element => {
+       function calculateDiscountFunc() {
+    calculateDiscount = 0;
+    totalPrice = 0;
+    totalPriceWidouthDiscount = 0;
 
-                if (element instanceof HTMLElement) {
-                    const calculater = Number(element.dataset.unitdiscountprice * element.value);
+    const formatPrice = (price) => {
+        return numberFormat.format(price).replaceAll('٬', '.');
+    };
 
-                    calculateDiscount += calculater;
+    const showPrices = (discount, totalWithoutDiscount, finalTotal) => {
+        document.getElementById('calculateShow').innerText =
+            formatPrice(discount) + ' تومان';
 
+        document.getElementById('totalShow').innerText =
+            formatPrice(totalWithoutDiscount) + ' تومان';
 
+        document.getElementById('cart-total').innerText =
+            formatPrice(finalTotal) + ' تومان';
+    };
 
-                    const total = Number(element.dataset.unitprice * element.value)
+    // تخفیف معمولی
+    if (!isUserSpecificDiscount) {
+        toggleDiscountAmount(true);
 
-                    totalPrice += total;
+        document.querySelectorAll('input[data-unitDiscountPrice]').forEach(element => {
+            const quantity = Number(element.value);
 
+            calculateDiscount +=
+                Number(element.dataset.unitdiscountprice) * quantity;
 
-                }
+            totalPriceWidouthDiscount +=
+                Number(element.dataset.unitpricewithoutdiscount) * quantity;
 
+            totalPrice +=
+                Number(element.dataset.unitprice) * quantity;
+        });
 
-            })
-            if (calculateDiscount > 0) {
-                calculateDiscount = calculateDiscount / 10;
-            }
-            if (totalPrice > 0) {
-                totalPrice = totalPrice / 10;
-            }
+        calculateDiscount /= 10;
+        totalPrice /= 10;
+        totalPriceWidouthDiscount /= 10;
 
+        showPrices(
+            calculateDiscount,
+            totalPriceWidouthDiscount,
+            totalPrice
+        );
 
-            const DiscountToalFormatted = numberFormat.format(calculateDiscount).replaceAll('٬', '.');
+        return;
+    }
 
-            const totalPriceFormatted = numberFormat.format(totalPrice).replaceAll('٬', '.');
+    // تخفیف مخصوص کاربر
+    let totalPriceWithoutDiscount = 0;
 
-            document.getElementById('calculateShow').innerText = DiscountToalFormatted + ' تومان';
+    document
+        .querySelectorAll('input[data-unitpricewithoutdiscount]')
+        .forEach(input => {
+            totalPriceWithoutDiscount +=
+                Number(input.dataset.unitpricewithoutdiscount) *
+                Number(input.value);
+        });
 
-            document.getElementById('totalShow').innerText = totalPriceFormatted + ' تومان';
+    const finalPrice = (totalPriceWithoutDiscount - value) / 10;
 
-            document.getElementById('cart-total').innerText = totalPriceFormatted + ' تومان';
+    if (finalPrice > 0) {
+        toggleDiscountAmount(false);
 
+        const discountAmount = value / 10;
+        totalPriceWithoutDiscount /= 10;
 
+        showPrices(
+            discountAmount,
+            totalPriceWithoutDiscount,
+            finalPrice
+        );
+    }
+}
 
-        }
         calculateDiscountFunc();
 
 
@@ -390,6 +438,31 @@
 
                 })
 
+            }
+        }
+
+        function toggleDiscountAmount(bool = true) {
+            if (bool) {
+                document.querySelectorAll('.through-price').forEach(elem => {
+                    elem.style.display = 'block'
+                })
+
+
+                document.querySelectorAll('span[data-unitpricewithoutdiscount]').forEach(elem => {
+                    const price = elem.dataset.price / 10;
+                    const priceString = numberFormat.format(price).replaceAll('٬', '.');
+                    elem.innerText = priceString;
+                })
+
+            } else {
+                document.querySelectorAll('.through-price').forEach(elem => {
+                    elem.style.display = 'none'
+                })
+                document.querySelectorAll('span[data-unitpricewithoutdiscount]').forEach(elem => {
+                    const price = elem.dataset.unitpricewithoutdiscount / 10;
+                    const priceString = numberFormat.format(price).replaceAll('٬', '.');
+                    elem.innerText = priceString;
+                })
             }
         }
     </script>

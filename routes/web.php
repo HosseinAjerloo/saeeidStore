@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Cart;
 use App\Models\Discount;
 use App\Models\ProductGroup;
 use App\Service\Cart\CartService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -121,6 +123,7 @@ Route::name('panel.')->group(function () {
         Route::post('/addCart', [App\Http\Controllers\Panel\Cart\CartController::class, 'addCart'])->name('addCart');
         Route::patch('/items/{cartItem}/quantity', [App\Http\Controllers\Panel\Cart\CartController::class, 'updateQuantity'])->name('updateQuantity');
         Route::post('discount', [App\Http\Controllers\Panel\Cart\CartController::class, 'applyDiscount'])->name('applyDiscount');
+        Route::post('remove/discount', [App\Http\Controllers\Panel\Cart\CartController::class, 'deleteDiscount'])->name('deleteDiscount');
         Route::delete('/items/{cartItem}/destroy', [App\Http\Controllers\Panel\Cart\CartController::class, 'destroy'])->name('destroy');
     });
 
@@ -129,13 +132,15 @@ Route::name('panel.')->group(function () {
 });
 Route::get('test', function () {
 
-    return view('panel.shipping');
-    //   $cartService = new CartService();
-    //   $cartService->name='hossein';
+    // return view('panel.shipping');
+    // //   $cartService = new CartService();
+    // //   $cartService->name='hossein';
 
-    //                 $cartService->applyDiscountCode();
-    $user = Auth::user();
-    $session = session('cart_item');
-    // $discount=Discount::find(1);
-    dd($user, $session);
+    // //                 $cartService->applyDiscountCode();
+    // $user = Auth::user();
+    // $session = session('cart_item');
+    // // $discount=Discount::find(1);
+    // dd($user, $session);
+
+  
 });

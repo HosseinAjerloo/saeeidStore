@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
                         $query->when($cartToken, function ($query) use ($cartToken) {
                             $query->orWhere('cart_token', $cartToken);
                         });
-                    })
+                    })->latest()
                     ->first();
             }
 

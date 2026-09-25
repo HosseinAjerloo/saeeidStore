@@ -1,8 +1,9 @@
 <?php
 
+use App\Jobs\DeleteExpiredCarts;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+Schedule::job(new DeleteExpiredCarts)->withoutOverlapping(155)->dailyAt('00:00');
+Schedule::command('queue:work --queue=DeleteExpiredCarts --stop-when-empty')->dailyAt('00:00');

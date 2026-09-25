@@ -33,7 +33,7 @@ class CartController extends Controller
                     $query->when($cartToken, function ($query) use ($cartToken) {
                         $query->orWhere('cart_token', $cartToken);
                     });
-                })
+                })->latest()
                 ->first();
             $cartService->calculateCartTotal();
         }
@@ -78,6 +78,18 @@ class CartController extends Controller
             'quantity.exists' => 'کد تخفیف وارد شده صحیح  نمیباشد',
         ]);
         $cartService->applyDiscountCode();
+        return $cartService->responseHttpClient();
+    }
+
+    public function deleteDiscount(Request $request, CartService $cartService)
+    {
+                $request->validate([
+            'quantity' => 'required|exists:discounts,code'
+        ], [
+            'quantity.required' => 'وارد کردن کپن تخفیف الزامی است',
+            'quantity.exists' => 'کد تخفیف وارد شده صحیح  نمیباشد',
+        ]);
+        $cartService->deleteDiscountCode();
         return $cartService->responseHttpClient();
     }
 }

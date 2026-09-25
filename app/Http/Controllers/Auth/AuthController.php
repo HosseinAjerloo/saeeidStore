@@ -49,7 +49,7 @@ class AuthController extends Controller
                     ]
                 );
                 $sessionValue = Session::get('cart_item');
-                Auth::login($newUser, true);
+                Auth::login($newUser);
 
                 if ($sessionValue) {
                     Session::put('cart_item', $sessionValue);

@@ -84,6 +84,7 @@ class CartService
         } else {
             $cart = Cart::firstOrCreate(['cart_token' => $this->getSessionCart(), 'status' => 'active'], ['status' => 'active']);
         }
+        $this->clientCart = $cart;
         return $cart;
     }
 
@@ -104,8 +105,8 @@ class CartService
 
     public function setSessionCart()
     {
-        if ($this->isLogin())
-            session(['cart_item' => $this->isLogin()->carts()->latest()->first()->cart_token]);
+        if ($this->isLogin() and $cart_token = $this->isLogin()->carts()->latest()->first()?->cart_token)
+            session(['cart_item' => $cart_token]);
 
         session(['cart_item' => $this->generateToken()]);
     }
@@ -128,23 +129,27 @@ class CartService
 
     public function calculateCartTotal()
     {
-        $this->clientCart = $this->resolveCart();
+        $this->resolveCart();
         $totalPrice = 0;
         if ($this->clientCart) {
             foreach ($this->clientCart->cartItems as $item) {
 
-                $item->final_unit_price = $item->productVariant->countable();
+                $item->final_unit_price = isset($this->clientCart?->discount_id) == true ? $item->productVariant->price : $item->productVariant->countable();
                 $item->unit_price = $item->productVariant->price;
-                $item->discount_id = $item->productVariant->validDiscount()?->id;
-                $item->discount_amount = $item->productVariant->validDiscount()->value ?? 0;
-                $item->discount_type = $item->productVariant->validDiscount()?->type;
+                $item->discount_id = isset($this->clientCart?->discount_id) == true ? null : $item->productVariant->validDiscount()?->id;
+                $item->discount_amount = isset($this->clientCart?->discount_id) == true ? 0 : $item->productVariant->validDiscount()->value ?? 0;
+                $item->discount_type = isset($this->clientCart?->discount_id) == true ? null : $item->productVariant->validDiscount()?->type;
                 $item->save();
 
-
-                $totalPrice += ($item->productVariant->countable() * $item->quantity);
+                $totalPrice += ((isset($this->clientCart?->discount_id) == true ?   $item->productVariant->price  : $item->productVariant->countable()) * $item->quantity);
             }
             $this->clientCart->final_price = $totalPrice;
+            $this->clientCart->total_price = $totalPrice;
             $this->clientCart->save();
+            if (isset($this->clientCart?->discount_id)) {
+                $this->clientCart->final_price = $this->clientCart->calculateCartTotal();
+                $this->clientCart->save();
+            }
         }
     }
     public function updateCartItemQuantity(CartItem $cartItem, $quantity)
@@ -186,27 +191,96 @@ class CartService
 
     public function applyDiscountCode()
     {
+        $this->resolveCart();
         $code = request()->input('quantity');
         $user = Auth::user();
         $copen = $user->getUserDiscountCode()->where('code', $code)->first();
-        if ($copen and $user) {
-            $this->calculateCartTotal();
-            $this->resolveCart();
-            if (isset($copen->min_order_amount) && $this->clientCart?->final_price  < $copen->min_order_amount) {
+        $userHasCartItem = $user->carts()->latest()->first()?->cartItems()->exists();
+        $price = $this->clientCart->total_price;
+        if ($copen and $user and $userHasCartItem) {
+
+
+            if (isset($copen->min_order_amount) && $this->clientCart?->total_price  < $copen->min_order_amount) {
                 $this->statusCode = 422;
                 $this->message = " حداقل مبلغ سبد خرید باید " . numberFormatAble(($copen->min_order_amount / 10) ?? 0) . " تومان باشد";
                 $this->status = false;
                 return;
             }
 
+
+
+            if ($copen->type == 'fixed' and $copen->value > $price) {
+                $this->statusCode = 422;
+                $this->message = " مبلغ سبد خرید برای اعمال این تخفیف کافی نیست.";
+                $this->status = false;
+                return;
+            }
+            if ($copen->type == 'percentage' and $copen->value > 0) {
+                $diffrencePrice = ceil(($price * $copen->value) / 100);
+                if ($price < $diffrencePrice) {
+                    $this->statusCode = 422;
+                    $this->message = " مبلغ سبد خرید برای اعمال این تخفیف کافی نیست.";
+                    $this->status = false;
+                    return;
+                }
+            }
+
+
+            if (isset($copen->min_order_amount) && $this->clientCart?->total_price  < $copen->min_order_amount) {
+                $this->statusCode = 422;
+                $this->message = " حداقل مبلغ سبد خرید باید " . numberFormatAble(($copen->min_order_amount / 10) ?? 0) . " تومان باشد";
+                $this->status = false;
+                return;
+            }
+
+
+
+            $this->clientCart->update([
+                'discount_id' => $copen->id,
+                'discount_type' => $copen->type,
+                'discount_amount' => $copen->value,
+            ]);
+            $this->calculateCartTotal();
+
+
             $this->statusCode = 200;
             $this->message = "تخفیف شما اعمال شد.";
             $this->status = true;
-            $this->data['value'] = $copen->value;
+            $this->data['value'] = $this->clientCart->calculateDiscountAmount();
+            
             return;
         }
         $this->statusCode = 422;
-        $this->message = "کدتخفیف وارد شده تحیح نمیباشد.";
+        $this->message = "کدتخفیف وارد شده صحیح نمیباشد.";
+        $this->status = false;
+        return;
+    }
+
+    public function deleteDiscountCode()
+    {
+        $code = request()->input('quantity');
+        $user = Auth::user();
+        $copen = $user->getUserDiscountCode()->where('code', $code)->first();
+        $userHasCartItem = $user->carts()->latest()->first()?->cartItems()->exists();
+        if ($copen and $user and $userHasCartItem) {
+            $this->resolveCart();
+
+            $this->clientCart->update([
+                'discount_id' => null,
+                'discount_type' => null,
+                'discount_amount' => 0,
+            ]);
+
+            $this->calculateCartTotal();
+
+
+            $this->statusCode = 200;
+            $this->message = "تخفیف شما حذف شد.";
+            $this->status = true;
+            return;
+        }
+        $this->statusCode = 422;
+        $this->message = "کدتخفیف وارد شده صحیح نمیباشد.";
         $this->status = false;
         return;
     }

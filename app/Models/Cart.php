@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Override;
 
 class Cart extends Model
 {
@@ -14,7 +15,9 @@ class Cart extends Model
         'discount_id',
         'discount_type',
         'status',
-        'final_price'
+        'final_price',
+        'discount_amount',
+        'total_price'
     ];
     public function user()
     {
@@ -36,7 +39,7 @@ class Cart extends Model
         return $this->hasMany(CartItem::class, 'cart_id');
     }
 
-public function getDiscountCode(): ?Discount
+    public function getDiscountCode(): ?Discount
     {
         $discount = null;
         $dateNow = Carbon::now()->toDateString();
@@ -51,9 +54,44 @@ public function getDiscountCode(): ?Discount
             if (isset($item->discount_type) && !isset($this->discount_id)) {
                 return (($item->unit_price - $item->final_unit_price) * $item->quantity);
             }
-
-        
+            if (isset($this->discount_id)) {
+                return $this->calculateDiscountAmount();
+            }
         });
         return $totalDiscount;
+    }
+
+    public function calculateDiscountAmount()
+    {
+        $total = 0;
+        $discount = $this->discount;
+        $price = $this->total_price;
+
+        if ($discount) {
+            if ($discount->type == 'fixed' and $discount->value < $price) {
+                $total=  $discount->value;
+            } elseif ($discount->type == 'percentage' and $discount->value > 0) {
+                $diffrencePrice = ceil(($price * $discount->value) / 100);
+                if ($price > $diffrencePrice)
+                    $total =  $diffrencePrice;
+            }
+        }
+        return $total;
+    }
+    public function calculateCartTotal()
+    {
+        $discount = $this->discount;
+        $prie = $this->final_price;
+
+        if ($discount) {
+            if ($discount->type == 'fixed' and $discount->value < $prie) {
+                $prie = $prie - $discount->value;
+            } elseif ($discount->type == 'percentage' and $discount->value > 0) {
+                $diffrencePrice = ceil(($prie * $discount->value) / 100);
+                if ($prie > $diffrencePrice)
+                    $prie = $prie - $diffrencePrice;
+            }
+        }
+        return $prie;
     }
 }

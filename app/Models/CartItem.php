@@ -75,7 +75,6 @@ class CartItem extends Model
 
     public function calculateDiscount()
     {
-        $cart = $this->cart;
 
         $unitDiscountPrice = 0;
         if (isset($this->discount_type)) {

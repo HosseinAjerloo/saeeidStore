@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('discount_type', ['percentage','fixed'])->nullable();
             $table->decimal('discount_amount', 20, 3)->default(0);
             $table->enum('status', ['active','checkout'])->default('active');
+            $table->decimal('total_price', 20, 3)->default(0);
             $table->decimal('final_price', 20, 3)->default(0);
             $table->timestamps();
         });
