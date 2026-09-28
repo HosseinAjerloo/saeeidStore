@@ -66,13 +66,13 @@ class Cart extends Model
         $total = 0;
         $discount = $this->discount;
         $price = $this->total_price;
-
+        
         if ($discount) {
             if ($discount->type == 'fixed' and $discount->value < $price) {
                 $total=  $discount->value;
-            } elseif ($discount->type == 'percentage' and $discount->value > 0) {
-                $diffrencePrice = ceil(($price * $discount->value) / 100);
-                if ($price > $diffrencePrice)
+                } elseif ($discount->type == 'percentage' and $discount->value > 0) {
+                    $diffrencePrice = ceil(($price * $discount->value) / 100);
+                if ($price >= $diffrencePrice)
                     $total =  $diffrencePrice;
             }
         }
@@ -81,17 +81,19 @@ class Cart extends Model
     public function calculateCartTotal()
     {
         $discount = $this->discount;
-        $prie = $this->final_price;
+        $price = $this->total_price;
 
         if ($discount) {
-            if ($discount->type == 'fixed' and $discount->value < $prie) {
-                $prie = $prie - $discount->value;
+            if ($discount->type == 'fixed' and $discount->value < $price) {
+                $price = $price - $discount->value;
+                    $price = floor($price / 100) * 100;
             } elseif ($discount->type == 'percentage' and $discount->value > 0) {
-                $diffrencePrice = ceil(($prie * $discount->value) / 100);
-                if ($prie > $diffrencePrice)
-                    $prie = $prie - $diffrencePrice;
+                $diffrencePrice = ceil(($price * $discount->value) / 100);
+                if ($price >= $diffrencePrice)
+                    $price = $price - $diffrencePrice;
+                    $price = floor($price / 100) * 100;
             }
         }
-        return $prie;
+        return $price;
     }
 }

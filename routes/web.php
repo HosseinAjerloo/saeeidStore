@@ -138,9 +138,9 @@ Route::get('test', function () {
 
     // //                 $cartService->applyDiscountCode();
     // $user = Auth::user();
-    // $session = session('cart_item');
+    $session = session('cart_item');
     // // $discount=Discount::find(1);
-    // dd($user, $session);
+    dd( $session);
 
   
 });

@@ -48,9 +48,12 @@ class ProductVariant extends Model
         if ($discount->type == 'percentage') {
             $amount = ($price - (($discount->value * $price) / 100));
             $amount = ceil($amount);
+
+                 $amount = floor($amount / 100) * 100;
         } else {
             $amount = ($price - $discount->value);
             $amount = ceil($amount);
+                  $amount = floor($amount / 100) * 100;
         }
         return $amount;
     }

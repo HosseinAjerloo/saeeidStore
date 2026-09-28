@@ -61,7 +61,7 @@ class AuthController extends Controller
                     }
                 }
 
-                $cart = $newUser->carts()->whereHas('cartItems')
+                $cart = $newUser->carts()
                     ->where('status', 'active')
                     ->latest()->with('cartItems')
                     ->first();
@@ -72,7 +72,7 @@ class AuthController extends Controller
 
                         $query->where('id', '!=', $cart->id)->where('status', 'active');
                     });
-                })->whereHas('cartItems')->with('cartItems');
+                })->with('cartItems');
 
                 $userCarts = $outherCarts->get();
 

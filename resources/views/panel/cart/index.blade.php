@@ -150,8 +150,9 @@
                     </div>
 
                     <!-- تخفیف سبد -->
-                    <div class="bg-success-subtle text-success rounded p-2 mb-3 small text-center">
-                        <i class="bi bi-tags"></i> ۳۸٪ تخفیف برای این سفارش!
+                    <div class="bg-success-subtle text-success rounded p-2 mb-3 small text-center d-none">
+                        <i class="bi bi-tags"></i>
+                        <span id="discountDiscription" ></span>
                     </div>
 
                     <a href="checkout-shipping.html" class="btn btn-cta w-100 btn-lg mb-2">
@@ -191,7 +192,9 @@
         let totalPrice = 0;
         let totalPriceWidouthDiscount = 0;
         let isUserSpecificDiscount = Boolean({{ $cart->discount_id ? 1 : 0 }});
-        let = value = {{ $cart?->calculateDiscountAmount() }};
+        let value = "{{ $cart?->discount_amount }}";
+        let discountType = "{{ $cart?->discount_type }}";
+
 
         const userDiscount = document.querySelector('#discountUser');
 
@@ -246,6 +249,7 @@
                     }).then(result => {
                         if (result && result?.data?.value) {
                             value = result?.data?.value;
+                            discountType=result?.data?.discountType
                             bun.setAttribute('data-type', 'remove')
                             bun.innerText = 'حذف  کد تخفیف'
                             isUserSpecificDiscount = true
@@ -269,11 +273,13 @@
                             showToast(result?.message, 'success')
                             inputDiscountUser.value = ''
                             isUserSpecificDiscount = false
+                             value =0;
+                            discountType=null;
                             showToast(result?.message, 'success')
 
 
                         }
-                           calculateDiscountFunc()
+                        calculateDiscountFunc()
                     }).catch(result => {
                         showToast(result?.message, 'error')
                     })
@@ -310,10 +316,15 @@
             return promise;
         }
 
-       function calculateDiscountFunc() {
-    calculateDiscount = 0;
-    totalPrice = 0;
-    totalPriceWidouthDiscount = 0;
+
+function calculateDiscountFunc() {
+    let calculateDiscount = 0;
+    let totalPrice = 0;
+    let totalPriceWidouthDiscount = 0;
+    let DiffrencetotalPriceWithoutDiscount = 0;
+    let finalPrice = 0;
+    let totalPriceWithoutDiscount = 0;
+    let discountAmount = 0;
 
     const formatPrice = (price) => {
         return numberFormat.format(price).replaceAll('٬', '.');
@@ -361,8 +372,6 @@
     }
 
     // تخفیف مخصوص کاربر
-    let totalPriceWithoutDiscount = 0;
-
     document
         .querySelectorAll('input[data-unitpricewithoutdiscount]')
         .forEach(input => {
@@ -371,13 +380,38 @@
                 Number(input.value);
         });
 
-    const finalPrice = (totalPriceWithoutDiscount - value) / 10;
+    finalPrice = totalPriceWithoutDiscount;
 
     if (finalPrice > 0) {
         toggleDiscountAmount(false);
 
-        const discountAmount = value / 10;
+        if (discountType == 'percentage') {
+            discountAmount = Math.ceil(
+                (totalPriceWithoutDiscount * value) / 100
+            );
+
+            if (totalPriceWithoutDiscount >= discountAmount) {
+                finalPrice =
+                    totalPriceWithoutDiscount - discountAmount;
+            }
+        } else {
+            discountAmount = value;
+
+            if (totalPriceWithoutDiscount >= value) {
+                finalPrice =
+                    totalPriceWithoutDiscount - value;
+            }
+        }
+
+        finalPrice = Math.ceil(finalPrice);
+        finalPrice = Math.floor(finalPrice / 100) * 100;
+
+        discountAmount =
+            totalPriceWithoutDiscount - finalPrice;
+
+        discountAmount /= 10;
         totalPriceWithoutDiscount /= 10;
+        finalPrice /= 10;
 
         showPrices(
             discountAmount,
@@ -386,6 +420,8 @@
         );
     }
 }
+
+
 
         calculateDiscountFunc();
 

@@ -131,19 +131,21 @@ class CartService
     {
         $this->resolveCart();
         $totalPrice = 0;
+        $final_price=0;
         if ($this->clientCart) {
             foreach ($this->clientCart->cartItems as $item) {
 
-                $item->final_unit_price = isset($this->clientCart?->discount_id) == true ? $item->productVariant->price : $item->productVariant->countable();
+                $item->final_unit_price = $item->productVariant->countable();
                 $item->unit_price = $item->productVariant->price;
-                $item->discount_id = isset($this->clientCart?->discount_id) == true ? null : $item->productVariant->validDiscount()?->id;
-                $item->discount_amount = isset($this->clientCart?->discount_id) == true ? 0 : $item->productVariant->validDiscount()->value ?? 0;
-                $item->discount_type = isset($this->clientCart?->discount_id) == true ? null : $item->productVariant->validDiscount()?->type;
+                $item->discount_id =  $item->productVariant->validDiscount()?->id;
+                $item->discount_amount = $item->productVariant->validDiscount()->value ?? 0;
+                $item->discount_type =  $item->productVariant->validDiscount()?->type;
                 $item->save();
 
-                $totalPrice += ((isset($this->clientCart?->discount_id) == true ?   $item->productVariant->price  : $item->productVariant->countable()) * $item->quantity);
+                $final_price += ((isset($this->clientCart?->discount_id) == true ?   $item->productVariant->price  : $item->productVariant->countable()) * $item->quantity);
+                $totalPrice +=   $item->productVariant->price  * $item->quantity;
             }
-            $this->clientCart->final_price = $totalPrice;
+            $this->clientCart->final_price = $final_price;
             $this->clientCart->total_price = $totalPrice;
             $this->clientCart->save();
             if (isset($this->clientCart?->discount_id)) {
@@ -246,7 +248,8 @@ class CartService
             $this->statusCode = 200;
             $this->message = "تخفیف شما اعمال شد.";
             $this->status = true;
-            $this->data['value'] = $this->clientCart->calculateDiscountAmount();
+            $this->data['value'] = $this->clientCart->discount_amount;
+            $this->data['discountType'] = $this->clientCart->discount_type;
             
             return;
         }
