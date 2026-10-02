@@ -79,7 +79,10 @@ class PanelController extends Controller
     public function show(Product $product,ProductVariant $productVariant)
     {
          $parentChainGroups=getParentChain($product->group);
-        return view('panel.product',compact('product','parentChainGroups','productVariant'));
+         $ProductVariants=ProductVariant::where('stock',">=",1)->where('is_active','1')->whereHas('product',function($query) use($product){
+            $query->where('is_active','1')->whereIn('group_id',[$product->group_id]);
+         })->get();
+        return view('panel.product',compact('product','parentChainGroups','productVariant','ProductVariants'));
     }
 
     /**

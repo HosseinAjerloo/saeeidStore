@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Cart;
+use App\Models\City;
 use App\Models\Discount;
 use App\Models\ProductGroup;
+use App\Models\Province;
 use App\Service\Cart\CartService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -106,10 +108,9 @@ Route::name('panel.')->group(function () {
         Route::get('shoping', [App\Http\Controllers\Panel\PanelController::class, 'shoping'])->name('shoping');
 
         Route::prefix('profile')->name('profile.')->group(function () {
-
             Route::get('', [App\Http\Controllers\Panel\User\ProfileController::class, 'index'])->name('index');
-
             Route::get('account', [App\Http\Controllers\Panel\User\ProfileController::class, 'account'])->name('account');
+            Route::get('address', [App\Http\Controllers\Panel\User\ProfileController::class, 'address'])->name('address');
         });
     });
 
@@ -140,7 +141,7 @@ Route::get('test', function () {
     // $user = Auth::user();
     $session = session('cart_item');
     // // $discount=Discount::find(1);
-    dd( $session);
+    dd( Province::all());
 
   
 });

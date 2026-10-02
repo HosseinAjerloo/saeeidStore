@@ -90,6 +90,11 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class, 'user_id');
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'user_id');
+    }
+
     public function getActive(): Attribute
     {
         return Attribute::make(

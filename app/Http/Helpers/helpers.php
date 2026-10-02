@@ -6,10 +6,11 @@ function normalizeDate($date){
 function numberFormatAble($value){
     return number_format($value,0,'/','.');
 }
+
 function getParentChain($category){
     $parents=array();
     while ($category->parent){
-        array_push($parents,$category->parent->name);
+        array_push($parents,$category->parent);
         $category=$category->parent;
     }
        return array_reverse($parents);

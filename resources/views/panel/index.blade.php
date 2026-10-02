@@ -464,9 +464,11 @@
                                         <span class="stars">★★★★★</span>
                                         <span>(۲۲ نظر)</span>
                                     </div>
+                                    <div class="product-old-price">&nbsp;</div>
                                     <div class="product-price-row">
                                         <div class="product-price">{{numberFormatAble(($item->price /10))??0}}
-                                            <small>ت</small></div>
+                                            <small>ت</small>
+                                        </div>
                                         <button class="btn-add-to-cart"
                                                 onclick='addToCart({{$item->id}},"{{$item->product?->name}}")'>
                                                 <i  class="bi bi-bag-plus"></i>

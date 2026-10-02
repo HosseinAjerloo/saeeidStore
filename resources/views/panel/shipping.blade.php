@@ -121,31 +121,7 @@
           </div>
         </div>
         
-        <!-- زمان تحویل -->
-        <div class="content-box">
-          <h5><i class="bi bi-clock text-primary-custom"></i> زمان تحویل</h5>
-          <div class="row g-2">
-            <div class="col-md-4">
-              <div class="border rounded p-3 text-center cursor-pointer" style="border-color:var(--color-primary)!important;background-color:rgba(108,92,231,0.05);">
-                <small class="text-muted-custom d-block">فردا</small>
-                <strong>۱۸ تیر</strong>
-                <small class="d-block text-primary-custom">سریع‌ترین</small>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="border rounded p-3 text-center cursor-pointer">
-                <small class="text-muted-custom d-block">پس‌فردا</small>
-                <strong>۱۹ تیر</strong>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="border rounded p-3 text-center cursor-pointer">
-                <small class="text-muted-custom d-block">۲۰ تیر</small>
-                <strong>شنبه</strong>
-              </div>
-            </div>
-          </div>
-        </div>
+     
       </div>
       
       <!-- خلاصه سفارش -->

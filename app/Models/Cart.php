@@ -86,12 +86,12 @@ class Cart extends Model
         if ($discount) {
             if ($discount->type == 'fixed' and $discount->value < $price) {
                 $price = $price - $discount->value;
-                    $price = floor($price / 100) * 100;
+                    $price = floor($price / 1000) * 1000;
             } elseif ($discount->type == 'percentage' and $discount->value > 0) {
                 $diffrencePrice = ceil(($price * $discount->value) / 100);
                 if ($price >= $diffrencePrice)
                     $price = $price - $diffrencePrice;
-                    $price = floor($price / 100) * 100;
+                    $price = floor($price / 1000) * 1000;
             }
         }
         return $price;

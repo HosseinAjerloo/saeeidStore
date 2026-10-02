@@ -31,5 +31,9 @@ class DatabaseSeeder extends Seeder
                 'type'=>'admin'
             ]);
         }
+        $this->call([
+            ProvinceSeeder::class,
+            CitySeeder::class
+        ]);
     }
 }

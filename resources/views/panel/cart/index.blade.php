@@ -155,7 +155,7 @@
                         <span id="discountDiscription" ></span>
                     </div>
 
-                    <a href="checkout-shipping.html" class="btn btn-cta w-100 btn-lg mb-2">
+                    <a href="{{route('panel.shoping')}}" class="btn btn-cta w-100 btn-lg mb-2">
                         ادامه فرآیند خرید <i class="bi bi-arrow-left"></i>
                     </a>
 
@@ -404,7 +404,7 @@ function calculateDiscountFunc() {
         }
 
         finalPrice = Math.ceil(finalPrice);
-        finalPrice = Math.floor(finalPrice / 100) * 100;
+        finalPrice = Math.floor(finalPrice / 1000) * 1000;
 
         discountAmount =
             totalPriceWithoutDiscount - finalPrice;

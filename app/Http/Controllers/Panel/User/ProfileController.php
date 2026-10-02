@@ -22,6 +22,11 @@ class ProfileController extends Controller
         return view('panel.user.profile.account');
     }
 
+    public function address(){
+                return view('panel.user.profile.address');
+
+    }
+
     /**
      * Show the form for creating a new resource.
      */

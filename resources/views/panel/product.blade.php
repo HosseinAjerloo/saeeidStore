@@ -2,13 +2,13 @@
 @section('content')
     <div class="container">
         <nav class="breadcrumb-custom">
-            <a href="{{route('panel.index')}}">خانه</a>
-            @foreach($parentChainGroups as $group)
+            <a href="{{ route('panel.index') }}">خانه</a>
+            @foreach ($parentChainGroups as $group)
                 <span class="separator">/</span>
-                <a href="search.html">{{$group}}</a>
+                <a href="search.html">{{ $group->name ?? '' }}</a>
             @endforeach
             <span class="separator">/</span>
-            <span class="active">{{$product->name}}</span>
+            <span class="active">{{ $product->name }}</span>
         </nav>
     </div>
 
@@ -19,47 +19,46 @@
                 <div class="col-lg-5">
                     <div class="product-gallery">
                         <div class="product-gallery-main">
-                            <img id="main-product-image" src="{{asset($product->image)}}" alt="{{$product->name??''}}"
-                                 style="transition:opacity .3s;"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 300%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%22150%22 y=%22170%22 font-size=%22100%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                            <img id="main-product-image" src="{{ asset($product->image) }}" alt="{{ $product->name ?? '' }}"
+                                style="transition:opacity .3s;"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 300%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%22150%22 y=%22170%22 font-size=%22100%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div class="product-gallery-thumbs">
                             <div class="thumb active"
-                                 onclick="changeMainImage('../images/products/watch-mens-gshock-black.jpg', this)">
+                                onclick="changeMainImage('../images/products/watch-mens-gshock-black.jpg', this)">
                                 <img src="../images/products/watch-mens-gshock-black.jpg" alt=""
-                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                             </div>
                             <div class="thumb"
-                                 onclick="changeMainImage('../images/products/watch-mens-seiko-silver.jpg', this)">
+                                onclick="changeMainImage('../images/products/watch-mens-seiko-silver.jpg', this)">
                                 <img src="../images/products/watch-mens-seiko-silver.jpg" alt=""
-                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                             </div>
                             <div class="thumb"
-                                 onclick="changeMainImage('../images/products/watch-mens-gshock-side.jpg', this)">
+                                onclick="changeMainImage('../images/products/watch-mens-gshock-side.jpg', this)">
                                 <img src="../images/products/watch-mens-gshock-side.jpg" alt=""
-                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                             </div>
                             <div class="thumb"
-                                 onclick="changeMainImage('../images/products/watch-womens-rose-gold.jpg', this)">
+                                onclick="changeMainImage('../images/products/watch-womens-rose-gold.jpg', this)">
                                 <img src="../images/products/watch-womens-rose-gold.jpg" alt=""
-                                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                             </div>
                         </div>
                     </div>
 
                     <!-- ویژگی‌های کلیدی -->
-                    @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
-
+                    @if ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
                         <div class="content-box mt-3">
                             <h5><i class="bi bi-stars text-primary-custom"></i> ویژگی‌های کلیدی</h5>
 
                             <div class="d-flex flex-wrap gap-2">
-                                @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal')) ->get() as $variantAttributes)
+                                @foreach ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->get() as $variantAttributes)
                                     <span class="feature-pill">
-                                    <i class="bi bi-shield"></i>
-                                 {{ $variantAttributes?->attribute->name ?? '' }}:
-                                     {{ $variantAttributes?->attributeValue->value ?? '' }}
-                                </span>
+                                        <i class="bi bi-shield"></i>
+                                        {{ $variantAttributes?->attribute->name ?? '' }}:
+                                        {{ $variantAttributes?->attributeValue->value ?? '' }}
+                                    </span>
                                 @endforeach
                             </div>
                         </div>
@@ -71,12 +70,12 @@
                 <div class="col-lg-4">
                     <div class="content-box">
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <span class="badge bg-soft text-primary-custom">{{$product->brand->name??''}}</span>
+                            <span class="badge bg-soft text-primary-custom">{{ $product->brand->name ?? '' }}</span>
                             <span
-                                class="badge bg-success-subtle  {{$productVariant->stock>0?'text-success':'text-danger'}}">{{$productVariant->stock>0?'موجود':'ناموجود'}}</span>
+                                class="badge bg-success-subtle  {{ $productVariant->stock > 0 ? 'text-success' : 'text-danger' }}">{{ $productVariant->stock > 0 ? 'موجود' : 'ناموجود' }}</span>
 
                         </div>
-                        <h1 class="fs-4 fw-bold mb-2">{{$product->name??''}}</h1>
+                        <h1 class="fs-4 fw-bold mb-2">{{ $product->name ?? '' }}</h1>
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <span class="text-warning">★★★★★</span>
                             <a href="#comments" class="small text-primary-custom">(۴۲ نظر)</a>
@@ -88,15 +87,15 @@
 
                         <hr>
 
-                        @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color'))->exists())
+                        @if ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color'))->exists())
                             <div class="mb-3">
                                 <label class="fw-bold small mb-2">رنگ:</label>
                                 <div class="d-flex gap-2">
-                                    @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color')) ->get() as $key=> $variantAttributes)
-                                        <span data-value="{{$variantAttributes->attribute_value_id}}" class="color-swatch @if($key==0) selected  @endif"
-                                              style="background: {{ $variantAttributes?->attributeValue->value ?? '' }};"
-                                              onclick="selectColor(this)"></span>
-
+                                    @foreach ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'color'))->get() as $key => $variantAttributes)
+                                        <span data-value="{{ $variantAttributes->attribute_value_id }}"
+                                            class="color-swatch @if ($key == 0) selected @endif"
+                                            style="background: {{ $variantAttributes?->attributeValue->value ?? '' }};"
+                                            onclick="selectColor(this)"></span>
                                     @endforeach
 
 
@@ -104,14 +103,9 @@
                             </div>
                         @endif
 
-                    <!-- گارانتی -->
+                        <!-- گارانتی -->
                         <div class="mb-3 row">
-                            @foreach($productVariant->variantAttributes()
-                                ->with('attribute')
-                                ->whereHas('attribute', fn($query) => $query->where('type', 'normal'))
-                                ->limit(3)
-                                ->get() as $variantAttributes)
-
+                            @foreach ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->limit(3)->get() as $variantAttributes)
                                 <div class="d-flex flex-wrap gap-2 align-items-center">
                                     <label class="fw-bold small mb-2">
                                         {{ $variantAttributes?->attribute->name ?? '' }}:
@@ -124,28 +118,27 @@
                                         </span>
                                     </div>
                                 </div>
-
                             @endforeach
                         </div>
 
                         <hr>
 
-                        @if($product->inValidDiscount())
+                        @if ($product->inValidDiscount())
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <div>
                                     <div class="text-muted-custom text-decoration-line-through small">
-                                        {{numberFormatAble(($productVariant->price /10))??0}} تومان
+                                        {{ numberFormatAble($productVariant->price / 10) ?? 0 }} تومان
                                     </div>
-                                    <div
-                                        class="fs-3 fw-bold text-primary-custom">{{numberFormatAble(($productVariant->countable()/10))??0}}
-                                        <small
-                                            class="fs-6">تومان</small></div>
+                                    <div class="fs-3 fw-bold text-primary-custom">
+                                        {{ numberFormatAble($productVariant->countable() / 10) ?? 0 }}
+                                        <small class="fs-6">تومان</small>
+                                    </div>
                                 </div>
                                 <span class="product-discount-badge fs-6">
-                                         @if($product->inValidDiscount()->type=='percentage')
-                                        {{numberFormatAble($product->inValidDiscount()->value??0)}}%
+                                    @if ($product->inValidDiscount()->type == 'percentage')
+                                        {{ numberFormatAble($product->inValidDiscount()->value ?? 0) }}%
                                     @else
-                                        {{numberFormatAble(($product->inValidDiscount()->value /10)??0)}} ت
+                                        {{ numberFormatAble($product->inValidDiscount()->value / 10 ?? 0) }} ت
                                     @endif
                                     تخفیف
                                 </span>
@@ -155,25 +148,24 @@
                                 <div>
 
                                     <div class="fs-3 fw-bold text-primary-custom">
-                                        {{numberFormatAble(($productVariant->price /10))??0}}
+                                        {{ numberFormatAble($productVariant->price / 10) ?? 0 }}
                                         <small class="fs-6">تومان</small>
                                     </div>
                                 </div>
                             </div>
-                    @endif
+                        @endif
 
 
-                    <!-- دکمه‌ها -->
+                        <!-- دکمه‌ها -->
                         <div class="d-grid gap-2">
-                            @if($productVariant->stock>0)
+                            @if ($productVariant->stock > 0)
                                 <button class="btn btn-cta btn-lg" onclick="addToCart(1, 'ساعت کاسیو G-Shock')">
                                     <i class="bi bi-bag-plus"></i> افزودن به سبد خرید
                                 </button>
                             @endif
-                            @if(\Illuminate\Support\Facades\Auth::check())
+                            @if (\Illuminate\Support\Facades\Auth::check())
                                 <div class="d-flex gap-2">
-                                    <button class="btn btn-outline-primary-custom flex-fill"
-                                            onclick="toggleFavorite(this)">
+                                    <button class="btn btn-outline-primary-custom flex-fill" onclick="toggleFavorite(this)">
                                         <i class="bi bi-heart"></i> علاقه‌مندی
                                     </button>
 
@@ -204,25 +196,24 @@
                     <ul class="nav custom-tabs desktop-tabs" id="productTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-desc" type="button"
-                                    aria-selected="false" role="tab" tabindex="-1">توضیحات محصول
+                                aria-selected="false" role="tab" tabindex="-1">توضیحات محصول
                             </button>
                         </li>
-                        @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
-
+                        @if ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-specs" type="button"
-                                        aria-selected="false" tabindex="-1" role="tab">مشخصات فنی
+                                    aria-selected="false" tabindex="-1" role="tab">مشخصات فنی
                                 </button>
                             </li>
                         @endif
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-comments" type="button"
-                                    aria-selected="false" tabindex="-1" role="tab">نظرات کاربران (۴۲)
+                                aria-selected="false" tabindex="-1" role="tab">نظرات کاربران (۴۲)
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-questions"
-                                    type="button" aria-selected="true" role="tab">پرسش و پاسخ
+                                type="button" aria-selected="true" role="tab">پرسش و پاسخ
                             </button>
                         </li>
                     </ul>
@@ -233,15 +224,14 @@
                             <div class="content-box">
                                 <h5>توضیحات محصول</h5>
                                 <p>
-                                    {{$product->description??''}}
+                                    {{ $product->description ?? '' }}
                                 </p>
 
 
                             </div>
                         </div>
 
-                        @if($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
-
+                        @if ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->exists())
                             <div class="tab-pane fade mobile-tab-content" id="tab-specs" role="tabpanel">
                                 <div class="content-box product-specs-box">
                                     <div class="section-head-row">
@@ -255,11 +245,11 @@
 
                                     <div class="spec-group">
                                         <h6><i class="bi bi-info-circle text-primary-custom"></i> اطلاعات کلی</h6>
-                                        @foreach($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->get() as $variantAttribute)
+                                        @foreach ($productVariant->variantAttributes()->with('attribute')->whereHas('attribute', fn($query) => $query->where('type', 'normal'))->get() as $variantAttribute)
                                             <div class="spec-list mt-2">
                                                 <div class="spec-row">
-                                                    <span>{{$variantAttribute->attribute->name??''}}</span>
-                                                    <strong>{{$variantAttribute->attributeValue->value??''}}</strong>
+                                                    <span>{{ $variantAttribute->attribute->name ?? '' }}</span>
+                                                    <strong>{{ $variantAttribute->attributeValue->value ?? '' }}</strong>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -268,10 +258,9 @@
 
                                 </div>
                             </div>
+                        @endif
 
-                    @endif
-
-                    <!-- نظرات -->
+                        <!-- نظرات -->
                         <div class="tab-pane fade mobile-tab-content" id="tab-comments" role="tabpanel">
                             <div class="content-box">
                                 <div class="section-head-row">
@@ -330,27 +319,25 @@
                                                 <label class="form-label">امتیاز شما</label>
                                                 <div class="star-rating d-inline-flex">
                                                     <input type="radio" id="product-star-5" name="product-rating"
-                                                           value="5"><label for="product-star-5">★</label>
+                                                        value="5"><label for="product-star-5">★</label>
                                                     <input type="radio" id="product-star-4" name="product-rating"
-                                                           value="4"><label for="product-star-4">★</label>
+                                                        value="4"><label for="product-star-4">★</label>
                                                     <input type="radio" id="product-star-3" name="product-rating"
-                                                           value="3"><label for="product-star-3">★</label>
+                                                        value="3"><label for="product-star-3">★</label>
                                                     <input type="radio" id="product-star-2" name="product-rating"
-                                                           value="2"><label for="product-star-2">★</label>
+                                                        value="2"><label for="product-star-2">★</label>
                                                     <input type="radio" id="product-star-1" name="product-rating"
-                                                           value="1"><label for="product-star-1">★</label>
+                                                        value="1"><label for="product-star-1">★</label>
                                                 </div>
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label">عنوان نظر</label>
                                                 <input type="text" class="form-control"
-                                                       placeholder="مثلاً کیفیت ساخت عالی" required="">
+                                                    placeholder="مثلاً کیفیت ساخت عالی" required="">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">متن نظر</label>
-                                                <textarea class="form-control" rows="4"
-                                                          placeholder="تجربه خرید و استفاده خود را بنویسید..."
-                                                          required=""></textarea>
+                                                <textarea class="form-control" rows="4" placeholder="تجربه خرید و استفاده خود را بنویسید..." required=""></textarea>
                                             </div>
                                             <button type="submit" class="btn btn-primary-custom w-100"><i
                                                     class="bi bi-send"></i> ثبت نظر
@@ -440,14 +427,12 @@
                                             <div class="mb-2">
                                                 <label class="form-label">عنوان پرسش</label>
                                                 <input type="text" class="form-control"
-                                                       placeholder="مثلاً درباره گارانتی یا ارسال سوال بپرسید"
-                                                       required="">
+                                                    placeholder="مثلاً درباره گارانتی یا ارسال سوال بپرسید"
+                                                    required="">
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label">متن پرسش</label>
-                                                <textarea class="form-control" rows="4"
-                                                          placeholder="پرسش خود را کامل بنویسید..."
-                                                          required=""></textarea>
+                                                <textarea class="form-control" rows="4" placeholder="پرسش خود را کامل بنویسید..." required=""></textarea>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">شماره تماس (اختیاری)</label>
@@ -531,98 +516,97 @@
                         <a href="search.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
                     </div>
                     <div class="row g-3">
-                        <div class="col-lg-3 col-md-4 col-6">
-                            <div class="product-card">
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                    <button><i class="bi bi-arrow-left-right"></i></button>
-                                </div>
-                                <div class="product-img">
-                                    <img src="../images/products/watch-mens-seiko-silver.jpg" alt=""
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">کاسیو</div>
-                                    <h6 class="product-title"><a href="product.html">ساعت مچی کاسیو G-Shock GA-2000
-                                            مردانه</a></h6>
-                                    <div class="product-rating"><span class="stars">★★★★★</span> <span>(۳۵)</span></div>
-                                    <div class="product-price-row">
-                                        <div class="product-price">۲,۴۰۰,۰۰۰ <small>ت</small></div>
-                                        <button class="btn-add-to-cart" onclick="addToCart(14, 'کاسیو GA-2000')"><i
-                                                class="bi bi-bag-plus"></i></button>
+                        @foreach ($ProductVariants as $item)
+                            @if ($item->validDiscount())
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="product-card">
+                                        <span class="product-badge discount">
+                                            @if ($item->validDiscount()->type == 'percentage')
+                                                {{ numberFormatAble($item->validDiscount()->value ?? 0) }} %
+                                            @else
+                                                {{ numberFormatAble($item->validDiscount()->value / 10 ?? 0) }} ت
+                                            @endif
+                                        </span>
+                                        {{--                                <span class="product-badge new">جدید</span> --}}
+                                        <div class="product-actions">
+                                            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                            <button><i class="bi bi-arrow-left-right"></i></button>
+                                        </div>
+                                        <div class="product-img">
+                                            <img src="{{ asset($item->product->image) }}" alt=""
+                                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-brand">{{ $item->product?->brand->name ?? '' }}</div>
+                                            <h6 class="product-title">
+                                                <a
+                                                    href="{{ route('panel.show', ['product' => $item->product->slug, 'productVariant' => $item->id]) }}">
+                                                    {{ $item->product?->name ?? '' }}
+                                                </a>
+                                            </h6>
+                                            <div class="product-rating">
+                                                <span class="stars">★★★★★</span>
+                                                <span>(۲۲ نظر)</span>
+                                            </div>
+                                            <div class="product-old-price">{{ numberFormatAble($item->price / 10) ?? 0 }}
+                                            </div>
+                                            <div class="product-price-row">
+                                                <div class="product-price">
+                                                    {{ numberFormatAble($item->countable() / 10) ?? 0 }}
+                                                    <small>ت</small>
+                                                </div>
+                                                <button class="btn-add-to-cart"
+                                                    onclick="addToCart('{{ $item->id }}','{{ $item->product?->name ?? '' }}')"><i
+                                                        class="bi bi-bag-plus">
+
+                                                    </i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-6">
-                            <div class="product-card">
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                    <button><i class="bi bi-arrow-left-right"></i></button>
-                                </div>
-                                <div class="product-img">
-                                    <img src="../images/products/watch-mens-orient-blue.jpg" alt=""
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">اورینت</div>
-                                    <h6 class="product-title"><a href="product.html">ساعت مچی اورینت Mako II مردانه</a>
-                                    </h6>
-                                    <div class="product-rating"><span class="stars">★★★★★</span> <span>(۵۱)</span></div>
-                                    <div class="product-price-row">
-                                        <div class="product-price">۳,۳۶۰,۰۰۰ <small>ت</small></div>
-                                        <button class="btn-add-to-cart" onclick="addToCart(5, 'اورینت Mako')"><i
-                                                class="bi bi-bag-plus"></i></button>
+                                
+                            @else
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="product-card">
+                                        @if ($item->new)
+                                            <span class="product-badge new">جدید</span>
+                                        @endif
+                                        <div class="product-actions">
+                                            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                            <button><i class="bi bi-arrow-left-right"></i></button>
+                                        </div>
+                                        <div class="product-img">
+                                            <img src="{{ asset($item->product->image) }}" alt=""
+                                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-brand">{{ $item->product?->brand->name ?? '' }}</div>
+                                            <h6 class="product-title">
+                                                <a
+                                                    href="{{ route('panel.show', ['product' => $item->product->slug, 'productVariant' => $item->id]) }}">
+                                                    {{ $item->product?->name ?? '' }}
+                                                </a>
+                                            </h6>
+                                            <div class="product-rating">
+                                                <span class="stars">★★★★★</span>
+                                                <span>(۲۲ نظر)</span>
+                                            </div>
+                                            <div class="product-old-price">&nbsp;</div>
+                                            <div class="product-price-row">
+                                                <div class="product-price">{{ numberFormatAble($item->price / 10) ?? 0 }}
+                                                    <small>ت</small>
+                                                </div>
+                                                <button class="btn-add-to-cart"
+                                                    onclick='addToCart({{ $item->id }},"{{ $item->product?->name }}")'>
+                                                    <i class="bi bi-bag-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-6">
-                            <div class="product-card">
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                    <button><i class="bi bi-arrow-left-right"></i></button>
-                                </div>
-                                <div class="product-img">
-                                    <img src="../images/products/watch-mens-tissot-silver.jpg" alt=""
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">تیسوت</div>
-                                    <h6 class="product-title"><a href="product.html">ساعت مچی تیسوت PRX 40mm مردانه</a>
-                                    </h6>
-                                    <div class="product-rating"><span class="stars">★★★★★</span> <span>(۲۸)</span></div>
-                                    <div class="product-price-row">
-                                        <div class="product-price">۴,۶۷۵,۰۰۰ <small>ت</small></div>
-                                        <button class="btn-add-to-cart" onclick="addToCart(3, 'تیسوت PRX')"><i
-                                                class="bi bi-bag-plus"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-6">
-                            <div class="product-card">
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                    <button><i class="bi bi-arrow-left-right"></i></button>
-                                </div>
-                                <div class="product-img">
-                                    <img src="../images/products/watch-womens-rose-gold.jpg" alt=""
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                </div>
-                                <div class="product-info">
-                                    <div class="product-brand">سیتیزن</div>
-                                    <h6 class="product-title"><a href="product.html">ساعت مچی سیتیزن Eco-Drive
-                                            مردانه</a></h6>
-                                    <div class="product-rating"><span class="stars">★★★★★</span> <span>(۴۳)</span></div>
-                                    <div class="product-price-row">
-                                        <div class="product-price">۴,۷۶۰,۰۰۰ <small>ت</small></div>
-                                        <button class="btn-add-to-cart" onclick="addToCart(7, 'سیتیزن Eco-Drive')"><i
-                                                class="bi bi-bag-plus"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -633,49 +617,46 @@
 @endsection
 @section('script')
     <script>
-       async function addToCart(productId, productName) {
+        async function addToCart(productId, productName) {
             const cartBadge = document.querySelector('#cart-count');
             if (cartBadge) {
                 let count = parseInt(cartBadge.textContent) || 0;
 
-                sendAddToCartRequest().then(result=>{
+                sendAddToCartRequest().then(result => {
                     count++;
                     cartBadge.textContent = count;
                     cartBadge.style.display = 'flex';
                     syncBottomCartBadge();
                     showToast(result?.message, 'success');
-                }).catch(result=>{
+                }).catch(result => {
                     showToast(result?.message, 'error');
 
                 })
             }
 
         }
-       async function sendAddToCartRequest() {
-           const promise = new Promise(function (resolve, reject) {
-               const request = new XMLHttpRequest();
-               request.open('POST', "{{route('panel.cart.addCart')}}",true)
-               request.setRequestHeader('Content-Type', 'application/json');
-               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
-               request.withCredentials = true;
-               const body = JSON.stringify({
-                   variant_attribute_ids,
-                   productVariant: "{{$productVariant->id}}"
-               })
-               request.onload = function () {
-                   const response=JSON.parse(request.response);
-                   if (request.status === 200) {
-                       resolve(response)
-                   } else
-                   {
-                       reject(response)
-                   }
-               }
-               request.send(body);
-           })
-           return promise;
-       }
-
+        async function sendAddToCartRequest() {
+            const promise = new Promise(function(resolve, reject) {
+                const request = new XMLHttpRequest();
+                request.open('POST', "{{ route('panel.cart.addCart') }}", true)
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}")
+                request.withCredentials = true;
+                const body = JSON.stringify({
+                    variant_attribute_ids,
+                    productVariant: "{{ $productVariant->id }}"
+                })
+                request.onload = function() {
+                    const response = JSON.parse(request.response);
+                    if (request.status === 200) {
+                        resolve(response)
+                    } else {
+                        reject(response)
+                    }
+                }
+                request.send(body);
+            })
+            return promise;
+        }
     </script>
-
 @endsection
