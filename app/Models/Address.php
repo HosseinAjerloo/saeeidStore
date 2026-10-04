@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Address extends Model
 {
     use SoftDeletes;
+    public $table='address';
     protected $fillable = [
         'user_id',
         'province_id',
@@ -20,9 +21,7 @@ class Address extends Model
         'house_number',
         'default_address',
         'full_address',
-        'number',
-        'number',
-        'number'
+    
     ];
     public function user()
     {

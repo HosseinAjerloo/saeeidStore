@@ -12,16 +12,10 @@
     <section class="pb-5">
         <div class="container">
             <div class="row g-4">
-                <div class="col-lg-3">
-                    <div class="profile-sidebar">
-                        <div class="profile-user-info">
-                            <div class="profile-avatar">م</div>
-                            <h6 class="mb-0">محمد محمدی</h6>
-                            <small class="text-muted-custom">۰۹۱۲۳۴۵۶۷۸۹</small>
-                        </div>
+            
                             @include('panel.user.profile.sidebar')
-                    </div>
-                </div>
+                 
+              
 
                 <div class="col-lg-9">
                     <div class="d-flex justify-content-between align-items-center mb-3">

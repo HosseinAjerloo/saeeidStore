@@ -10,6 +10,7 @@ use App\Models\ProductGroup;
 use App\Models\ProductVariant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PanelController extends Controller
 {
@@ -18,6 +19,7 @@ class PanelController extends Controller
      */
     public function index()
     {
+
         $dateNow = Carbon::now()->toDateString();
         $categoriesAll = ProductGroup::whereHas('products.productVariant', function ($query) {
             $query->where('is_active', 1)

@@ -37,10 +37,10 @@
         <div class="row g-4 mt-2">
             <div class="col-lg-3 col-md-6">
                 <a href="index.html" class="footer-logo d-flex align-items-center gap-2">
-                    <i class="bi bi-clock-history text-accent"></i> زمانک
+                    <i class="bi bi-clock-history text-accent"></i> محمدی
                 </a>
                 <p class="footer-desc">
-                    زمانک، فروشگاه آنلاین تخصصی ساعت مچی با بیش از ۱۰ سال تجربه. عرضه‌کننده انواع ساعت‌های اورجینال با ضمانت اصالت کالا.
+                        فروشگاه لوازم خانگی محمدی، همراه شما در انتخابی مطمئن برای خانه‌ای بهتر. ارائه مجموعه‌ای متنوع از لوازم خانگی باکیفیت از برندهای معتبر، با تضمین اصالت کالا، قیمت مناسب و خدمات قابل اعتماد.
                 </p>
                 <div class="footer-social">
                     <a href="#"><i class="bi bi-instagram"></i></a>
@@ -75,8 +75,8 @@
             <div class="col-lg-3 col-md-6">
                 <h5 class="footer-title">تماس با ما</h5>
                 <ul class="footer-links">
-                    <li><i class="bi bi-geo-alt text-primary-custom"></i> تهران، خیابان ولیعصر، پلاک ۱۲۳۴</li>
-                    <li><i class="bi bi-telephone text-primary-custom"></i> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                    <li><i class="bi bi-geo-alt text-primary-custom"></i> تهران، بازار شوش خ فداییان اسلامکوچه 21 پلاک 23</li>
+                    <li><i class="bi bi-telephone text-primary-custom"></i> 09193753984</li>
                     <li><i class="bi bi-envelope text-primary-custom"></i> info@zamank.ir</li>
                 </ul>
                 <div class="d-flex gap-2 mt-3">
@@ -93,7 +93,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p class="mb-0">© ۱۴۰۳ تمامی حقوق برای فروشگاه زمانک محفوظ است. طراحی و توسعه با ❤️</p>
+            <p class="mb-0">© 1405 تمامی حقوق برای فروشگاه زمانک محفوظ است. طراحی و توسعه با ❤️</p>
         </div>
     </div>
 </footer>

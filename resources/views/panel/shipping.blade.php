@@ -71,7 +71,7 @@
           </div>
           
           <!-- افزودن آدرس جدید -->
-          <a href="#" class="d-block text-center p-3 border border-2 border-dashed rounded text-primary-custom" style="text-decoration:none;">
+          <a href="{{route('panel.profile.address')}}" class="d-block text-center p-3 border border-2 border-dashed rounded text-primary-custom" style="text-decoration:none;">
             <i class="bi bi-plus-circle fs-4"></i>
             <span class="fw-bold">افزودن آدرس جدید</span>
           </a>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Discount;
@@ -111,6 +112,7 @@ Route::name('panel.')->group(function () {
             Route::get('', [App\Http\Controllers\Panel\User\ProfileController::class, 'index'])->name('index');
             Route::get('account', [App\Http\Controllers\Panel\User\ProfileController::class, 'account'])->name('account');
             Route::get('address', [App\Http\Controllers\Panel\User\ProfileController::class, 'address'])->name('address');
+            Route::post('address/register', [App\Http\Controllers\Panel\User\ProfileController::class, 'address_register'])->name('address.register');
         });
     });
 
@@ -141,7 +143,7 @@ Route::get('test', function () {
     // $user = Auth::user();
     $session = session('cart_item');
     // // $discount=Discount::find(1);
-    dd( Province::all());
+    dd( Address::all());
 
   
 });
