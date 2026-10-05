@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('cart_token')->unique();
+            $table->foreignId('courier_id')->nullable()->constrained('couriers')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->decimal('courier_amount', 20, 3)->default(0);
             $table->foreignId('discount_id')->nullable()->constrained('discounts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->enum('discount_type', ['percentage','fixed'])->nullable();
             $table->decimal('discount_amount', 20, 3)->default(0);

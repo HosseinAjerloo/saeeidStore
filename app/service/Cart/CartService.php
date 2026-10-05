@@ -131,7 +131,7 @@ class CartService
     {
         $this->resolveCart();
         $totalPrice = 0;
-        $final_price=0;
+        $final_price = 0;
         if ($this->clientCart) {
             foreach ($this->clientCart->cartItems as $item) {
 
@@ -147,11 +147,16 @@ class CartService
             }
             $this->clientCart->final_price = $final_price;
             $this->clientCart->total_price = $totalPrice;
-            $this->clientCart->save();
-            if (isset($this->clientCart?->discount_id)) {
+           
+            if (isset($this->clientCart?->discount_id) and $this->clientCart?->getDiscountCode() == null) {
+                dd($this->clientCart);
+                $this->clientCart->discount_id = null;
+                $this->clientCart->discount_type = null;
+                $this->clientCart->discount_amount = 0;
+            } elseif (isset($this->clientCart->discount_id)) {
                 $this->clientCart->final_price = $this->clientCart->calculateCartTotal();
-                $this->clientCart->save();
             }
+             $this->clientCart->save();
         }
     }
     public function updateCartItemQuantity(CartItem $cartItem, $quantity)
@@ -250,7 +255,7 @@ class CartService
             $this->status = true;
             $this->data['value'] = $this->clientCart->discount_amount;
             $this->data['discountType'] = $this->clientCart->discount_type;
-            
+
             return;
         }
         $this->statusCode = 422;

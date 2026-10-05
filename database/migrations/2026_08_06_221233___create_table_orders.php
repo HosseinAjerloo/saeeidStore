@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('cart_token')->unique();
+            $table->foreignId('courier_id')->nullable()->constrained('couriers')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->decimal('courier_amount', 20, 3)->default(0);
             $table->foreignId('discount_id')->nullable()->constrained('discounts')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->enum('discount_type', ['percentage','fixed'])->nullable();
+            $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
             $table->decimal('discount_amount', 20, 3)->default(0);
-            $table->enum('status', ['pending','processing','completed','cancelled','failed'])->default('pending');
+            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled', 'failed'])->default('pending');
             $table->decimal('total_price', 20, 3)->default(0);
             $table->decimal('final_price', 20, 3)->default(0);
             $table->timestamps();

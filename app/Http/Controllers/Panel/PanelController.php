@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Models\productBrand;
 use App\Models\ProductGroup;
 use App\Models\ProductVariant;
+use App\Service\Cart\CartService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +42,7 @@ class PanelController extends Controller
 
         $discount = optional(Discount::whereHas('products', function ($queue) {
             $queue->whereNull('discountables.deleted_at');
-        })->where('is_active', '1')->where('discounts.starts_at',"<=", $dateNow)->where('discounts.expires_at', ">=", $dateNow)->first());
+        })->where('is_active', '1')->where('discounts.starts_at', "<=", $dateNow)->where('discounts.expires_at', ">=", $dateNow)->first());
 
         $diffHours = 0;
         if ($discount) {
@@ -78,13 +80,13 @@ class PanelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product,ProductVariant $productVariant)
+    public function show(Product $product, ProductVariant $productVariant)
     {
-         $parentChainGroups=getParentChain($product->group);
-         $ProductVariants=ProductVariant::where('stock',">=",1)->where('is_active','1')->whereHas('product',function($query) use($product){
-            $query->where('is_active','1')->whereIn('group_id',[$product->group_id]);
-         })->get();
-        return view('panel.product',compact('product','parentChainGroups','productVariant','ProductVariants'));
+        $parentChainGroups = getParentChain($product->group);
+        $ProductVariants = ProductVariant::where('stock', ">=", 1)->where('is_active', '1')->whereHas('product', function ($query) use ($product) {
+            $query->where('is_active', '1')->whereIn('group_id', [$product->group_id]);
+        })->get();
+        return view('panel.product', compact('product', 'parentChainGroups', 'productVariant', 'ProductVariants'));
     }
 
     /**
@@ -110,11 +112,37 @@ class PanelController extends Controller
     {
         //
     }
-    public function faq(){
+    public function faq()
+    {
         return view('panel.faq');
     }
 
-    public function shoping(){
-        return view('panel.shipping');
+    public function shoping(CartService $cartService)
+    {
+        $cart = null;
+
+        $userId = Auth::id();
+        $cartToken = session('cart_item');
+
+        if ($userId || $cartToken) {
+            $cart = Cart::query()
+                ->where('status', 'active')
+                ->where(function ($query) use ($userId, $cartToken) {
+
+                    $query->when($userId, function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    });
+
+                    $query->when($cartToken, function ($query) use ($cartToken) {
+                        $query->orWhere('cart_token', $cartToken);
+                    });
+                })->latest()
+                ->first();
+            $cartService->calculateCartTotal();
+        }
+
+        if (!isset($cart))
+            return redirect()->route('panel.index')->with(['error' => 'سبد خرید شما خالی میباشد']);
+        return view('panel.shipping', compact('cart'));
     }
 }

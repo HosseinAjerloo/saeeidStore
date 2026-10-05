@@ -86,6 +86,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('update/{discount}', [\App\Http\Controllers\Admin\Discount\DisCountController::class, 'update'])->name('update');
         Route::delete('destroy/{discount}', [\App\Http\Controllers\Admin\Discount\DisCountController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('courier')->name('courier.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\Courier\CourierController::class, 'index'])->name('index');
+        Route::get('create', [App\Http\Controllers\Admin\Courier\CourierController::class, 'create'])->name('create');
+        Route::post('store', [App\Http\Controllers\Admin\Courier\CourierController::class, 'store'])->name('store');
+        Route::get('edit/{courier}', [App\Http\Controllers\Admin\Courier\CourierController::class, 'edit'])->name('edit');
+        Route::put('update/{courier}', [App\Http\Controllers\Admin\Courier\CourierController::class, 'update'])->name('update');
+        Route::delete('destroy/{courier}', [App\Http\Controllers\Admin\Courier\CourierController::class, 'destroy'])->name('destroy');
+    });
 });
 
 
@@ -129,9 +138,6 @@ Route::name('panel.')->group(function () {
         Route::post('remove/discount', [App\Http\Controllers\Panel\Cart\CartController::class, 'deleteDiscount'])->name('deleteDiscount');
         Route::delete('/items/{cartItem}/destroy', [App\Http\Controllers\Panel\Cart\CartController::class, 'destroy'])->name('destroy');
     });
-
-
-
 });
 Route::get('test', function () {
 
@@ -143,7 +149,5 @@ Route::get('test', function () {
     // $user = Auth::user();
     $session = session('cart_item');
     // // $discount=Discount::find(1);
-    dd( Address::all());
-
-  
+    dd(Address::all());
 });

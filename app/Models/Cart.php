@@ -14,9 +14,9 @@ class Cart extends Model
         'cart_token',
         'discount_id',
         'discount_type',
+        'discount_amount',
         'status',
         'final_price',
-        'discount_amount',
         'total_price'
     ];
     public function user()
@@ -54,10 +54,11 @@ class Cart extends Model
             if (isset($item->discount_type) && !isset($this->discount_id)) {
                 return (($item->unit_price - $item->final_unit_price) * $item->quantity);
             }
-            if (isset($this->discount_id)) {
-                return $this->calculateDiscountAmount();
-            }
+            
         });
+        if (isset($this->discount_id)) {
+               return $this->calculateDiscountAmount();
+            }
         return $totalDiscount;
     }
 
@@ -69,9 +70,12 @@ class Cart extends Model
         
         if ($discount) {
             if ($discount->type == 'fixed' and $discount->value < $price) {
-                $total=  $discount->value;
+                $total=  floor($discount->value / 1000)*1000;
                 } elseif ($discount->type == 'percentage' and $discount->value > 0) {
                     $diffrencePrice = ceil(($price * $discount->value) / 100);
+
+                     $diffrencePrice = floor($diffrencePrice / 1000) * 1000;
+
                 if ($price >= $diffrencePrice)
                     $total =  $diffrencePrice;
             }

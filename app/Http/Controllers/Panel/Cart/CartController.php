@@ -35,6 +35,7 @@ class CartController extends Controller
                     });
                 })->latest()
                 ->first();
+        
             $cartService->calculateCartTotal();
         }
 
@@ -83,7 +84,7 @@ class CartController extends Controller
 
     public function deleteDiscount(Request $request, CartService $cartService)
     {
-                $request->validate([
+        $request->validate([
             'quantity' => 'required|exists:discounts,code'
         ], [
             'quantity.required' => 'وارد کردن کپن تخفیف الزامی است',
