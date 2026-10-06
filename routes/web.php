@@ -138,6 +138,8 @@ Route::name('panel.')->group(function () {
         Route::post('remove/discount', [App\Http\Controllers\Panel\Cart\CartController::class, 'deleteDiscount'])->name('deleteDiscount');
         Route::delete('/items/{cartItem}/destroy', [App\Http\Controllers\Panel\Cart\CartController::class, 'destroy'])->name('destroy');
     });
+
+    Route::get('/search',[App\Http\Controllers\Panel\PanelController::class, 'search'])->name('search');
 });
 Route::get('test', function () {
 
@@ -147,7 +149,8 @@ Route::get('test', function () {
 
     // //                 $cartService->applyDiscountCode();
     // $user = Auth::user();
-    $session = session('cart_item');
-    // // $discount=Discount::find(1);
-    dd(Address::all());
+    // $session = session('cart_item');
+    // // // $discount=Discount::find(1);
+    // dd(Address::all());
+
 });

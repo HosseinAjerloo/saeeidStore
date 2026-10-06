@@ -209,7 +209,7 @@
                            style="transition:all .3s;">
                             <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                                  style="width:80px;height:80px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);">
-                                <img width="50px" src="{{asset($category->image)}}" alt="">
+                                <img width="60px" style="transform: scale(1.3)" src="{{asset($category->image)}}" alt="">
                             </div>
                             <h6 class="mb-0">{{$category->name}}</h6>
                             <small class="text-muted-custom">۱۲۰+ محصول</small>

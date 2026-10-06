@@ -27,7 +27,7 @@
         </section>
         <section class="glass-card animate-fade-up stagger-2 overflow-hidden p-0">
             <div class="list-toolbar">
-                <form action="{{route('admin.brand.index')}}" method="GET" class="table-search flex items-center">
+                <form action="{{route('admin.courier.index')}}" method="GET" class="table-search flex items-center">
                     <input
                         name="q" type="text" class="text-white" placeholder="جست‌وجو در نام..."/>
                     <kbd>Ctrl K</kbd>

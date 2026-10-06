@@ -14,7 +14,7 @@ class CourierController extends Controller
      */
     public function index()
     {
-        $couriers = Courier::paginate(15)->withQueryString();
+        $couriers = Courier::search()->paginate(15)->withQueryString();
         $query = Courier::class;
         $details = collect();
         $details->put('totalCount', $query::count());

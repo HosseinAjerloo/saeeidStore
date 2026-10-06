@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price',20,2)->default(0);
             $table->enum('is_active',['active','inactive'])->nullable();
-            $table->tinyInteger('delivery_business_days')->nullable();
+            $table->string('delivery_business_days')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

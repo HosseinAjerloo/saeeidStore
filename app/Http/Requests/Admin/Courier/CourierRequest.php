@@ -36,7 +36,7 @@ class CourierRequest extends FormRequest
             'description'=>'required',
             'price'=>'required|integer',
             'is_active'=>'required|in:0,1',
-            'delivery_business_days'=>'required|integer',
+            'delivery_business_days'=>'required',
         ];
     }
 

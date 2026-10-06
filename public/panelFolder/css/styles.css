@@ -68,6 +68,8 @@ body {
   font-size: 14px;
   line-height: 1.7;
   overflow-x: hidden;
+              font-feature-settings: "ss01";
+
 }
 
 a {

@@ -30,8 +30,8 @@
                         <span>○</span>کاربران</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.user.index') }}"
-                        class="nav-item {{ str_contains(\Illuminate\Support\Facades\Route::current()->getName(), 'admin.user') ? 'active' : '' }}">
+                    <a href="{{ route('admin.courier.index') }}"
+                        class="nav-item {{ str_contains(\Illuminate\Support\Facades\Route::current()->getName(), 'admin.courier') ? 'active' : '' }}">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"
                                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"

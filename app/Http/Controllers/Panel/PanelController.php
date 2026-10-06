@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Courier;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Models\productBrand;
@@ -143,6 +144,13 @@ class PanelController extends Controller
 
         if (!isset($cart))
             return redirect()->route('panel.index')->with(['error' => 'سبد خرید شما خالی میباشد']);
-        return view('panel.shipping', compact('cart'));
+
+        $couriers=Courier::where('is_active','active')->latest()->cursor();
+        return view('panel.shipping', compact('cart','couriers'));
+    }
+
+    public function search(){
+            return view('panel.search');
+
     }
 }
