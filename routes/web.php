@@ -4,6 +4,7 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Discount;
+use App\Models\Product;
 use App\Models\ProductGroup;
 use App\Models\Province;
 use App\Service\Cart\CartService;
@@ -62,6 +63,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('edit/{product}/{productVariant}', [\App\Http\Controllers\Admin\Product\ProductController::class, 'editVariant'])->name('editVariant');
             Route::put('update/{product}/{productVariant}', [\App\Http\Controllers\Admin\Product\ProductController::class, 'updateVariant'])->name('updateVariant');
             Route::delete('update/{productVariant}', [\App\Http\Controllers\Admin\Product\ProductController::class, 'destroyVariant'])->name('destroyVariant');
+        });
+
+        Route::prefix('gallery')->name('gallery.')->group(function(){
+            Route::get('index/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'gallery'])->name('index');
+            Route::post('store/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'gallery_store'])->name('store');
         });
     });
 
@@ -143,14 +149,7 @@ Route::name('panel.')->group(function () {
 });
 Route::get('test', function () {
 
-    // return view('panel.shipping');
-    // //   $cartService = new CartService();
-    // //   $cartService->name='hossein';
-
-    // //                 $cartService->applyDiscountCode();
-    // $user = Auth::user();
-    // $session = session('cart_item');
-    // // // $discount=Discount::find(1);
-    // dd(Address::all());
+    $product=Product::first();
+    dd($product->images);
 
 });

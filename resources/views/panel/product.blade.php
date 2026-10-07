@@ -24,26 +24,14 @@
                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 300%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%22150%22 y=%22170%22 font-size=%22100%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div class="product-gallery-thumbs">
-                            <div class="thumb active"
-                                onclick="changeMainImage('../images/products/watch-mens-gshock-black.jpg', this)">
-                                <img src="../images/products/watch-mens-gshock-black.jpg" alt=""
-                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                            </div>
-                            <div class="thumb"
-                                onclick="changeMainImage('../images/products/watch-mens-seiko-silver.jpg', this)">
-                                <img src="../images/products/watch-mens-seiko-silver.jpg" alt=""
-                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                            </div>
-                            <div class="thumb"
-                                onclick="changeMainImage('../images/products/watch-mens-gshock-side.jpg', this)">
-                                <img src="../images/products/watch-mens-gshock-side.jpg" alt=""
-                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                            </div>
-                            <div class="thumb"
-                                onclick="changeMainImage('../images/products/watch-womens-rose-gold.jpg', this)">
-                                <img src="../images/products/watch-womens-rose-gold.jpg" alt=""
-                                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                            </div>
+                            @foreach ($product->images as $key => $file)
+                                <div class="thumb @if ($key == 0) active @endif"
+                                    onclick="changeMainImage('{{ asset(str_replace('\\', '/', $file->path)) }}', this)">
+                                    <img src="{{ asset($file->path) }}" alt=""
+                                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e9ecef%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                </div>
+                            @endforeach
+
                         </div>
                     </div>
 
@@ -565,7 +553,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                             @else
                                 <div class="col-lg-2 col-md-4 col-6">
                                     <div class="product-card">

@@ -10,26 +10,36 @@
             <div class="relative flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                 <div><span class="chip bg-brand-500/10 text-brand-300">کاتالوگ فروشگاه</span>
                     <h2 class="mt-3 text-2xl font-extrabold text-white sm:text-3xl">فهرست محصولات</h2>
-                    <p class="mt-2 text-sm text-slate-400">مدیریت اطلاعات، قیمت، موجودی و وضعیت محصولات</p></div>
-                <a href="{{route('admin.product.create')}}"
-                   class="inline-flex items-center justify-center rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-5 py-3 text-sm font-extrabold text-ink-950 shadow-glow">+
-                    ایجاد محصول جدید</a></div>
+                    <p class="mt-2 text-sm text-slate-400">مدیریت اطلاعات، قیمت، موجودی و وضعیت محصولات</p>
+                </div>
+                <a href="{{ route('admin.product.create') }}"
+                    class="inline-flex items-center justify-center rounded-xl bg-gradient-to-l from-brand-500 to-aqua-500 px-5 py-3 text-sm font-extrabold text-ink-950 shadow-glow">+
+                    ایجاد محصول جدید</a>
+            </div>
         </section>
         <section class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <div class="glass-card p-5"><p class="text-xs text-slate-500">کل محصولات</p>
-                <p class="mt-2 text-2xl font-extrabold text-white">{{$details->get('totalProduct')}}</p></div>
-            <div class="glass-card p-5"><p class="text-xs text-slate-500">محصول فعال</p>
-                <p class="mt-2 text-2xl font-extrabold text-brand-300">{{$details->get('totalProductActive')}}</p></div>
-            <div class="glass-card p-5"><p class="text-xs text-slate-500">موجودی کم</p>
-                <p class="mt-2 text-2xl font-extrabold text-amberx">{{$details->get('totalProductLowStock')}}</p></div>
-            <div class="glass-card p-5"><p class="text-xs text-slate-500">ناموجود</p>
-                <p class="mt-2 text-2xl font-extrabold text-rose">{{$details->get('totalProductLowStockZero')}}</p></div>
+            <div class="glass-card p-5">
+                <p class="text-xs text-slate-500">کل محصولات</p>
+                <p class="mt-2 text-2xl font-extrabold text-white">{{ $details->get('totalProduct') }}</p>
+            </div>
+            <div class="glass-card p-5">
+                <p class="text-xs text-slate-500">محصول فعال</p>
+                <p class="mt-2 text-2xl font-extrabold text-brand-300">{{ $details->get('totalProductActive') }}</p>
+            </div>
+            <div class="glass-card p-5">
+                <p class="text-xs text-slate-500">موجودی کم</p>
+                <p class="mt-2 text-2xl font-extrabold text-amberx">{{ $details->get('totalProductLowStock') }}</p>
+            </div>
+            <div class="glass-card p-5">
+                <p class="text-xs text-slate-500">ناموجود</p>
+                <p class="mt-2 text-2xl font-extrabold text-rose">{{ $details->get('totalProductLowStockZero') }}</p>
+            </div>
         </section>
         <section class="glass-card overflow-hidden p-0">
             <div class="list-toolbar">
-                <form action="{{route('admin.product.index')}}" method="GET" class="table-search flex items-center">
-                    <input
-                        name="q" type="text" class="text-white" placeholder="جست‌وجو در نام، برند، گروه محصول..."/>
+                <form action="{{ route('admin.product.index') }}" method="GET" class="table-search flex items-center">
+                    <input name="q" type="text" class="text-white"
+                        placeholder="جست‌وجو در نام، برند، گروه محصول..." />
                     <kbd>Ctrl K</kbd>
                 </form>
                 <div class="flex items-center gap-2 text-xs text-slate-500"><span
@@ -40,53 +50,67 @@
             <div class="overflow-x-auto">
                 <table class="data-table min-w-[64rem]">
                     <thead>
-                    <tr>
-                        <th>محصول</th>
-                        <th>کد محصول</th>
-                        <th>گروه</th>
-                        <th>برند</th>
-                        <th>عکس محصول</th>
-                        <th>وضعیت</th>
-                        <th class="text-left">عملیات</th>
-                    </tr>
+                        <tr>
+                            <th>محصول</th>
+                            <th>کد محصول</th>
+                            <th>گروه</th>
+                            <th>برند</th>
+                            <th>عکس محصول</th>
+                            <th>وضعیت</th>
+                            <th class="text-left">عملیات</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        @foreach($products as $product)
+                        @foreach ($products as $product)
                             <tr data-searchable="">
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div>
                                             <b class="block max-w-52 truncate text-sm text-white">
-                                                {{$product->name??''}}
+                                                {{ $product->name ?? '' }}
                                             </b>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    {{$product->id}}
+                                    {{ $product->id }}
                                 </td>
-                                <td>{{$product->group->name??''}}</td>
-                                <td>{{$product->brand->name??''}}</td>
+                                <td>{{ $product->group->name ?? '' }}</td>
+                                <td>{{ $product->brand->name ?? '' }}</td>
                                 <td>
                                     <div class="w-24 h-24 p-2 flex items-center justify-center">
-                                        <img class="rounded-lg" src="{{asset($product->image)}}" alt="">
+                                        <img class="rounded-lg" src="{{ asset($product->image) }}" alt="">
                                     </div>
                                 </td>
                                 <td><span class="chip bg-brand-500/10 text-brand-300">
                                         <span class="status-dot bg-brand-400"></span>
-                                        {{$product->getActive}}
+                                        {{ $product->getActive }}
                                     </span>
                                 </td>
                                 <td>
                                     <div class="flex justify-end gap-2">
-                                        <a href="{{route('admin.tag.syncProduct',$product)}}" class="table-action text-aqua-300" title="تنوع‌ها">
+                                        <a href="{{ route('admin.tag.syncProduct', $product) }}"
+                                            class="table-action text-aqua-300" title="تنوع‌ها">
                                             #
                                         </a>
-                                        <a href="{{route('admin.product.variant.show',[$product])}}" class="table-action text-aqua-300" title="تنوع‌ها">
+                                        <a href="{{ route('admin.product.variant.show', [$product]) }}"
+                                            class="table-action text-aqua-300" title="تنوع‌ها">
                                             ≡
                                         </a>
-                                        <a href="{{route('admin.product.edit',$product)}}" class="table-action edit">✎</a>
-                                        <button data-delete="{{$product->name??''}}" class="table-action delete">⌫</button>
+                                        <a href="{{ route('admin.product.gallery.index', [$product]) }}"
+                                            class="table-action text-aqua-300" title="گارلری عکس">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                                <path d="M21 15l-5-5L5 21" />
+                                            </svg>
+                                        </a>
+                                        <a href="{{ route('admin.product.edit', $product) }}"
+                                            class="table-action edit">✎</a>
+                                        <button data-delete="{{ $product->name ?? '' }}"
+                                            class="table-action delete">⌫</button>
                                     </div>
                                 </td>
                             </tr>
@@ -94,9 +118,10 @@
 
                     </tbody>
                 </table>
-                <div data-empty-state="" class="hidden px-6 py-16 text-center"><p
-                        class="text-sm font-bold text-slate-300">محصولی پیدا نشد</p>
-                    <p class="mt-1 text-xs text-slate-600">نام، کد، گروه یا برند دیگری را جستجو کنید.</p></div>
+                <div data-empty-state="" class="hidden px-6 py-16 text-center">
+                    <p class="text-sm font-bold text-slate-300">محصولی پیدا نشد</p>
+                    <p class="mt-1 text-xs text-slate-600">نام، کد، گروه یا برند دیگری را جستجو کنید.</p>
+                </div>
             </div>
             @if ($products->hasPages())
                 <div class="table-footer">
@@ -155,17 +180,16 @@
                             $previous = null;
                         @endphp
 
-                        @foreach($pages as $page)
-
-                            @if($previous && $page > $previous + 1)
+                        @foreach ($pages as $page)
+                            @if ($previous && $page > $previous + 1)
                                 <span class="pagination-btn">
-                    …
-                </span>
+                                    …
+                                </span>
                             @endif
 
 
                             <a href="{{ $products->url($page) }}"
-                               class="pagination-btn @if($products->currentPage() == $page) active @endif">
+                                class="pagination-btn @if ($products->currentPage() == $page) active @endif">
                                 {{ $page }}
                             </a>
 
@@ -173,7 +197,6 @@
                             @php
                                 $previous = $page;
                             @endphp
-
                         @endforeach
 
 
@@ -201,8 +224,8 @@
         const search = document.querySelector('input[type="text"]');
 
 
-        window.addEventListener('keydown', function (e) {
-            if (e.ctrlKey && e.key.toLowerCase()==='k') {
+        window.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key.toLowerCase() === 'k') {
                 search.focus()
             }
         })

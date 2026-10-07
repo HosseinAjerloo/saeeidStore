@@ -28,6 +28,10 @@ class Product extends Model
 
     ];
 
+    public function images(){
+        return $this->morphMany(Imageable::class,'imageable');
+    }
+
     public function group()
     {
         return $this->belongsTo(ProductGroup::class, 'group_id');

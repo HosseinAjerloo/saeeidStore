@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Product\Gallery\GalleryRequest;
 use App\Http\Requests\Admin\Product\ProductRequest;
 use App\Http\Requests\Admin\Product\Variant\VariantRequest;
 use App\Models\Attribute;
@@ -12,6 +13,7 @@ use App\Models\ProductGroup;
 use App\Models\ProductVariant;
 use App\Models\VariantAttribute;
 use App\service\imageService\ImageService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -66,13 +68,12 @@ class ProductController extends Controller
             if ($path) {
                 $input['image'] = $path;
                 #todo add user id in creator
-//               $input['user_id']=$path;
+                //               $input['user_id']=$path;
 
                 Product::create($input);
                 return redirect()->route('admin.product.index')->with(['success' => 'محصول جدید باموفقیت ساخته شد!']);
             }
             throw new \Exception("con n't save image path");
-
         } catch (\Exception $exception) {
             return redirect()->back()->withInput()->withErrors(['productGenerateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
         }
@@ -93,35 +94,31 @@ class ProductController extends Controller
             return $group->buildTree($group);
         });
         $brands = productBrand::where('is_active', '1')->get();
-        return view('admin.product.edit', compact('groups', 'brands','product'));
+        return view('admin.product.edit', compact('groups', 'brands', 'product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ImageService $imageService, ProductRequest $request,Product $product)
+    public function update(ImageService $imageService, ProductRequest $request, Product $product)
     {
         try {
             $image = $request->file('image');
             $input = $request->all();
-            if ($image)
-            {
-                $is_removed=$imageService->basePath(public_path())->removeFile($product->image);
+            if ($image) {
+                $is_removed = $imageService->basePath(public_path())->removeFile($product->image);
                 if (!$is_removed)
-//                    throw new \Exception("Can't remove image ");
+                    //                    throw new \Exception("Can't remove image ");
 
-                 $path = $imageService->setFile($image)->basePath(public_path())->setRootPath('product')->generator();
-                 if (!$path)
-                     throw new \Exception("Can't generate image file");
-                $input['image']=$path;
-
+                    $path = $imageService->setFile($image)->basePath(public_path())->setRootPath('product')->generator();
+                if (!$path)
+                    throw new \Exception("Can't generate image file");
+                $input['image'] = $path;
             }
-                #todo add user id in creator
-//               $input['user_id']=$path;
-                $product->update($input);
-                return redirect()->route('admin.product.index')->with(['success' => 'محصول باموفقیت ویرایش شد!']);
-
-
+            #todo add user id in creator
+            //               $input['user_id']=$path;
+            $product->update($input);
+            return redirect()->route('admin.product.index')->with(['success' => 'محصول باموفقیت ویرایش شد!']);
         } catch (\Exception $exception) {
             return redirect()->back()->withInput()->withErrors(['productGenerateError' => '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»']);
         }
@@ -160,10 +157,7 @@ class ProductController extends Controller
         return view('admin.product.variant.create', compact('product', 'attributes', 'attributeWithAttributesValue'));
     }
 
-    public function variantUpdate(Product $product)
-    {
-
-    }
+    public function variantUpdate(Product $product) {}
 
     public function variantStore(Product $product, VariantRequest $request)
     {
@@ -171,7 +165,7 @@ class ProductController extends Controller
             DB::beginTransaction();
             foreach ($request->input('variants') as $variant) {
 
-                $productVariant=$product->productVariant()->create([
+                $productVariant = $product->productVariant()->create([
                     'sku' => $variant['sku'],
                     'price' => $variant['price'],
                     'stock' => $variant['stock'],
@@ -192,10 +186,9 @@ class ProductController extends Controller
             DB::rollBack();
             return redirect()->route('admin.product.index')->withErrors([
                 'productGenerateErrorAttributes' =>
-                    '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»'
+                '«متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.»'
             ]);
         }
-
     }
 
     public function editVariant(Product $product, ProductVariant $productVariant)
@@ -229,15 +222,15 @@ class ProductController extends Controller
     ) {
         try {
             DB::beginTransaction();
-            $variants=$request->input('variants');
-            $variant=array_merge(...$variants);
+            $variants = $request->input('variants');
+            $variant = array_merge(...$variants);
             $productVariant->update([
                 'sku' => $variant['sku'],
                 'price' => $variant['price'],
                 'stock' => $variant['stock'],
                 'is_active' => $variant['is_active'] ?? 0,
             ]);
-                $productVariant->variantAttributes()->delete();
+            $productVariant->variantAttributes()->delete();
             foreach ($variants as $variant) {
 
                 foreach ($variant['attributes'] as $attribute) {
@@ -253,7 +246,6 @@ class ProductController extends Controller
             return redirect()
                 ->route('admin.product.index')
                 ->with('success', 'ویژگی‌های محصول با موفقیت بروزرسانی شد');
-
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -261,26 +253,59 @@ class ProductController extends Controller
                 ->route('admin.product.index')
                 ->withErrors([
                     'productGenerateErrorAttributes' =>
-                        'متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.'
+                    'متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.'
                 ]);
         }
     }
-    public function destroyVariant(ProductVariant $productVariant ){
+    public function destroyVariant(ProductVariant $productVariant)
+    {
         try {
             $productVariant->variantAttributes()->delete();
             $productVariant->delete();
-            return redirect()->back()->with(['success'=>'ویژگی محصول با موفقیت حذف شد']);
-        }catch (\Exception $exception){
-            return redirect()->back() ->withErrors([
+            return redirect()->back()->with(['success' => 'ویژگی محصول با موفقیت حذف شد']);
+        } catch (\Exception $exception) {
+            return redirect()->back()->withErrors([
                 'productGenerateErrorAttributes' =>
-                    'متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.'
+                'متأسفانه خطایی رخ داده است. لطفاً مجدداً تلاش کنید؛ در صورت تداوم مشکل، با واحد پشتیبانی تماس بگیرید.'
             ]);
-
         }
     }
 
     public function show(Product $product)
     {
         return view('admin.product.variant.show', compact('product'));
+    }
+
+    public function gallery(Product $product)
+    {
+        return view('admin.product.gallery.index', compact('product'));
+    }
+    public function gallery_store(Product $product, ImageService $imageService,GalleryRequest $galleryRequest)
+    {
+
+        try {
+            if($product->images()->exists()){
+                foreach($product->images as $image){
+                 $imageService->basePath(public_path())->removeFile($image->path);
+                 $image->forceDelete();
+                }
+            }
+            foreach ($galleryRequest->file('images') as $file) {
+                $name = uniqid('', true);
+
+                $path = $imageService->setFile($file)->basePath(public_path())->setName($name)->setRootPath('product' . DIRECTORY_SEPARATOR . 'gallery')->generator();
+                $size = $imageService->getFile()->getSize();
+                $product->images()->create(
+                    [
+                        'path' => $path,
+                        'size' => $size
+                    ]
+                );
+            }
+            return redirect()->route('admin.product.index')->with(['success' => 'گالری عکس برای محصول با موفقیت ایجاد شد']);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return redirect()->route('admin.product.index')->withErrors(['error' => 'خطایی رخ داد لطفا با پشتیبانی هماهنگ بشوید.']);
+        }
     }
 }
