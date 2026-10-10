@@ -101,6 +101,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('update/{courier}', [App\Http\Controllers\Admin\Courier\CourierController::class, 'update'])->name('update');
         Route::delete('destroy/{courier}', [App\Http\Controllers\Admin\Courier\CourierController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('slider')->name('slider.')->group(function(){
+        Route::get('/',[\App\Http\Controllers\Admin\Slider\SliderController::class,'index'])->name('index');
+        Route::get('/create',[\App\Http\Controllers\Admin\Slider\SliderController::class,'create'])->name('create');
+        Route::post('/create',[\App\Http\Controllers\Admin\Slider\SliderController::class,'store'])->name('store');
+        Route::get('/edit/{slider}',[\App\Http\Controllers\Admin\Slider\SliderController::class,'edit'])->name('edit');
+        Route::put('/update/{slider}',[\App\Http\Controllers\Admin\Slider\SliderController::class,'update'])->name('update');
+        Route::delete('/destroy/{slider}',[\App\Http\Controllers\Admin\Slider\SliderController::class,'destroy'])->name('destroy');
+    });
 });
 
 

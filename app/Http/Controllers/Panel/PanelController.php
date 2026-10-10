@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\productBrand;
 use App\Models\ProductGroup;
 use App\Models\ProductVariant;
+use App\Models\Slider;
 use App\Service\Cart\CartService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class PanelController extends Controller
     public function index()
     {
 
+        $sliders=Slider::where('is_active','active')->cursor();
         $dateNow = Carbon::now()->toDateString();
         $categoriesAll = ProductGroup::whereHas('products.productVariant', function ($query) {
             $query->where('is_active', 1)
@@ -57,9 +59,8 @@ class PanelController extends Controller
         $productsDiscounts = ProductVariant::whereHas('product.discounts', function ($query) use ($discount) {
             $query->where('discounts.id', $discount?->id)->whereNull('discountables.deleted_at');
         })->where('stock', ">", 1)->orderBy('created_at', 'DESC')->limit(3)->get();
-
         $productBrands = productBrand::whereHas('products')->where('is_active', '1')->cursor();
-        return view('panel.index', compact('categoriesAll', 'productBrands', 'products', 'productsDiscounts', 'discount', 'diffHours'));
+        return view('panel.index', compact('categoriesAll', 'productBrands', 'products', 'productsDiscounts', 'discount', 'diffHours','sliders'));
     }
 
     /**

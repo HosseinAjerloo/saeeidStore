@@ -25,7 +25,7 @@ class GalleryRequest extends FormRequest
     {
         return [
             'images' => 'required|array',
-            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:10240',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:5120',
         ];
     }
     #[Override]

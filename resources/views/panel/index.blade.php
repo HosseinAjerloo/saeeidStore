@@ -1,69 +1,89 @@
 @extends('panel.Layout.master')
 @section('style')
-    <link rel="stylesheet" href="{{asset('global/css/swiper-bundle.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('global/css/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('panelFolder/css/slider.css') }}">
 @endsection
 @section('content')
 
-    <!-- === اسلایدر اصلی === -->
     <section class="py-4">
         <div class="container">
             <div id="mainCarousel" class="carousel slide main-slider" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+
+                    @foreach ($sliders as $key=>$slider )
+                        
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="{{$key}}" class="@if ($key==0)  active @endif"></button>
+                    @endforeach
+                   
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="slide-1">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <span class="badge bg-light text-primary-custom mb-2 px-3 py-2">کالکشن جدید</span>
-                                    <h2>ساعت‌های لوکس مردانه<br>با تخفیف ویژه تابستان</h2>
-                                    <p>مجموعه‌ای از بهترین برندهای جهانی با ضمانت اصالت کالا</p>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="slide-img">
-                                        <img src="{{asset('panelFolder/images/hero/hero-mens-luxury.jpg')}}"
-                                             alt="ساعت مردانه لوکس">
+
+                    @foreach ($sliders as $key=> $slider)
+                        <div class="carousel-item @if($key==0) active @endif">
+
+                            <div class="slide-1 luxury-slide">
+                                <div class="luxury-glow"></div>
+                                <div class="luxury-slide-number">{{$key+1}} / {{$sliders->count()}}</div>
+                                <div class="row align-items-center position-relative">
+                                    <div class="col-md-6 order-2 order-md-1">
+                                        <div class="slide-content">
+
+                                            <div class="luxury-eyebrow">
+                                                <span class="eyebrow-line"></span>
+                                                MOHAMMADISTORE
+                                            </div>
+
+                                            <span class="luxury-badge">
+                                               {{$slider->group->name??''}}
+                                            </span>
+
+                                            <h4>
+                                                <span>{{$slider->title}}</span>
+                                            </h4>
+
+                                            <p>
+                                               {{$slider->description}}
+                                            </p>
+
+                                            <a href="#products" class="luxury-btn">
+                                                <span>کشف کالکشن</span>
+                                                <span class="luxury-btn-arrow">←</span>
+                                            </a>
+
+                                            <div class="luxury-caption">
+                                                <span>اصالت کالارو</span>
+                                                <span class="caption-divider"></span>
+                                                <span>ازمابپرس</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 order-1 order-md-2">
+                                        <div class="luxury-visual">
+                                            <div class="visual-ring"></div>
+                                            <div class="visual-ring visual-ring-2"></div>
+
+                                            <div class="slide-img">
+                                                <img src="{{ asset($slider->image->path) }}"
+                                                    alt="کالکشن ساعت‌های لوکس مردانه" fetchpriority="high">
+                                            </div>
+
+                                            <div class="visual-label">
+                                                <span>{{$key+1}}</span>
+                                                <span class="visual-label-line"></span>
+                                                <span>لوازم خانگی محمدی</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="slide-2">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <span class="badge bg-light text-dark mb-2 px-3 py-2">ساعت هوشمند</span>
-                                    <h2>تکنولوژی آینده<br>روی مچ شما</h2>
-                                    <p>جدیدترین ساعت‌های هوشمند با امکانات پیشرفته</p>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="slide-img">
-                                        <img src="{{asset('panelFolder/images/hero/hero-smartwatch.jpg')}}"
-                                             alt="ساعت هوشمند">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="slide-3">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <span class="badge bg-light text-cta mb-2 px-3 py-2">پیشنهاد ویژه</span>
-                                    <h2>ساعت‌های زنانه<br>با طراحی منحصر به فرد</h2>
-                                    <p>شیک‌ترین ساعت‌های زنانه برای استایل خاص شما</p>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="slide-img">
-                                        <img src="{{asset('panelFolder/images/hero/hero-womens-elegant.jpg')}}"
-                                             alt="ساعت زنانه"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+
+
+
+
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
@@ -114,85 +134,87 @@
     </section>
 
     <!-- === شگفت‌انگیزها === -->
-    @if($discount->exists())
-    <section class="pb-4">
-        <div class="container">
-            <div class="row g-3">
-                <!-- باکس شگفت‌انگیز -->
-                <div class="col-lg-3 col-md-4">
-                    <div class="amazing-box">
-                        <i class="bi bi-lightning-charge amazing-icon"></i>
-                        <h4>شگفت‌انگیزهای روز</h4>
-                        <p>فرصت محدود!</p>
-                        <div class="countdown-timer" id="amazing-timer" data-hours="{{$diffHours}}" data-minutes="0"
-                             data-seconds="0">
-                            <div class="timer-box"><span id="timer-hours">{{$diffHours}}</span><small
-                                    class="d-block fs-6">ساعت</small></div>
-                            <div class="timer-box"><span id="timer-minutes">00</span><small
-                                    class="d-block fs-6">دقیقه</small></div>
-                            <div class="timer-box"><span id="timer-seconds">00</span><small
-                                    class="d-block fs-6">ثانیه</small></div>
+    @if ($discount->exists())
+        <section class="pb-4">
+            <div class="container">
+                <div class="row g-3">
+                    <!-- باکس شگفت‌انگیز -->
+                    <div class="col-lg-3 col-md-4">
+                        <div class="amazing-box">
+                            <i class="bi bi-lightning-charge amazing-icon"></i>
+                            <h4>شگفت‌انگیزهای روز</h4>
+                            <p>فرصت محدود!</p>
+                            <div class="countdown-timer" id="amazing-timer" data-hours="{{ $diffHours }}"
+                                data-minutes="0" data-seconds="0">
+                                <div class="timer-box"><span id="timer-hours">{{ $diffHours }}</span><small
+                                        class="d-block fs-6">ساعت</small></div>
+                                <div class="timer-box"><span id="timer-minutes">00</span><small
+                                        class="d-block fs-6">دقیقه</small></div>
+                                <div class="timer-box"><span id="timer-seconds">00</span><small
+                                        class="d-block fs-6">ثانیه</small></div>
+                            </div>
+                            <a href="pages/amazing.html" class="btn btn-light mt-3 btn-sm">مشاهده همه</a>
                         </div>
-                        <a href="pages/amazing.html" class="btn btn-light mt-3 btn-sm">مشاهده همه</a>
                     </div>
-                </div>
 
-                <!-- محصولات شگفت‌انگیز -->
-                <div class="col-lg-9 col-md-8">
-                    <div class="row g-3">
-                        @foreach($productsDiscounts as $item)
-                            <div class="col-lg-4 col-6">
-                                <div class="product-card">
-                                     <span class="product-badge discount">
-                                    @if($item->product->inValidDiscount()->type=='percentage')
-                                             {{numberFormatAble($item->product->inValidDiscount()->value??0)}} %
-                                         @else
-                                             {{numberFormatAble(($item->product->inValidDiscount()->value /10)??0)}} ت
-                                         @endif
-                                </span>
-                                    <div class="product-actions">
-                                        <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
-                                        <button><i class="bi bi-arrow-left-right"></i></button>
-                                    </div>
-                                    <div class="product-img">
-                                        <img src="{{asset($item->product->image)}}"
-                                             alt="{{$item->product->name??''}}"
-                                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
-                                    </div>
-                                    <div class="product-info">
-                                        <div class="product-brand">{{$item->product?->brand->name??''}}</div>
-                                        <h6 class="product-title"><a href="{{route('panel.show',['product'=>$item->product->slug,'productVariant'=>$item->id])}}">
-                                              {{$item->product->name??''}}
-                                            </a>
-                                        </h6>
-                                        <div class="product-rating">
-                                            <span class="stars">★★★★★</span>
-                                            <span>(۴۲ نظر)</span>
+                    <!-- محصولات شگفت‌انگیز -->
+                    <div class="col-lg-9 col-md-8">
+                        <div class="row g-3">
+                            @foreach ($productsDiscounts as $item)
+                                <div class="col-lg-4 col-6">
+                                    <div class="product-card">
+                                        <span class="product-badge discount">
+                                            @if ($item->product->inValidDiscount()->type == 'percentage')
+                                                {{ numberFormatAble($item->product->inValidDiscount()->value ?? 0) }} %
+                                            @else
+                                                {{ numberFormatAble($item->product->inValidDiscount()->value / 10 ?? 0) }} ت
+                                            @endif
+                                        </span>
+                                        <div class="product-actions">
+                                            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                            <button><i class="bi bi-arrow-left-right"></i></button>
                                         </div>
-                                        <div class="product-old-price">{{numberFormatAble(($item->price /10))??0}}</div>
-                                        <div class="product-price-row">
-                                            <div class="product-price">{{numberFormatAble(($item->countable()/10))??0}}
-                                                <small>ت</small></div>
-                                            <button class="btn-add-to-cart"
-                                                    onclick='addToCart("{{$item->id}}","{{$item->product?->name??''}}")'><i
-                                                    class="bi bi-bag-plus">
+                                        <div class="product-img">
+                                            <img src="{{ asset($item->product->image) }}"
+                                                alt="{{ $item->product->name ?? '' }}"
+                                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="product-brand">{{ $item->product?->brand->name ?? '' }}</div>
+                                            <h6 class="product-title"><a
+                                                    href="{{ route('panel.show', ['product' => $item->product->slug, 'productVariant' => $item->id]) }}">
+                                                    {{ $item->product->name ?? '' }}
+                                                </a>
+                                            </h6>
+                                            <div class="product-rating">
+                                                <span class="stars">★★★★★</span>
+                                                <span>(۴۲ نظر)</span>
+                                            </div>
+                                            <div class="product-old-price">{{ numberFormatAble($item->price / 10) ?? 0 }}
+                                            </div>
+                                            <div class="product-price-row">
+                                                <div class="product-price">
+                                                    {{ numberFormatAble($item->countable() / 10) ?? 0 }}
+                                                    <small>ت</small>
+                                                </div>
+                                                <button class="btn-add-to-cart"
+                                                    onclick='addToCart("{{ $item->id }}","{{ $item->product?->name ?? '' }}")'><i
+                                                        class="bi bi-bag-plus">
 
-                                                </i>
-                                            </button>
+                                                    </i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                        @endforeach
+                            @endforeach
 
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
+        </section>
     @endif
 
     <!-- === دسته‌بندی محبوب === -->
@@ -203,19 +225,19 @@
                 <a href="pages/search.html" class="view-all">مشاهده همه <i class="bi bi-chevron-left"></i></a>
             </div>
             <div class="row g-3">
-                @foreach($categoriesAll as $category)
+                @foreach ($categoriesAll as $category)
                     <div class="col-6 col-md-4 col-lg-2">
                         <a href="pages/search.html" class="d-block text-center p-4 bg-white rounded-3 shadow-sm"
-                           style="transition:all .3s;">
+                            style="transition:all .3s;">
                             <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                                 style="width:80px;height:80px;background:linear-gradient(135deg,#6C5CE7,#a29bfe);">
-                                <img width="60px" style="transform: scale(1.3)" src="{{asset($category->image)}}" alt="">
+                                style="width:80px;height:80px;background:linear-gradient(110deg, #0c121c 0%, #121c2b 60%, #1d2937 100%);">
+                                <img width="60px" style="transform: scale(1.3)" src="{{ asset($category->image) }}"
+                                    alt="">
                             </div>
-                            <h6 class="mb-0">{{$category->name}}</h6>
+                            <h6 class="mb-0">{{ $category->name }}</h6>
                             <small class="text-muted-custom">۱۲۰+ محصول</small>
                         </a>
                     </div>
-
                 @endforeach
 
             </div>
@@ -239,8 +261,9 @@
                             <button><i class="bi bi-arrow-left-right"></i></button>
                         </div>
                         <div class="product-img">
-                            <img src="{{asset('panelFolder/images/products/watch-mens-seiko-silver.jpg')}}" alt="ساعت"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                            <img src="{{ asset('panelFolder/images/products/watch-mens-seiko-silver.jpg') }}"
+                                alt="ساعت"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div class="product-info">
                             <div class="product-brand">سیکو</div>
@@ -271,8 +294,9 @@
                             <button><i class="bi bi-arrow-left-right"></i></button>
                         </div>
                         <div class="product-img">
-                            <img src="{{asset('panelFolder/images/products/watch-mens-orient-blue.jpg')}}" alt="ساعت"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                            <img src="{{ asset('panelFolder/images/products/watch-mens-orient-blue.jpg') }}"
+                                alt="ساعت"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div class="product-info">
                             <div class="product-brand">اورینت</div>
@@ -303,8 +327,9 @@
                             <button><i class="bi bi-arrow-left-right"></i></button>
                         </div>
                         <div class="product-img">
-                            <img src="{{asset('panelFolder/images/products/watch-mens-gshock-side.jpg')}}" alt="ساعت"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                            <img src="{{ asset('panelFolder/images/products/watch-mens-gshock-side.jpg') }}"
+                                alt="ساعت"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div class="product-info">
                             <div class="product-brand">فسیل</div>
@@ -335,8 +360,9 @@
                             <button><i class="bi bi-arrow-left-right"></i></button>
                         </div>
                         <div class="product-img">
-                            <img src="{{asset('panelFolder/images/products/watch-womens-rose-gold.jpg')}}" alt="ساعت"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                            <img src="{{ asset('panelFolder/images/products/watch-womens-rose-gold.jpg') }}"
+                                alt="ساعت"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div class="product-info">
                             <div class="product-brand">سیتیزن</div>
@@ -392,44 +418,45 @@
             <div class="row g-3">
 
 
-                @foreach($products as $item)
-
-                    @if($item->validDiscount())
+                @foreach ($products as $item)
+                    @if ($item->validDiscount())
                         <div class="col-lg-2 col-md-4 col-6">
                             <div class="product-card">
                                 <span class="product-badge discount">
-                                    @if($item->validDiscount()->type=='percentage')
-                                        {{numberFormatAble($item->validDiscount()->value??0)}} %
+                                    @if ($item->validDiscount()->type == 'percentage')
+                                        {{ numberFormatAble($item->validDiscount()->value ?? 0) }} %
                                     @else
-                                        {{numberFormatAble(($item->validDiscount()->value /10)??0)}} ت
+                                        {{ numberFormatAble($item->validDiscount()->value / 10 ?? 0) }} ت
                                     @endif
                                 </span>
-                                {{--                                <span class="product-badge new">جدید</span>--}}
+                                {{--                                <span class="product-badge new">جدید</span> --}}
                                 <div class="product-actions">
                                     <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
                                     <button><i class="bi bi-arrow-left-right"></i></button>
                                 </div>
                                 <div class="product-img">
-                                    <img src="{{asset($item->product->image)}}" alt=""
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                    <img src="{{ asset($item->product->image) }}" alt=""
+                                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                                 </div>
                                 <div class="product-info">
-                                    <div class="product-brand">{{$item->product?->brand->name??''}}</div>
+                                    <div class="product-brand">{{ $item->product?->brand->name ?? '' }}</div>
                                     <h6 class="product-title">
-                                        <a href="{{route('panel.show',['product'=>$item->product->slug,'productVariant'=>$item->id])}}">
-                                            {{$item->product?->name??''}}
+                                        <a
+                                            href="{{ route('panel.show', ['product' => $item->product->slug, 'productVariant' => $item->id]) }}">
+                                            {{ $item->product?->name ?? '' }}
                                         </a>
                                     </h6>
                                     <div class="product-rating">
                                         <span class="stars">★★★★★</span>
                                         <span>(۲۲ نظر)</span>
                                     </div>
-                                    <div class="product-old-price">{{numberFormatAble(($item->price /10))??0}}</div>
+                                    <div class="product-old-price">{{ numberFormatAble($item->price / 10) ?? 0 }}</div>
                                     <div class="product-price-row">
-                                        <div class="product-price">{{numberFormatAble(($item->countable()/10))??0}}
-                                            <small>ت</small></div>
+                                        <div class="product-price">{{ numberFormatAble($item->countable() / 10) ?? 0 }}
+                                            <small>ت</small>
+                                        </div>
                                         <button class="btn-add-to-cart"
-                                                onclick="addToCart('{{$item->id}}','{{$item->product?->name??''}}')"><i
+                                            onclick="addToCart('{{ $item->id }}','{{ $item->product?->name ?? '' }}')"><i
                                                 class="bi bi-bag-plus">
 
                                             </i>
@@ -438,11 +465,10 @@
                                 </div>
                             </div>
                         </div>
-
                     @else
                         <div class="col-lg-2 col-md-4 col-6">
                             <div class="product-card">
-                               @if($item->new)
+                                @if ($item->new)
                                     <span class="product-badge new">جدید</span>
                                 @endif
                                 <div class="product-actions">
@@ -450,14 +476,15 @@
                                     <button><i class="bi bi-arrow-left-right"></i></button>
                                 </div>
                                 <div class="product-img">
-                                    <img src="{{asset($item->product->image)}}" alt=""
-                                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
+                                    <img src="{{ asset($item->product->image) }}" alt=""
+                                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect fill=%22%23f1f2f6%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%236C5CE7%22%3E⌚%3C/text%3E%3C/svg%3E'">
                                 </div>
                                 <div class="product-info">
-                                    <div class="product-brand">{{$item->product?->brand->name??''}}</div>
+                                    <div class="product-brand">{{ $item->product?->brand->name ?? '' }}</div>
                                     <h6 class="product-title">
-                                        <a href="{{route('panel.show',['product'=>$item->product->slug,'productVariant'=>$item->id])}}">
-                                            {{$item->product?->name??''}}
+                                        <a
+                                            href="{{ route('panel.show', ['product' => $item->product->slug, 'productVariant' => $item->id]) }}">
+                                            {{ $item->product?->name ?? '' }}
                                         </a>
                                     </h6>
                                     <div class="product-rating">
@@ -466,20 +493,18 @@
                                     </div>
                                     <div class="product-old-price">&nbsp;</div>
                                     <div class="product-price-row">
-                                        <div class="product-price">{{numberFormatAble(($item->price /10))??0}}
+                                        <div class="product-price">{{ numberFormatAble($item->price / 10) ?? 0 }}
                                             <small>ت</small>
                                         </div>
                                         <button class="btn-add-to-cart"
-                                                onclick='addToCart({{$item->id}},"{{$item->product?->name}}")'>
-                                                <i  class="bi bi-bag-plus"></i>
-                                            </button>
+                                            onclick='addToCart({{ $item->id }},"{{ $item->product?->name }}")'>
+                                            <i class="bi bi-bag-plus"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     @endif
-
                 @endforeach
 
 
@@ -497,14 +522,13 @@
 
             <div class="swiper brandsSwiper">
                 <div class="swiper-wrapper">
-                    @foreach($productBrands as $productBrand)
+                    @foreach ($productBrands as $productBrand)
                         <div class="swiper-slide">
                             <div class="bg-white rounded-3 p-4 text-center shadow-sm"
-                                 style="height:90px;display:flex;align-items:center;justify-content:center;">
-                                <span class="fw-bold fs-5 text-primary-custom">{{$productBrand->name??''}}</span>
+                                style="height:90px;display:flex;align-items:center;justify-content:center;">
+                                <span class="fw-bold fs-5 text-primary-custom">{{ $productBrand->name ?? '' }}</span>
                             </div>
                         </div>
-
                     @endforeach
 
 
@@ -531,11 +555,11 @@
                     <div class="col-md-6">
                         <div class="input-group">
                             <button class="btn btn-light px-4"
-                                    style="border-radius:0 50px 50px 0;color:var(--color-primary);font-weight:700;">
+                                style="border-radius:0 50px 50px 0;color:var(--color-primary);font-weight:700;">
                                 عضویت
                             </button>
                             <input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید"
-                                   style="border-radius:50px 0 0 50px;">
+                                style="border-radius:50px 0 0 50px;">
                         </div>
                     </div>
                 </div>
@@ -545,10 +569,7 @@
 
 @endsection
 @section('script')
-
-
-
-    <script src="{{asset('global/js/swiper-bundle.min.js')}}"></script>
+    <script src="{{ asset('global/js/swiper-bundle.min.js') }}"></script>
     <script>
         const brandsSwiper = new Swiper('.brandsSwiper', {
 
@@ -577,8 +598,6 @@
             },
 
         });
-
-
     </script>
     <script>
         function randomHexColor() {
@@ -586,64 +605,53 @@
                 .toString(16)
                 .padStart(6, '0');
         }
-
-
-        document.querySelectorAll('.rounded-circle').forEach(function (elem) {
-            const color1 = randomHexColor();
-            const color2 = randomHexColor();
-            elem.style.background =
-                `linear-gradient(135deg, ${color1}, ${color2})`
-        });
-
-
-
-        
     </script>
 
 
     <script>
-       async function addToCart(productId, productName) {
+        async function addToCart(productId, productName) {
             const cartBadge = document.querySelector('#cart-count');
             if (cartBadge) {
                 let count = parseInt(cartBadge.textContent) || 0;
 
-                sendAddToCartRequest({productVariant:productId}).then(result=>{
+                sendAddToCartRequest({
+                    productVariant: productId
+                }).then(result => {
                     count++;
                     cartBadge.textContent = count;
                     cartBadge.style.display = 'flex';
                     syncBottomCartBadge();
                     showToast(result?.message, 'success');
-                }).catch(result=>{
+                }).catch(result => {
                     showToast(result?.message, 'error');
 
                 })
             }
 
         }
-       async function sendAddToCartRequest({productVariant}) {
-           const promise = new Promise(function (resolve, reject) {
-               const request = new XMLHttpRequest();
-               request.open('POST', "{{route('panel.cart.addCart')}}",true)
-               request.setRequestHeader('Content-Type', 'application/json');
-               request.setRequestHeader('X-CSRF-TOKEN', "{{csrf_token()}}")
-               request.withCredentials = true;
-               const body = JSON.stringify({
-                   productVariant
-               })
-               request.onload = function () {
-                   const response=JSON.parse(request.response);
-                   if (request.status === 200) {
-                       resolve(response)
-                   } else
-                   {
-                       reject(response)
-                   }
-               }
-               request.send(body);
-           })
-           return promise;
-       }
-
+        async function sendAddToCartRequest({
+            productVariant
+        }) {
+            const promise = new Promise(function(resolve, reject) {
+                const request = new XMLHttpRequest();
+                request.open('POST', "{{ route('panel.cart.addCart') }}", true)
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}")
+                request.withCredentials = true;
+                const body = JSON.stringify({
+                    productVariant
+                })
+                request.onload = function() {
+                    const response = JSON.parse(request.response);
+                    if (request.status === 200) {
+                        resolve(response)
+                    } else {
+                        reject(response)
+                    }
+                }
+                request.send(body);
+            })
+            return promise;
+        }
     </script>
 @endsection
-
