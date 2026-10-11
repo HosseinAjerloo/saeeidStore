@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
                     ->first();
             }
             if (isset($user)) {
-                $userFavorite = $user->favorite()->count();
+                $userFavorite = $user->favorite()->whereHas('productVariant.product')->count();
             }
             $categories = ProductGroup::whereNull('parent_id')->wherehas('childs')->where('is_active', '1')->limit(3)->get();
             $view->with(['categories' => $categories, 'cart' => $cart, 'favorite' => $userFavorite]);

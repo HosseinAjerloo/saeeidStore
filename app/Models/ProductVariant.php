@@ -33,7 +33,7 @@ class ProductVariant extends Model
     }
     public function validDiscount()
     {
-        return  $this->product->inValidDiscount();
+        return  $this->product?->inValidDiscount();
     }
 
     public function favorite()

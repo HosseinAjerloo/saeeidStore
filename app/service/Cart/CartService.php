@@ -4,6 +4,7 @@ namespace App\Service\Cart;
 
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 use App\Models\ProductVariant;
 use Exception;
 use Illuminate\Http\Request;
@@ -134,6 +135,10 @@ class CartService
         $final_price = 0;
         if ($this->clientCart) {
             foreach ($this->clientCart->cartItems as $item) {
+                if (!isset($item->productVariant->product)) {
+                    $item->delete();
+                    continue;
+                }
 
                 $item->final_unit_price = $item->productVariant->countable();
                 $item->unit_price = $item->productVariant->price;
@@ -147,16 +152,15 @@ class CartService
             }
             $this->clientCart->final_price = $final_price;
             $this->clientCart->total_price = $totalPrice;
-           
+
             if (isset($this->clientCart?->discount_id) and $this->clientCart?->getDiscountCode() == null) {
-                dd($this->clientCart);
                 $this->clientCart->discount_id = null;
                 $this->clientCart->discount_type = null;
                 $this->clientCart->discount_amount = 0;
             } elseif (isset($this->clientCart->discount_id)) {
                 $this->clientCart->final_price = $this->clientCart->calculateCartTotal();
             }
-             $this->clientCart->save();
+            $this->clientCart->save();
         }
     }
     public function updateCartItemQuantity(CartItem $cartItem, $quantity)

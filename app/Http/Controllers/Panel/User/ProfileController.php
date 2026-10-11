@@ -136,7 +136,7 @@ class ProfileController extends Controller
     public function show_favorite()
     {
         $user = Auth::user();
-        $userFavorites = $user->favorite;
+        $userFavorites = $user->favorite()->whereHas('productVariant.product')->get();
         return view('panel.user.profile.favorite', compact('userFavorites'));
     }
 

@@ -33,7 +33,7 @@ class PanelController extends Controller
             ->limit(6)
             ->get();
 
-        $products = ProductVariant::whereHas('variantAttributes')->where('stock', ">", 1)->orderBy('created_at', 'DESC')->limit(6)->get();
+        $products = ProductVariant::whereHas('product')->whereHas('variantAttributes')->where('stock', ">", 1)->orderBy('created_at', 'DESC')->limit(6)->get();
         $products = $products->map(function ($product) use ($dateNow) {
             if ($product->created_at->toDateString() == $dateNow) {
                 $product->new = true;
@@ -59,6 +59,8 @@ class PanelController extends Controller
         $productsDiscounts = ProductVariant::whereHas('product.discounts', function ($query) use ($discount) {
             $query->where('discounts.id', $discount?->id)->whereNull('discountables.deleted_at');
         })->where('stock', ">", 1)->orderBy('created_at', 'DESC')->limit(3)->get();
+
+        
         $productBrands = productBrand::whereHas('products')->where('is_active', '1')->cursor();
         return view('panel.index', compact('categoriesAll', 'productBrands', 'products', 'productsDiscounts', 'discount', 'diffHours','sliders'));
     }
