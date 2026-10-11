@@ -8,7 +8,7 @@
         <ul class="profile-menu">
             <li><a href="{{ route('panel.profile.index') }}" class="@if(str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'index')) active @endif "><i class="bi bi-grid"></i> داشبورد</a></li>
             <li><a href="profile-orders.html"><i class="bi bi-bag-check"></i> سفارش‌های من</a></li>
-            <li><a href="profile-favorites.html"><i class="bi bi-heart"></i> علاقه‌مندی‌ها</a></li>
+            <li><a href="{{route('panel.profile.show_favorite')}}" class="@if(str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'show_favorite')) active @endif"><i class="bi bi-heart"></i> علاقه‌مندی‌ها</a></li>
             <li><a href="profile-recent.html"><i class="bi bi-clock-history"></i> بازدیدهای اخیر</a></li>
             <li><a href="{{ route('panel.profile.address') }}" class="@if(str_contains(\Illuminate\Support\Facades\Route::current()->getName(),'address')) active @endif"><i class="bi bi-geo-alt"></i> آدرس‌های من</a></li>
             <li><a href="profile-financial.html" class=""><i class="bi bi-credit-card"></i> اطلاعات مالی</a></li>

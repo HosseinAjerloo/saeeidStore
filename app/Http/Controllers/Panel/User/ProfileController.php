@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Panel\User\Profile\AddressRequest;
 use App\Models\Address;
 use App\Models\City;
+use App\Models\Favorite;
+use App\Models\ProductVariant;
 use App\Models\Province;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,8 +33,8 @@ class ProfileController extends Controller
     {
         $provinces = Province::cursor();
         $cities = City::cursor();
-        $user=Auth::user();
-        return view('panel.user.profile.address', compact('provinces', 'user','cities'));
+        $user = Auth::user();
+        return view('panel.user.profile.address', compact('provinces', 'user', 'cities'));
     }
     public function address_register(AddressRequest $request)
     {
@@ -97,5 +99,51 @@ class ProfileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function my_favorite(Request $request)
+    {
+        $request->validate([
+            'productVariant' => 'required|exists:product_variants,id',
+        ], [
+            'productVariant.required' => 'محصول انتخابی صحیح نمی‌باشد.',
+            'productVariant.exists' => 'محصول انتخابی صحیح نمی‌باشد.',
+        ]);
+
+        $productVariant = ProductVariant::findOrFail(
+            $request->input('productVariant')
+        );
+
+        $user = Auth::user();
+
+        $favorite = Favorite::where('user_id', $user->id)
+            ->where('variant_id', $productVariant->id)
+            ->first();
+
+        if ($favorite) {
+            $favorite->delete();
+            return response()->json(['message' => 'از علاقه‌مندی‌ها حذف شد', 'type' => 'delete'], 200);
+        }
+
+        Favorite::create([
+            'user_id' => $user->id,
+            'variant_id' => $productVariant->id,
+        ]);
+
+        return response()->json(['message' => 'به علاقه‌مندی‌ها اضافه شد', 'type' => "create"], 200);
+    }
+
+    public function show_favorite()
+    {
+        $user = Auth::user();
+        $userFavorites = $user->favorite;
+        return view('panel.user.profile.favorite', compact('userFavorites'));
+    }
+
+    public function delete_favorite()
+    {
+        $user = Auth::user();
+        $user->favorite()->delete();
+        return redirect()->route('panel.index')->with(['success' => "تمامی محصولات موردعلاقه شما حذف شدند."]);
     }
 }

@@ -1,25 +1,3 @@
-function toggleFavorite(btn) {
-    const icon = btn.querySelector('i');
-    if (icon.classList.contains('bi-heart')) {
-        icon.classList.remove('bi-heart');
-        icon.classList.add('bi-heart-fill');
-        btn.classList.add('active');
-        showToast('به لیست علاقه‌مندی‌ها اضافه شد', 'success');
-
-        const favBadge = document.querySelector('#fav-count');
-        if (favBadge) {
-            let count = parseInt(favBadge.textContent) || 0;
-            count++;
-            favBadge.textContent = count;
-            favBadge.style.display = 'flex';
-        }
-    } else {
-        icon.classList.remove('bi-heart-fill');
-        icon.classList.add('bi-heart');
-        btn.classList.remove('active');
-        showToast('از لیست علاقه‌مندی‌ها حذف شد', 'info');
-    }
-}
 
 // === نمایش Toast ===
 function showToast(message, type = 'success') {

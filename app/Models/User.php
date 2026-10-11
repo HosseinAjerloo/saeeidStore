@@ -95,6 +95,9 @@ class User extends Authenticatable
         return $this->hasMany(Address::class, 'user_id');
     }
 
+    public function favorite(){
+        return $this->hasMany(Favorite::class,'user_id');
+    }
     public function getActive(): Attribute
     {
         return Attribute::make(
@@ -122,4 +125,6 @@ class User extends Authenticatable
         $discount = $this->discounts()->where('is_active', '1')->where('starts_at', "<=", $dateNow)->wherePivot('used', '0')->wherePivotNull('deleted_at')->where('expires_at', '>=', $dateNow)->get();
         return $discount;
     }
+
+    
 }

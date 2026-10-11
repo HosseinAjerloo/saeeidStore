@@ -171,7 +171,10 @@
                                             @endif
                                         </span>
                                         <div class="product-actions">
-                                            <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                            @auth
+                                                  <button class="@if ($item->isFavorite()) active @endif"  onclick="toggleFavorite(this,{{$item->id}})">
+                                                    <i class="@if ($item->isFavorite()) bi bi-heart-fill   @else bi bi-heart @endif"></i></button>
+                                            @endauth
                                             <button><i class="bi bi-arrow-left-right"></i></button>
                                         </div>
                                         <div class="product-img">
@@ -431,7 +434,11 @@
                                 </span>
                                 {{--                                <span class="product-badge new">جدید</span> --}}
                                 <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                    @auth
+                                        <button class="@if ($item->isFavorite()) active @endif" onclick="toggleFavorite(this,{{$item->id}})">
+                                            <i class="@if ($item->isFavorite()) bi bi-heart-fill   @else bi bi-heart @endif"></i></button>
+
+                                    @endauth
                                     <button><i class="bi bi-arrow-left-right"></i></button>
                                 </div>
                                 <div class="product-img">
@@ -471,8 +478,12 @@
                                 @if ($item->new)
                                     <span class="product-badge new">جدید</span>
                                 @endif
-                                <div class="product-actions">
-                                    <button onclick="toggleFavorite(this)"><i class="bi bi-heart"></i></button>
+                                <div class="product-actions" >
+                                    @auth
+                                        <button class="@if ($item->isFavorite()) active @endif"  onclick="toggleFavorite(this,{{$item->id}})"  class="active">
+                                        <i class=" @if ($item->isFavorite()) bi bi-heart-fill   @else bi bi-heart @endif  "></i>
+                                    </button>
+                                    @endauth
                                     <button><i class="bi bi-arrow-left-right"></i></button>
                                 </div>
                                 <div class="product-img">
@@ -608,50 +619,5 @@
     </script>
 
 
-    <script>
-        async function addToCart(productId, productName) {
-            const cartBadge = document.querySelector('#cart-count');
-            if (cartBadge) {
-                let count = parseInt(cartBadge.textContent) || 0;
 
-                sendAddToCartRequest({
-                    productVariant: productId
-                }).then(result => {
-                    count++;
-                    cartBadge.textContent = count;
-                    cartBadge.style.display = 'flex';
-                    syncBottomCartBadge();
-                    showToast(result?.message, 'success');
-                }).catch(result => {
-                    showToast(result?.message, 'error');
-
-                })
-            }
-
-        }
-        async function sendAddToCartRequest({
-            productVariant
-        }) {
-            const promise = new Promise(function(resolve, reject) {
-                const request = new XMLHttpRequest();
-                request.open('POST', "{{ route('panel.cart.addCart') }}", true)
-                request.setRequestHeader('Content-Type', 'application/json');
-                request.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}")
-                request.withCredentials = true;
-                const body = JSON.stringify({
-                    productVariant
-                })
-                request.onload = function() {
-                    const response = JSON.parse(request.response);
-                    if (request.status === 200) {
-                        resolve(response)
-                    } else {
-                        reject(response)
-                    }
-                }
-                request.send(body);
-            })
-            return promise;
-        }
-    </script>
 @endsection

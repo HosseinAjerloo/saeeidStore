@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Models\ProductGroup;
+use App\Models\ProductVariant;
 use App\Models\Province;
 use App\Service\Cart\CartService;
 use Carbon\Carbon;
@@ -65,9 +66,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('update/{productVariant}', [\App\Http\Controllers\Admin\Product\ProductController::class, 'destroyVariant'])->name('destroyVariant');
         });
 
-        Route::prefix('gallery')->name('gallery.')->group(function(){
-            Route::get('index/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'gallery'])->name('index');
-            Route::post('store/{product}',[\App\Http\Controllers\Admin\Product\ProductController::class,'gallery_store'])->name('store');
+        Route::prefix('gallery')->name('gallery.')->group(function () {
+            Route::get('index/{product}', [\App\Http\Controllers\Admin\Product\ProductController::class, 'gallery'])->name('index');
+            Route::post('store/{product}', [\App\Http\Controllers\Admin\Product\ProductController::class, 'gallery_store'])->name('store');
         });
     });
 
@@ -102,13 +103,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('destroy/{courier}', [App\Http\Controllers\Admin\Courier\CourierController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('slider')->name('slider.')->group(function(){
-        Route::get('/',[\App\Http\Controllers\Admin\Slider\SliderController::class,'index'])->name('index');
-        Route::get('/create',[\App\Http\Controllers\Admin\Slider\SliderController::class,'create'])->name('create');
-        Route::post('/create',[\App\Http\Controllers\Admin\Slider\SliderController::class,'store'])->name('store');
-        Route::get('/edit/{slider}',[\App\Http\Controllers\Admin\Slider\SliderController::class,'edit'])->name('edit');
-        Route::put('/update/{slider}',[\App\Http\Controllers\Admin\Slider\SliderController::class,'update'])->name('update');
-        Route::delete('/destroy/{slider}',[\App\Http\Controllers\Admin\Slider\SliderController::class,'destroy'])->name('destroy');
+    Route::prefix('slider')->name('slider.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Slider\SliderController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\Admin\Slider\SliderController::class, 'create'])->name('create');
+        Route::post('/create', [\App\Http\Controllers\Admin\Slider\SliderController::class, 'store'])->name('store');
+        Route::get('/edit/{slider}', [\App\Http\Controllers\Admin\Slider\SliderController::class, 'edit'])->name('edit');
+        Route::put('/update/{slider}', [\App\Http\Controllers\Admin\Slider\SliderController::class, 'update'])->name('update');
+        Route::delete('/destroy/{slider}', [\App\Http\Controllers\Admin\Slider\SliderController::class, 'destroy'])->name('destroy');
     });
 });
 
@@ -137,6 +138,12 @@ Route::name('panel.')->group(function () {
             Route::get('account', [App\Http\Controllers\Panel\User\ProfileController::class, 'account'])->name('account');
             Route::get('address', [App\Http\Controllers\Panel\User\ProfileController::class, 'address'])->name('address');
             Route::post('address/register', [App\Http\Controllers\Panel\User\ProfileController::class, 'address_register'])->name('address.register');
+            Route::get('favorite', [App\Http\Controllers\Panel\User\ProfileController::class, 'show_favorite'])->name('show_favorite');
+        });
+
+        Route::prefix('favorite')->name('favorite.')->group(function () {
+            Route::get('delete', [App\Http\Controllers\Panel\User\ProfileController::class, 'delete_favorite'])->name('delete-favorite');
+            Route::post('my_favorite', [App\Http\Controllers\Panel\User\ProfileController::class, 'my_favorite'])->name('my-favorite');
         });
     });
 
@@ -154,11 +161,14 @@ Route::name('panel.')->group(function () {
         Route::delete('/items/{cartItem}/destroy', [App\Http\Controllers\Panel\Cart\CartController::class, 'destroy'])->name('destroy');
     });
 
-    Route::get('/search',[App\Http\Controllers\Panel\PanelController::class, 'search'])->name('search');
+
+
+
+
+    Route::get('/search', [App\Http\Controllers\Panel\PanelController::class, 'search'])->name('search');
 });
 Route::get('test', function () {
 
-    $product=Product::first();
-    dd($product->images);
-
+    $variant = ProductVariant::find(3);
+    dd($variant->isFavorite());
 });

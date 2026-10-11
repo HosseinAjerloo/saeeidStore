@@ -28,8 +28,11 @@ class AppServiceProvider extends ServiceProvider
         \view()->composer('panel.Layout.header', function (View $view) {
             $cart = null;
 
-            $userId = Auth::id();
+            $user = optional(Auth::user());
+            $userId = $user->id;
             $cartToken = session('cart_item');
+            $userFavorite = 0;
+
 
             if ($userId || $cartToken) {
                 $cart = Cart::query()
@@ -46,9 +49,11 @@ class AppServiceProvider extends ServiceProvider
                     })->latest()
                     ->first();
             }
-
+            if (isset($user)) {
+                $userFavorite = $user->favorite()->count();
+            }
             $categories = ProductGroup::whereNull('parent_id')->wherehas('childs')->where('is_active', '1')->limit(3)->get();
-            $view->with(['categories' => $categories, 'cart' => $cart]);
+            $view->with(['categories' => $categories, 'cart' => $cart, 'favorite' => $userFavorite]);
         });
     }
 }

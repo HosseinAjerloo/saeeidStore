@@ -35,9 +35,9 @@
                             <i class="bi bi-person"></i>
                         </a>
 
-                        <a href="pages/profile-favorites.html" class="header-icon d-none d-sm-flex">
+                        <a href="{{route('panel.profile.show_favorite')}}" class="header-icon d-none d-sm-flex">
                             <i class="bi bi-heart"></i>
-                            <span class="badge-count" id="fav-count" style="display:none">0</span>
+                            <span class="badge-count" id="fav-count" style=" @unless (boolval($favorite)) display:none @endunless ">{{$favorite}}</span>
                         </a>
                     @endif
                     <a href="{{ route('panel.cart.index') }}"
